@@ -44,7 +44,7 @@ st.write('#### Hello! As which user would you like to log in?')
 # functionality, we put a button on the screen that the user 
 # can click to MIMIC logging in as that mock user. 
 
-if st.button("Act as Casual Diner, the Casual Diner", 
+if st.button("Act as Spencer, the Casual Diner", 
             type = 'primary', 
             use_container_width=True):
     # when user clicks the button, they are now considered authenticated
