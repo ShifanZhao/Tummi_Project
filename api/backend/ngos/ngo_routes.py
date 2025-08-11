@@ -117,7 +117,7 @@ def create_ngo():
             ),
         )
 
-        db.get_db().commit()
+        db.get_db().commit() # IMPORTANT TO ADD AFTER ANY DB MODIFICATION
         new_ngo_id = cursor.lastrowid
         cursor.close()
 
