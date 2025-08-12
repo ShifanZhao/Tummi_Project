@@ -65,7 +65,7 @@ if st.button('Act as Tiffany, the Influencer',
     st.session_state['authenticated'] = True
     st.session_state['role'] = 'influencer'
     st.session_state['first_name'] = 'Tiffany'
-    st.switch_page('pages/10_Influencer_Home.py')
+    st.switch_page('pages/05_Influencer_Home.py')
 
 if st.button('Act as Shifan, the Restaurant Owner', 
             type = 'primary', 

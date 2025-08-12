@@ -14,7 +14,7 @@ def AboutPageNav():
     st.sidebar.page_link("pages/30_About.py", label="About", icon="🧠")
 
 
-#### ------------------------ Examples for Role of pol_strat_advisor ------------------------
+#### ------------------------ Casual Diner Persona ------------------------
 def CasualDinerHomeNav():
     st.sidebar.page_link(
         "pages/00_Casual_Diner_Home.py", label="Home", icon="👤"
@@ -25,7 +25,6 @@ def Leaderboard():
     st.sidebar.page_link(
         "pages/01_Leaderboard.py", label="Leaderboard", icon="🏦"
     )
-
 
 def Explore():
     st.sidebar.page_link("pages/02_Explore.py", label="Explore", icon="🗺️")
@@ -39,29 +38,29 @@ def CasualDinerProfile():
     st.sidebar.page_link("pages/04_Casual_Diner_Profile.py", label="Profile", icon="🗺️")
 
 
-## ------------------------ Examples for Role of usaid_worker ------------------------
-def ApiTestNav():
-    st.sidebar.page_link("pages/12_API_Test.py", label="Test the API", icon="🛜")
-
-
-def PredictionNav():
+## ------------------------ Influencer ------------------------
+def InfluencerHomeNav():
     st.sidebar.page_link(
-        "pages/11_Prediction.py", label="Regression Prediction", icon="📈"
+        "pages/05_Influencer_Home.py", label="Home", icon="👤"
     )
 
 
-def ClassificationNav():
+def Leaderboard():
     st.sidebar.page_link(
-        "pages/13_Classification.py", label="Classification Demo", icon="🌺"
+        "pages/01_Leaderboard.py", label="Leaderboard", icon="🏦"
     )
 
+def Explore():
+    st.sidebar.page_link("pages/02_Explore.py", label="Explore", icon="🗺️")
 
-def NgoDirectoryNav():
-    st.sidebar.page_link("pages/14_NGO_Directory.py", label="NGO Directory", icon="📁")
+
+def Bookmarked():
+    st.sidebar.page_link("pages/03_Bookmarked.py", label="Bookmarked", icon="🗺️")
 
 
-def AddNgoNav():
-    st.sidebar.page_link("pages/15_Add_NGO.py", label="Add New NGO", icon="➕")
+def InfluencerProfile():
+    st.sidebar.page_link("pages/06_Influencer_Profile.py", label="Profile", icon="🗺️")
+
 
 
 #### ------------------------ System Admin Role ------------------------
@@ -93,7 +92,7 @@ def SideBarLinks(show_home=False):
     # Show the other page navigators depending on the users' role.
     if st.session_state["authenticated"]:
 
-        # Show World Bank Link and Map Demo Link if the user is a political strategy advisor role.
+        # casual diner
         if st.session_state["role"] == "casual_diner":
             CasualDinerHomeNav()
             Leaderboard()
@@ -101,13 +100,13 @@ def SideBarLinks(show_home=False):
             Bookmarked()
             CasualDinerProfile()
 
-        # If the user role is usaid worker, show the Api Testing page
-        if st.session_state["role"] == "usaid_worker":
-            PredictionNav()
-            ApiTestNav()
-            ClassificationNav()
-            NgoDirectoryNav()
-            AddNgoNav()
+        # influencer
+        if st.session_state["role"] == "influencer":
+            InfluencerHomeNav()
+            Leaderboard()
+            Explore()
+            Bookmarked()
+            InfluencerProfile()
 
         # If the user is an administrator, give them access to the administrator pages
         if st.session_state["role"] == "administrator":
