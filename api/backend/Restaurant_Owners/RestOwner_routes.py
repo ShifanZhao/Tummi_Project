@@ -8,6 +8,7 @@ from backend.ml_models.model01 import predict
 
 restowners = Blueprint('restowners', __name__)
 
+# localhost:4000/ro/rostowners
 @restowners.route('/restowners', methods=['GET'])
 def get_all_restowners():
     cursor = db.get_db().cursor()
@@ -23,3 +24,42 @@ def get_all_restowners():
     the_response.status_code = 200
     the_response.mimetype = 'application/json'
     return the_response
+
+
+# RestOwner User Story 1: Shifan (his Owner ID = 3) needs to  view Casual Dinners’ 
+# comments and ratings, so that  he can identify recurring complaints or compliments 
+# and act accordingly
+# localhost:4000/ro/restowners/<int:owner_id>
+@restowners.route('/restowners/<int:owner_id>', methods=['GET'])
+def get_reviews(owner_id):
+    cursor = db.get_db().cursor()
+
+    # If the owner_id does not exist, return an error message
+    check_owner_query = '''
+        SELECT 1 FROM RestaurantOwner WHERE OwnerId = %s;
+    '''
+    cursor.execute(check_owner_query, (owner_id,))
+    owner_exists = cursor.fetchone()
+
+    if not owner_exists:
+        return jsonify({"error": "Owner not found"}), 404
+
+    
+    the_query = '''
+    SELECT C.Comment, CDP.Rating
+    FROM RestaurantOwner RO
+    JOIN Restaurant R ON RO.RestId = R.RestId
+    JOIN CDPost CDP ON R.RestId = CDP.RestId
+    JOIN Comment C ON CDP.PostId = C.CDPostId
+    WHERE RO.OwnerId = %s;
+    '''
+
+    cursor.execute(the_query, (owner_id,))
+    theData = cursor.fetchall()
+
+    if not theData:
+        return jsonify({"message": "No reviews found for this owner"}), 200
+
+    return jsonify(theData), 200
+
+
