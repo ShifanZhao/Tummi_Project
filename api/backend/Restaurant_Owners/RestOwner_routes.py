@@ -33,6 +33,18 @@ def get_all_restowners():
 @restowners.route('/restowners/<int:owner_id>', methods=['GET'])
 def get_reviews(owner_id):
     cursor = db.get_db().cursor()
+
+    # If the owner_id does not exist, return an error message
+    check_owner_query = '''
+        SELECT 1 FROM RestaurantOwner WHERE OwnerId = %s;
+    '''
+    cursor.execute(check_owner_query, (owner_id,))
+    owner_exists = cursor.fetchone()
+
+    if not owner_exists:
+        return jsonify({"error": "Owner not found"}), 404
+
+    
     the_query = '''
     SELECT C.Comment, CDP.Rating
     FROM RestaurantOwner RO
@@ -49,4 +61,5 @@ def get_reviews(owner_id):
         return jsonify({"message": "No reviews found for this owner"}), 200
 
     return jsonify(theData), 200
+
 
