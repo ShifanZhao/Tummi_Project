@@ -16,6 +16,7 @@ st.write('### What would you like to do today?')
 
 
 
+search_query = st.text_input("Enter a restaurant or username...")
 if search_query:
     st.write(f"Searching for: **{search_query}**")
     # TODO: Connect to API or DB to show real search results
