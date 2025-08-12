@@ -23,7 +23,7 @@ def CasualDinerHomeNav():
 
 def Leaderboard():
     st.sidebar.page_link(
-        "pages/01_leaderboard.py", label="Leaderboard", icon="🏦"
+        "pages/01_Leaderboard.py", label="Leaderboard", icon="🏦"
     )
 
 
