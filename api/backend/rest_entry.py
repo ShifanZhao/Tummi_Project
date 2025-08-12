@@ -1,3 +1,6 @@
+from flask.json.provider import DefaultJSONProvider
+from datetime import date, datetime, timedelta
+from decimal import Decimal #Ray Trying to Fix Json-Interpreting-Time Problem
 from flask import Flask
 from dotenv import load_dotenv
 import os
@@ -9,9 +12,28 @@ from backend.simple.simple_routes import simple_routes
 from backend.ngos.ngo_routes import ngos
 from backend.Restaurant_Owners.RestOwner_routes import restowners
 from backend.Casual_Diner.CasualDiner_routes import casualdiner
+from backend.Internal_Analyst.Internal_Analyst_routes import internal
+
+##Ray Time Problem 
+class CustomJSONProvider(DefaultJSONProvider):
+    def default(self, o):
+        if isinstance(o, (datetime, date)):
+            return o.isoformat()
+        if isinstance(o, timedelta):
+            total = int(o.total_seconds())
+            h, m, s = total // 3600, (total % 3600) // 60, total % 60
+            return f"{h:02d}:{m:02d}:{s:02d}"
+        if isinstance(o, Decimal):
+            return float(o)
+        return super().default(o)
 
 def create_app():
+    ##Ray Time
+    # 使用自定义 JSON Provider（解决 timedelta / datetime / Decimal 等序列化）
     app = Flask(__name__)
+    app.json_provider_class = CustomJSONProvider
+    app.json = app.json_provider_class(app)
+    
 
     # Configure logging
     # Create logs directory if it doesn't exist
@@ -51,6 +73,7 @@ def create_app():
     app.register_blueprint(ngos, url_prefix="/ngo")
     app.register_blueprint(restowners, url_prefix="/ro")
     app.register_blueprint(casualdiner, url_prefix="/cd")
+    app.register_blueprint(internal, url_prefix = "/ita")
 
     # Don't forget to return the app object
     return app
