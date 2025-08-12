@@ -17,12 +17,12 @@ st.write('### What would you like to do today?')
 if st.button('View Profile', 
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/11_Prediction.py')
+  st.switch_page('pages/11_Profile.py')
 
 if st.button('View Leaderboards', 
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/12_Leaderboard.py')
+  st.switch_page('pages/01_Leaderboard.py')
 
 if st.button("View Classification Demo",
              type='primary',
