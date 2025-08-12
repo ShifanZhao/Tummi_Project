@@ -198,7 +198,6 @@ create table InfPost
 
 
 
-
 drop table if exists RestaurantLists;
 create table RestaurantLists
 (
@@ -250,8 +249,8 @@ create table Following
 
 
 
-drop table if exists BeenTo;
-create table BeenTo
+drop table if exists Bookmark;
+create table Bookmark
 (
    CDId       int,
    Restaurant Varchar(20),
@@ -259,33 +258,20 @@ create table BeenTo
    foreign key (CDId) references CasualDiner (CDId)
        ON DELETE CASCADE
 );
-
-
-
-
-drop table if exists WantToTry;
-create table WantToTry
-(
-   CDId       int,
-   Restaurant Varchar(20),
-   primary key (CDId, Restaurant),
-   foreign key (CDId) references CasualDiner (CDId)
-       ON DELETE CASCADE
-);
-
 
 
 
 drop table if exists CDPost;
 create table CDPost
 (
-   PostId   int,
-   Likes    int,
+   PostId   int AUTO_INCREMENT,
+   Likes    int DEFAULT 0,
    Rating   Decimal(2, 1),
    CDId     int,
+   Caption varchar(255),
    RestId   int,
-   Bookmark int,
-   Share    int,
+   Bookmark int DEFAULT 0,
+   Share    int DEFAULT 0,
    primary key (PostId),
    foreign key (CDId) references CasualDiner (CDId));
 
@@ -506,19 +492,14 @@ VALUES (1, 5),
       (5, 1);
 
 
-INSERT INTO BeenTo
-VALUES (1, 'Table Mercato'),
-      (5, 'El Jefe''s');
-
-
-INSERT INTO WantToTry
+INSERT INTO Bookmark
 VALUES (1, 'El Jefe''s'),
       (5, 'Table Mercato');
 
 
 INSERT INTO CDPost
-VALUES (1, 500, 6.7, 1, 1, 5, 10),
-      (2, 90, 8.9, 5, 2, 14, 20);
+VALUES (1, 500, 6.7, 1, 'good food', 1, 5, 10),
+      (2, 90, 8.9, 5, 'bad food', 2, 14, 20);
 
 
 INSERT INTO `Photo(s)`
@@ -564,6 +545,7 @@ VALUES (1, 1),
 INSERT INTO Sponsorships
 VALUES (2, 1, 500),
       (8, 2, 750);
+<<<<<<< Updated upstream
 
 
 UPDATE CDPost
@@ -577,3 +559,5 @@ FROM CDPost cdp
          JOIN CasualDiner cd ON cd.CDId = cdp.CDId
          JOIN Following f ON f.FollowerId = cd.CDId
 WHERE f.followeeID = 1;
+=======
+>>>>>>> Stashed changes
