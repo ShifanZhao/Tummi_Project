@@ -19,10 +19,10 @@ if st.button('View Profile',
              use_container_width=True):
   st.switch_page('pages/11_Prediction.py')
 
-if st.button('View the Simple API Demo', 
+if st.button('View Leaderboards', 
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/12_API_Test.py')
+  st.switch_page('pages/12_Leaderboard.py')
 
 if st.button("View Classification Demo",
              type='primary',
