@@ -15,20 +15,28 @@ def AboutPageNav():
 
 
 #### ------------------------ Examples for Role of pol_strat_advisor ------------------------
-def PolStratAdvHomeNav():
+def CasualDinerHomeNav():
     st.sidebar.page_link(
-        "pages/00_Pol_Strat_Home.py", label="Political Strategist Home", icon="👤"
+        "pages/00_Casual_Diner_Home.py", label="Home", icon="👤"
     )
 
 
-def WorldBankVizNav():
+def Leaderboard():
     st.sidebar.page_link(
-        "pages/01_World_Bank_Viz.py", label="World Bank Visualization", icon="🏦"
+        "pages/01_leaderboard.py", label="Leaderboard", icon="🏦"
     )
 
 
-def MapDemoNav():
-    st.sidebar.page_link("pages/02_Map_Demo.py", label="Map Demonstration", icon="🗺️")
+def Explore():
+    st.sidebar.page_link("pages/02_Explore.py", label="Explore", icon="🗺️")
+
+
+def Bookmarked():
+    st.sidebar.page_link("pages/03_Bookmarked.py", label="Bookmarked", icon="🗺️")
+
+
+def CasualDinerProfile():
+    st.sidebar.page_link("pages/04_Casual_Diner_Profile.py", label="Profile", icon="🗺️")
 
 
 ## ------------------------ Examples for Role of usaid_worker ------------------------
@@ -86,10 +94,12 @@ def SideBarLinks(show_home=False):
     if st.session_state["authenticated"]:
 
         # Show World Bank Link and Map Demo Link if the user is a political strategy advisor role.
-        if st.session_state["role"] == "pol_strat_advisor":
-            PolStratAdvHomeNav()
-            WorldBankVizNav()
-            MapDemoNav()
+        if st.session_state["role"] == "casual_diner":
+            CasualDinerHomeNav()
+            Leaderboard()
+            Explore()
+            Bookmarked()
+            CasualDinerProfile()
 
         # If the user role is usaid worker, show the Api Testing page
         if st.session_state["role"] == "usaid_worker":
