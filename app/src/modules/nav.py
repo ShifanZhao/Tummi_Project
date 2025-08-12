@@ -65,7 +65,7 @@ def InfluencerProfile():
 
 #### ------------------------ Restaurant Owner Persona ------------------------
 def RestaurantOwnerPageNav():
-    st.sidebar.page_link("pages/07_Restuarant_Owner_Home.py", label="Home", icon="🖥️")
+    st.sidebar.page_link("pages/07_Restaurant_Owner_Home.py", label="Home", icon="🖥️")
     st.sidebar.page_link(
         "pages/08_Restaurant_Profile.py", label="Restaurant Profile", icon="🏢")
     st.sidebar.page_link(
