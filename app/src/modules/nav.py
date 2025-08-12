@@ -38,7 +38,7 @@ def CasualDinerProfile():
     st.sidebar.page_link("pages/04_Casual_Diner_Profile.py", label="Profile", icon="🗺️")
 
 
-## ------------------------ Influencer ------------------------
+## ------------------------ Influencer Persona ------------------------
 def InfluencerHomeNav():
     st.sidebar.page_link(
         "pages/05_Influencer_Home.py", label="Home", icon="👤"
@@ -63,11 +63,13 @@ def InfluencerProfile():
 
 
 
-#### ------------------------ System Admin Role ------------------------
-def AdminPageNav():
-    st.sidebar.page_link("pages/20_Admin_Home.py", label="System Admin", icon="🖥️")
+#### ------------------------ Restaurant Owner Persona ------------------------
+def RestaurantOwnerPageNav():
+    st.sidebar.page_link("pages/07_Restuarant_Owner_Home.py", label="Home", icon="🖥️")
     st.sidebar.page_link(
-        "pages/21_ML_Model_Mgmt.py", label="ML Model Management", icon="🏢"
+        "pages/08_Restaurant_Profile.py", label="Restaurant Profile", icon="🏢")
+    st.sidebar.page_link(
+        "pages/09_Restaurant_Analytics.py", label="Restaurant Analytics", icon="🏢"
     )
 
 
@@ -109,8 +111,8 @@ def SideBarLinks(show_home=False):
             InfluencerProfile()
 
         # If the user is an administrator, give them access to the administrator pages
-        if st.session_state["role"] == "administrator":
-            AdminPageNav()
+        if st.session_state["role"] == "restaurant_owner":
+            RestaurantOwnerPageNav()
 
     # Always show the About page at the bottom of the list of links
     AboutPageNav()
