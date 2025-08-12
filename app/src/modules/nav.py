@@ -73,6 +73,13 @@ def RestaurantOwnerPageNav():
     )
 
 
+#### ------------------------ Internal Analyst Persona ------------------------
+def InternalAnalystPageNav():
+    st.sidebar.page_link("pages/31_Analyst_Home.py", label="Analyst Dashboard", icon="🖥️")
+    st.sidebar.page_link(
+        "pages/32_Manage_Permissions.py", label="Permissions", icon="🏢")
+
+
 # --------------------------------Links Function -----------------------------------------------
 def SideBarLinks(show_home=False):
     """
@@ -110,9 +117,14 @@ def SideBarLinks(show_home=False):
             Bookmarked()
             InfluencerProfile()
 
-        # If the user is an administrator, give them access to the administrator pages
+        # restaurant owner
         if st.session_state["role"] == "restaurant_owner":
             RestaurantOwnerPageNav()
+
+        # internal analyst
+        if st.session_state["role"] == "internal_analyst":
+            InternalAnalystPageNav()
+
 
     # Always show the About page at the bottom of the list of links
     AboutPageNav()

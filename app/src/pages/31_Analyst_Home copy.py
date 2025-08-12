@@ -9,9 +9,9 @@ st.set_page_config(layout = 'wide')
 
 SideBarLinks()
 
-st.title('Internal Analyst Home Page')
+st.title('Analyst Dashboard')
 
-if st.button('Update ML Models', 
+if st.button('Manage Permissions', 
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/21_ML_Model_Mgmt.py')
+  st.switch_page('pages/32_Manage_Permissions.py')
