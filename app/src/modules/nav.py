@@ -80,6 +80,7 @@ def InternalAnalystPageNav():
         "pages/32_Manage_Permissions.py", label="Permissions", icon="🏢")
 
 
+
 # --------------------------------Links Function -----------------------------------------------
 def SideBarLinks(show_home=False):
     """
