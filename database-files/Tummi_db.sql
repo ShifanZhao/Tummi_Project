@@ -76,7 +76,6 @@ create table MenuItem
    RestId   int,
    DishId   int,
    DishName Varchar(20),
-   Photo    Blob,
    Price    Decimal(5, 2),
    primary key (DishId),
    foreign key (RestId) references Restaurant (RestId)
@@ -451,8 +450,8 @@ VALUES (1, 1234, '2025-10-26', 123, 1357, 3),
 
 
 INSERT INTO MenuItem
-VALUES (1, 1, 'Vodka Parm Sandwich', 'https://example.com/images/pic1.jpg', 20.99),
-      (2, 2, 'Burrito', 'https://example.com/images/pic2.jpg', 8.99);
+VALUES (1, 1, 'Vodka Parm Sandwich', 20.99),
+      (2, 2, 'Burrito', 8.99);
 
 
 INSERT INTO AppAnalytics

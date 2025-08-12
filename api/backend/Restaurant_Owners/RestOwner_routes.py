@@ -62,4 +62,58 @@ def get_reviews(owner_id):
 
     return jsonify(theData), 200
 
+# RestOwner User Story 2: Shifan needs to  add new dishes, so that 
+# he can improve his menu based on customer preferences
 
+@restowners.route('/<int:owner_id>/add_menuitem', methods=['POST'])
+def add_menuitem(owner_id):
+    cursor = db.get_db().cursor()
+    # If the owner_id does not exist, return an error message
+    check_owner_query = '''
+        SELECT 1 FROM RestaurantOwner WHERE OwnerId = %s;
+    '''
+    cursor.execute(check_owner_query, (owner_id,))
+    owner_exists = cursor.fetchone()
+
+    data = request.get_json()
+    required_fields = ['DishId', 'RestId', 'DishName', 'Price']
+    for field in required_fields:
+            if field not in data:
+                return jsonify({"error": f"Missing required field: {field}"}), 400
+
+
+    query = '''
+    INSERT INTO MenuItem
+    (DishId, RestId, DishName, Price)
+    VALUES (%s, %s, %s, %s)
+    '''
+    cursor.execute(
+        query,
+        (
+            data["DishId"],
+            data["RestId"],
+            data["DishName"],
+            data["Price"],
+        ),
+    )
+
+    db.get_db().commit()
+    new_menuitem_id = cursor.lastrowid
+    cursor.close()
+    return jsonify({"message": "Menu item added successfully", "menuitem_id": new_menuitem_id}), 201
+
+@restowners.route('/menuitem', methods=['GET'])
+def get_menu_items():
+    cursor = db.get_db().cursor()
+
+    the_query = '''
+    SELECT DishId, DishName, Price, RestId
+    FROM MenuItem
+    '''
+    cursor.execute(the_query)
+    theData = cursor.fetchall()
+
+    the_response = make_response(theData)
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
