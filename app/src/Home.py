@@ -67,18 +67,18 @@ if st.button('Act as Tiffany, the Influencer',
     st.session_state['first_name'] = 'Tiffany'
     st.switch_page('pages/10_Influencer_Home.py')
 
-if st.button('Act as Shifan, the Restuarant Owner', 
+if st.button('Act as Shifan, the Restaurant Owner', 
             type = 'primary', 
             use_container_width=True):
     st.session_state['authenticated'] = True
-    st.session_state['role'] = 'restuarant_owner'
+    st.session_state['role'] = 'restaurant_owner'
     st.session_state['first_name'] = 'Shifan'
-    st.switch_page('pages/20_Restuarant_Owner_Home.py')
+    st.switch_page('pages/20_Restaurant_Owner_Home.py')
 
 if st.button('Act as Ray, the Internal Analyst', 
             type = 'primary', 
             use_container_width=True):
     st.session_state['authenticated'] = True
-    st.session_state['role'] = 'restuarant_owner'
-    st.session_state['first_name'] = 'Shifan'
-    st.switch_page('pages/31_Analyist_Home.py')
+    st.session_state['role'] = 'analyst'
+    st.session_state['first_name'] = 'Ray'
+    st.switch_page('pages/31_Analyst_Home.py')
