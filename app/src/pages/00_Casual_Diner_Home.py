@@ -25,9 +25,6 @@ st.markdown("---")
 
 
 
-st.markdown("# Explore")
-st.sidebar.header("Explore")
-
 @st.dialog("Recommendations Nearby")
 def show_recommendations_dialog():
     
@@ -59,6 +56,10 @@ if st.button("Recs Nearby", key="recs_btn"):
 
 if st.button("Trending", key="trending_btn"):
     show_trending_dialog()
+
+
+st.write("")
+st.write("")
 
 
 st.write("### Posts Feed (w/ sample data, need API)")
