@@ -421,3 +421,147 @@ create table Sponsorships
    foreign key (RestId) references Restaurant (RestId)
        ON DELETE CASCADE
 );
+
+INSERT INTO Users
+VALUES (1, 'Spencer', 'Grant', 'SpencerTheGuy'),
+      (2, 'Tiffany', 'Nguyen', 'FoodManiac'),
+      (3, 'Shifan', 'Zhao', 'ShifanZhao'),
+      (4, 'Evelyn', 'Fabel', 'TheBestAnalyst'),
+      (5, 'Billy', 'Bob', 'BobbyEater'),
+      (6, 'Rest', 'Hoffman', 'BigChef'),
+      (7, 'John', 'Doe', '2ndAnalyst'),
+      (8, 'Lil', 'God', 'lilgod');
+
+
+INSERT INTO Restaurant
+VALUES (1, 'Table Mercato', 'North End', 'Italian',
+       8.7, TRUE, FALSE, 3, 100, 5000),
+      (2, 'El Jefe''s', 'North End', 'Mexican', 7.2,
+       TRUE, FALSE, 6, 50, 182);
+
+
+INSERT INTO RestaurantOwner
+VALUES (3, 'Shifan', 'Zhao', TRUE, FALSE, 1),
+      (6, 'Rest', 'Hoffman', TRUE, FALSE, 2);
+
+
+INSERT INTO AdCampaign
+VALUES (1, 1234, '2025-10-26', 123, 1357, 3),
+      (2, 200, '2024-10-15', 500, 700, 6);
+
+
+INSERT INTO MenuItem
+VALUES (1, 1, 'Vodka Parm Sandwich', 'https://example.com/images/pic1.jpg', 20.99),
+      (2, 2, 'Burrito', 'https://example.com/images/pic2.jpg', 8.99);
+
+
+INSERT INTO AppAnalytics
+VALUES (1, 500, NOW(), 4, 1, 4),
+      (2, 400, NOW(), 3, 5, 4);
+
+
+INSERT INTO UserActivity
+VALUES (1, NOW()),
+      (2, '2024-10-5 10:12:50.000');
+
+
+INSERT INTO InternalAnalyst
+VALUES (4, 'Evelyn', 'Fabel'),
+      (7, 'John', 'Doe');
+
+
+INSERT INTO InternalApp
+VALUES (4, 1),
+      (7, 2);
+
+
+INSERT INTO Reviews
+VALUES (4, 1, '2024-10-5'),
+      (7, 2, '2025-1-2');
+
+
+INSERT INTO Influencer
+VALUES (2, 'LA', 'FoodManiac', 'Tiffany', 'Nguyen', TRUE,
+       '2025-8-5 7:51:00.000', FALSE, 1),
+      (8, 'New York City', 'lilgod', 'Lil', 'God', TRUE,
+       '2025-6-10 8:51:00.000', FALSE, 2);
+
+
+INSERT INTO RestaurantLists
+VALUES (1, 'Mexican Spots', 2),
+      (2, 'Scrumptious Italian', 8);
+
+
+INSERT INTO InfPost
+VALUES (1, 50, 3, 2, FALSE, 8, 1),
+      (2, 100, 5, 4, FALSE, 2, 2);
+
+
+INSERT INTO CasualDiner
+VALUES (1, 'Roxbury', FALSE, 120, NOW(), 3),
+      (5, 'Roxbury', FALSE, 500, NOW(), 5);
+
+
+INSERT INTO Following
+VALUES (1, 5),
+      (5, 1);
+
+
+INSERT INTO BeenTo
+VALUES (1, 'Table Mercato'),
+      (5, 'El Jefe''s');
+
+
+INSERT INTO WantToTry
+VALUES (1, 'El Jefe''s'),
+      (5, 'Table Mercato');
+
+
+INSERT INTO CDPost
+VALUES (1, 500, 6.7, 1, 1, 5, 10),
+      (2, 90, 8.9, 5, 2, 14, 20);
+
+
+INSERT INTO `Photo(s)`
+VALUES (1, 'https://example.com/images/pic1.jpg', 1, NULL),
+      (2, 'https://example.com/images/pic2.jpg', 2, NULL);
+
+
+INSERT INTO Comment
+VALUES (1, 'That looks soooo gooood', 1, NULL),
+      (2, 'Tasty', NULL, 1);
+
+
+INSERT INTO Follow
+VALUES (1, 2),
+      (5, 8);
+
+
+INSERT INTO FromInf
+VALUES (1, 2),
+      (2, 8);
+
+
+INSERT INTO FromRestOwner
+VALUES (1, 3),
+      (2, 6);
+
+
+INSERT INTO FromRest
+VALUES (1, 1),
+      (2, 2);
+
+
+INSERT INTO FromCD
+VALUES (1, 1),
+      (2, 5);
+
+
+INSERT INTO ListedRest
+VALUES (1, 1),
+      (1, 2);
+
+
+INSERT INTO Sponsorships
+VALUES (2, 1, 500),
+      (8, 2, 750);
