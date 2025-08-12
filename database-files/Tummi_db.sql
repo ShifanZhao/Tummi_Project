@@ -565,3 +565,38 @@ VALUES (1, 1),
 INSERT INTO Sponsorships
 VALUES (2, 1, 500),
       (8, 2, 750);
+
+
+# User sample database
+insert into User (UserId, FirstName, LastName, Username) values (9, 'Rourke', 'Cypler', 'rcypler8');
+insert into User (UserId, FirstName, LastName, Username) values (10, 'Lula', 'Klausewitz', 'lklausewitz9');
+insert into User (UserId, FirstName, LastName, Username) values (11, 'Brenn', 'De Freyne', 'bdefreynea');
+insert into User (UserId, FirstName, LastName, Username) values (12, 'Joli', 'Fergie', 'jfergieb');
+insert into User (UserId, FirstName, LastName, Username) values (13, 'Tamas', 'Dominelli', 'tdominellic');
+insert into User (UserId, FirstName, LastName, Username) values (14, 'Barron', 'Breukelman', 'bbreukelmand');
+insert into User (UserId, FirstName, LastName, Username) values (15, 'Sibilla', 'Leyton', 'sleytone');
+insert into User (UserId, FirstName, LastName, Username) values (16, 'Dianemarie', 'Zettler', 'dzettlerf');
+insert into User (UserId, FirstName, LastName, Username) values (17, 'Rufus', 'Tod', 'rtodg');
+insert into User (UserId, FirstName, LastName, Username) values (18, 'Ernestine', 'Stoney', 'estoneyh');
+insert into User (UserId, FirstName, LastName, Username) values (19, 'Hanson', 'Dibble', 'hdibblei');
+insert into User (UserId, FirstName, LastName, Username) values (20, 'Bone', 'Grenkov', 'bgrenkovj');
+insert into User (UserId, FirstName, LastName, Username) values (21, 'Rafa', 'Hirsch', 'rhirschk');
+insert into User (UserId, FirstName, LastName, Username) values (22, 'Rubina', 'Farnon', 'rfarnonl');
+insert into User (UserId, FirstName, LastName, Username) values (23, 'Pepita', 'Rodgman', 'prodgmanm');
+insert into User (UserId, FirstName, LastName, Username) values (24, 'Gretchen', 'Giacomo', 'ggiacomon');
+insert into User (UserId, FirstName, LastName, Username) values (25, 'Haslett', 'Gaule', 'hgauleo');
+insert into User (UserId, FirstName, LastName, Username) values (26, 'Marielle', 'Hoffner', 'mhoffnerp');
+insert into User (UserId, FirstName, LastName, Username) values (27, 'Fannie', 'Jozwik', 'fjozwikq');
+insert into User (UserId, FirstName, LastName, Username) values (28, 'Ches', 'Devenish', 'cdevenishr');
+insert into User (UserId, FirstName, LastName, Username) values (29, 'Tore', 'Wimlet', 'twimlets');
+insert into User (UserId, FirstName, LastName, Username) values (30, 'Dodie', 'Rainsbury', 'drainsburyt');
+insert into User (UserId, FirstName, LastName, Username) values (31, 'Diann', 'Gavaran', 'dgavaranu');
+insert into User (UserId, FirstName, LastName, Username) values (32, 'Urson', 'Nutbean', 'unutbeanv');
+insert into User (UserId, FirstName, LastName, Username) values (33, 'Delcina', 'Ferguson', 'dfergusonw');
+insert into User (UserId, FirstName, LastName, Username) values (34, 'Shaina', 'Don', 'sdonx');
+insert into User (UserId, FirstName, LastName, Username) values (35, 'Gray', 'Kinnerk', 'gkinnerky');
+insert into User (UserId, FirstName, LastName, Username) values (36, 'Woody', 'Blackden', 'wblackdenz');
+insert into User (UserId, FirstName, LastName, Username) values (37, 'Gayel', 'McGinnell', 'gmcginnell10');
+insert into User (UserId, FirstName, LastName, Username) values (38, 'Emlen', 'Dahlman', 'edahlman11');
+insert into User (UserId, FirstName, LastName, Username) values (39, 'Roselle', 'McElhargy', 'rmcelhargy12');
+insert into User (UserId, FirstName, LastName, Username) values (40, 'Vikky', 'Kendal', 'vkendal13');

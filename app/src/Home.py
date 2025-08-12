@@ -59,21 +59,26 @@ if st.button("Act as Spencer, the Casual Diner",
     logger.info("Logging in as Casual Diner")
     st.switch_page('pages/00_Casual_Diner_Home.py')
 
-if st.button('Act as Mohammad, an USAID worker', 
+if st.button('Act as Tiffany, the Influencer', 
             type = 'primary', 
             use_container_width=True):
     st.session_state['authenticated'] = True
-    st.session_state['role'] = 'usaid_worker'
-    st.session_state['first_name'] = 'Mohammad'
-    st.switch_page('pages/10_USAID_Worker_Home.py')
+    st.session_state['role'] = 'influencer'
+    st.session_state['first_name'] = 'Tiffany'
+    st.switch_page('pages/10_Influencer_Home.py')
 
-if st.button('Act as System Administrator', 
+if st.button('Act as Shifan, the Restuarant Owner', 
             type = 'primary', 
             use_container_width=True):
     st.session_state['authenticated'] = True
-    st.session_state['role'] = 'administrator'
-    st.session_state['first_name'] = 'SysAdmin'
-    st.switch_page('pages/20_Admin_Home.py')
+    st.session_state['role'] = 'restuarant_owner'
+    st.session_state['first_name'] = 'Shifan'
+    st.switch_page('pages/20_Restuarant_Owner_Home.py')
 
-
-
+if st.button('Act as Ray, the Internal Analyst', 
+            type = 'primary', 
+            use_container_width=True):
+    st.session_state['authenticated'] = True
+    st.session_state['role'] = 'restuarant_owner'
+    st.session_state['first_name'] = 'Shifan'
+    st.switch_page('pages/31_Analyist_Home.py')
