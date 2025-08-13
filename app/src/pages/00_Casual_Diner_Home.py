@@ -96,7 +96,7 @@ st.markdown("---")
 # adding API
 def fetch_posts(user_id):
     try:
-        response = requests.get(f"{API_BASE}/cd/CDPost")
+        response = requests.get(f"{API_BASE}/cd/CDPost/{user_id}")
         response.raise_for_status()
         posts = response.json()
         
