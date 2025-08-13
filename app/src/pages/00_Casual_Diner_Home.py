@@ -7,6 +7,13 @@ import requests
 
 # why do we need pd and rng?
 
+feed = requests.get('http://api:4000/cd/CDPost/1').json()
+
+try:
+    st.dataframe(feed)
+except:
+    st.write('Could not connect to database to get feed')
+
 st.set_page_config(layout = 'wide')
 API_BASE = "http://localhost:4000"
 
