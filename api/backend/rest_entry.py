@@ -13,6 +13,7 @@ from backend.ngos.ngo_routes import ngos
 from backend.Restaurant_Owners.RestOwner_routes import restowners
 from backend.Casual_Diner.CasualDiner_routes import casualdiner
 from backend.Internal_Analyst.Internal_Analyst_routes import internal
+from backend.Food_Influencer.food_influencer_routes import foodinfluencer
 
 ##Ray Time Problem 
 class CustomJSONProvider(DefaultJSONProvider):
@@ -74,6 +75,7 @@ def create_app():
     app.register_blueprint(restowners, url_prefix="/ro")
     app.register_blueprint(casualdiner, url_prefix="/cd")
     app.register_blueprint(internal, url_prefix = "/ita")
+    app.register_blueprint(foodinfluencer, url_prefix="/fi")
 
     # Don't forget to return the app object
     return app
