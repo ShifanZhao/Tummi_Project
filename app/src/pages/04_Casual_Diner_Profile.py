@@ -11,7 +11,6 @@ st.set_page_config(layout="wide")
 # Display the appropriate sidebar links for the role of the logged in user
 SideBarLinks()
 
-# st.title("Prediction with Regression")
 
 st.markdown("""
 <style>
