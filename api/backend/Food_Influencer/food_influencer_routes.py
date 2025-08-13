@@ -172,4 +172,27 @@ def get_restaurant_list(influ_id):
 
     return jsonify(restaurants), 200
 
+# User Story 5: Tiffany wants to be able to see restaurant owners' contact information 
+# to easily reach out and form future partnerships
+# localhost:4000/fi/restowner_info
+@foodinfluencer.route('/restowner_info', methods=['GET'])
+def get_restowner_info():
+    cursor = db.get_db().cursor()
+
+    the_query = '''
+    SELECT RO.OwnerFName,
+    RO.OwnerLName,
+    R.RestName,
+    R.Location,
+    R.Cuisine
+    FROM RestaurantOwner RO
+    JOIN Restaurant R ON RO.RestId = R.RestId;
+
+    '''
+
+    cursor.execute(the_query)
+    owners = cursor.fetchall()
+
+    return jsonify(owners), 200
+
    
