@@ -117,3 +117,30 @@ def get_menu_items():
     the_response.status_code = 200
     the_response.mimetype = 'application/json'
     return the_response
+
+# RestOwner User Story 3: Shifan needs to see the performance of the ad 
+# so that he can decide whether to continue running it
+@restowners.route('/<int:owner_id>/ad_performance', methods=['GET'])
+def ad_performance(owner_id):
+    cursor = db.get_db().cursor()
+    # If the owner_id does not exist, return an error message
+    check_owner_query = '''
+        SELECT 1 FROM RestaurantOwner WHERE OwnerId = %s;
+    '''
+    cursor.execute(check_owner_query, (owner_id,))
+    owner_exists = cursor.fetchone()
+    if not owner_exists:
+        return jsonify({"error": "Owner not found"}), 404
+
+    the_query = '''
+    SELECT AD.AdCost, AD.Revenue, AD.Profit
+    FROM AdCampaign AD
+    JOIN RestaurantOwner RO ON AD.OwnerId = RO.OwnerId
+    WHERE RO.OwnerId = %s
+    '''
+    cursor.execute(the_query, (owner_id,))
+    theData = cursor.fetchall()
+    if not theData:
+        return jsonify({"message": "No reviews found for this owner"}), 200
+
+    return jsonify(theData), 200
