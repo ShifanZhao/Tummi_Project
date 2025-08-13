@@ -74,7 +74,7 @@ drop table if exists MenuItem;
 create table MenuItem
 (
    RestId   int,
-   DishId   int,
+   DishId   int AUTO_INCREMENT,
    DishName Varchar(20),
    Price    Decimal(5, 2),
    primary key (DishId),
@@ -300,10 +300,10 @@ create table `Photo(s)`
 drop table if exists Comment;
 create table Comment
 (
-   CommentId int,
+   CommentId int AUTO_INCREMENT,
    Comment   Text,
-   CDPostId  int,
-   InfPostId int,
+   CDPostId  int DEFAULT NULL,
+   InfPostId int DEFAULT NULL,
    primary key (CommentId),
    foreign key (CDPostId) references CDPost (PostId)
        ON DELETE CASCADE,
@@ -545,19 +545,4 @@ VALUES (1, 1),
 INSERT INTO Sponsorships
 VALUES (2, 1, 500),
       (8, 2, 750);
--- <<<<<<< Updated upstream
 
-
--- UPDATE CDPost
--- SET likes = (likes + 1)
--- WHERE PostId = 1;
-
-
-
--- SELECT cdp.PostId, cdp.CDId, cdp.Likes, cdp.rating, cdp.share, cdp.bookmark
--- FROM CDPost cdp
---          JOIN CasualDiner cd ON cd.CDId = cdp.CDId
---          JOIN Following f ON f.FollowerId = cd.CDId
--- WHERE f.followeeID = 1;
--- =======
--- >>>>>>> Stashed changes
