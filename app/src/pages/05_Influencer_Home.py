@@ -19,16 +19,6 @@ if st.button('View Leaderboards',
              use_container_width=True):
   st.switch_page('pages/01_Leaderboard.py')
 
-if st.button("Explore",
-             type='primary',
-             use_container_width=True):
-  st.switch_page('pages/02_Explore.py')
-  
-if st.button("Bookmarked",
-             type='primary',
-             use_container_width=True):
-  st.switch_page('pages/03_Bookmarked.py')
-
 if st.button('View Profile', 
              type='primary',
              use_container_width=True):
@@ -149,9 +139,9 @@ posts = [
 # display posts stacked vertically
 for post in posts:
     st.markdown(f"""
-    <div class="rounded-rect" style="flex-direction: row; align-items: flex-start; gap: 15px;">
-        {"<img src='" + post['image_url'] + "' style='border-radius: 10px; width: 120px; height: 100px; object-fit: cover;'/>" if post['image_url'] else ""}
-        <div style="flex: 1;">
+    <div class="rounded-rect">
+        {"<img class='post-img' src='" + post['image_url'] + "'/>" if post['image_url'] else ""}
+        <div>
             <div class="post-author">{post['author']}</div>
             <div class="post-content">{post['content']}</div>
         </div>
