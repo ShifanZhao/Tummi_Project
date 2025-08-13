@@ -8,6 +8,8 @@ from backend.ml_models.model01 import predict
 
 restowners = Blueprint('restowners', __name__)
 
+# The initial route to test connection.
+# I don't want to delete it personally, it means a lot.
 # localhost:4000/ro/rostowners
 @restowners.route('/restowners', methods=['GET'])
 def get_all_restowners():
@@ -64,7 +66,7 @@ def get_reviews(owner_id):
 
 # RestOwner User Story 2: Shifan needs to  add new dishes, so that 
 # he can improve his menu based on customer preferences
-
+# localhost:4000/ro/<int:owner_id>/add_menuitem
 @restowners.route('/<int:owner_id>/add_menuitem', methods=['POST'])
 def add_menuitem(owner_id):
     cursor = db.get_db().cursor()
@@ -102,6 +104,8 @@ def add_menuitem(owner_id):
     cursor.close()
     return jsonify({"message": "Menu item added successfully", "menuitem_id": new_menuitem_id}), 201
 
+# This route is ti prove the POST route works
+# localhost:4000/ro/menuitem
 @restowners.route('/menuitem', methods=['GET'])
 def get_menu_items():
     cursor = db.get_db().cursor()
@@ -120,6 +124,7 @@ def get_menu_items():
 
 # RestOwner User Story 3: Shifan needs to see the performance of the ad 
 # so that he can decide whether to continue running it
+# localhost:4000/ro/<int:owner_id>/ad_performance
 @restowners.route('/<int:owner_id>/ad_performance', methods=['GET'])
 def ad_performance(owner_id):
     cursor = db.get_db().cursor()
@@ -142,5 +147,29 @@ def ad_performance(owner_id):
     theData = cursor.fetchall()
     if not theData:
         return jsonify({"message": "No reviews found for this owner"}), 200
+
+    return jsonify(theData), 200
+
+# RestOwner User Story 4: Shifan needs to see the ranking of number of customers
+# visited so that he can evaluate his restaurant
+# %20 repersents a space in the URL
+# localhost:4000/ro/<location>/customer_ranking
+@restowners.route('/<location>/customer_ranking', methods=['GET'])
+def customer_ranking(location):
+    cursor = db.get_db().cursor()
+
+    the_query = '''
+    SELECT R.RestName, R.NumVisits
+    FROM Restaurant R
+    WHERE Location = %s
+    ORDER BY R.NumVisits DESC;
+
+    '''
+    
+    cursor.execute(the_query, (location,))
+    theData = cursor.fetchall()
+
+    if not theData:
+        return jsonify({"message": "No customer data found for this location"}), 200
 
     return jsonify(theData), 200
