@@ -131,6 +131,7 @@ with col4:
     </div>
     """, unsafe_allow_html=True)
 
+st.write("")
 
     # recommended by friends and influencers section
 st.write("#### Recommended By Friends and Following")

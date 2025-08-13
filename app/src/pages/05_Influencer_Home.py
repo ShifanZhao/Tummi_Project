@@ -149,9 +149,11 @@ posts = [
 # display posts stacked vertically
 for post in posts:
     st.markdown(f"""
-    <div class="rounded-rect">
-        <div class="post-author">{post['author']}</div>
-        <div class="post-content">{post['content']}</div>
-        {"<img src='" + post['image_url'] + "' width='100%' style='border-radius: 10px;'/>" if post['image_url'] else ""}
+    <div class="rounded-rect" style="flex-direction: row; align-items: flex-start; gap: 15px;">
+        {"<img src='" + post['image_url'] + "' style='border-radius: 10px; width: 120px; height: 100px; object-fit: cover;'/>" if post['image_url'] else ""}
+        <div style="flex: 1;">
+            <div class="post-author">{post['author']}</div>
+            <div class="post-content">{post['content']}</div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
