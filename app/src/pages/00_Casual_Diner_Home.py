@@ -96,7 +96,7 @@ st.markdown("---")
 # adding API
 def fetch_posts(user_id):
     try:
-        response = requests.get(f"{API_BASE}/cd/CDPost/{user_id}")
+        response = requests.get(f"{API_BASE}/cd/CDPost")
         response.raise_for_status()
         posts = response.json()
         
@@ -118,18 +118,18 @@ def fetch_posts(user_id):
         st.error(f"Error fetching posts: {e}")
         return []
 
-# def post_review(user_id, caption, rating=5, rest_id=1):
-#     data = {"Rating": rating, "Caption": caption, "RestId": rest_id}
-#     try:
-#         response = requests.post(f"{API_BASE}/cd/{user_id}/createpost", json=data)
-#         if response.status_code == 201:
-#             return True
-#         else:
-#             st.error(f"Failed to post: {response.json()}")
-#             return False
-#     except Exception as e:
-#         st.error(f"Error posting review: {e}")
-#         return False
+def post_review(user_id, caption, rating=5, rest_id=1):
+    data = {"Rating": rating, "Caption": caption, "RestId": rest_id}
+    try:
+        response = requests.post(f"{API_BASE}/cd/{user_id}/createpost", json=data)
+        if response.status_code == 201:
+            return True
+        else:
+            st.error(f"Failed to post: {response.json()}")
+            return False
+    except Exception as e:
+        st.error(f"Error posting review: {e}")
+        return False
 
 def like_post(post_id):
     try:
