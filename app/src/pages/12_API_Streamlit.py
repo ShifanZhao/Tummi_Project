@@ -15,14 +15,17 @@ If the container isn't running, this will be very unhappy.  But the Streamlit ap
 should not totally die. 
 """
 
-data = {} 
-try:
-  data = requests.get('http://web-api:4000/data').json()
-except:
-  st.write("**Important**: Could not connect to sample api, so using dummy data.")
-  data = {"a":{"b": "123", "c": "hello"}, "z": {"b": "456", "c": "goodbye"}}
 
-st.dataframe(data)
+
+
+# data = {} 
+# try:
+#   data = requests.get('http://web-api:4000/data').json()
+# except:
+#   st.write("**Important**: Could not connect to sample api, so using dummy data.")
+#   data = {"a":{"b": "123", "c": "hello"}, "z": {"b": "456", "c": "goodbye"}}
+
+# st.dataframe(data)
 
 
 

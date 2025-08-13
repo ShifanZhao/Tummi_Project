@@ -3,10 +3,12 @@ logger = logging.getLogger(__name__)
 
 import streamlit as st
 from modules.nav import SideBarLinks
+import requests
 
 # why do we need pd and rng?
 
 st.set_page_config(layout = 'wide')
+API_BASE = "http://localhost:4000"
 
 # Show appropriate sidebar links for the role of the currently logged in user
 SideBarLinks()
@@ -64,7 +66,7 @@ def show_friendrecs_diaglog():
 
     st.dataframe(df, hide_index=True)
 
-# create columns with custom spacing (gap between buttons)
+# create columns
 col1, col2, col3, col4, col5, col6, col7 = st.columns([0.01, 0.5, 0.1, 0.5, 0.1, 0.5, 2])
 
 with col2:
@@ -84,8 +86,54 @@ with col6:
 st.write("")
 st.markdown("---")
 
+
+# adding API
+def fetch_posts(user_id):
+    try:
+        response = requests.get(f"{API_BASE}/CDPost/{user_id}")
+        if response.status_code == 200:
+            posts = response.json()
+            formatted_posts = []
+            for p in posts:
+                formatted_posts.append({
+                    "PostId": p.get("PostId"),
+                    "author": p.get("PostAuthor", "Anonymous"),
+                    "content": p.get("Caption", ""),
+                    "image_url": None,
+                    "comments": []
+                })
+            return formatted_posts
+        else:
+            st.warning("No posts found.")
+            return []
+    except Exception as e:
+        st.error(f"Error fetching posts: {e}")
+        return []
+
+def post_review(user_id, caption, rating=5, rest_id=1):
+    data = {"Rating": rating, "Caption": caption, "RestId": rest_id}
+    try:
+        response = requests.post(f"{API_BASE}/{user_id}/createpost", json=data)
+        if response.status_code == 201:
+            return True
+        else:
+            st.error(f"Failed to post: {response.json()}")
+            return False
+    except Exception as e:
+        st.error(f"Error posting review: {e}")
+        return False
+
+def like_post(post_id):
+    try:
+        response = requests.put(f"{API_BASE}/CDPost", json={"PostId": post_id})
+        return response.status_code == 200
+    except Exception as e:
+        st.error(f"Error liking post: {e}")
+        return False
+
+
 # post feed
-st.write("### Posts Feed (w/ sample data, need API)")
+st.write("### Posts Feed")
 
 # comment box for users
 comment = st.text_area(
@@ -105,7 +153,9 @@ if st.button("Post Review"):
     if comment.strip() == "" and image_file is None:
         st.warning("Please write a review or add an image before posting.")
     else:
-        st.success("Your post has been posted!")
+        if post_review(st.session_state['user_id'], comment):
+            st.success("Your post has been posted!")
+            st.session_state["posts"] = fetch_posts(st.session_state['user_id'])
         
         # Display posted comment
         st.write(f"**You wrote:** {comment}")
@@ -151,13 +201,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# sample posts data in session state
+# get posts
 if "posts" not in st.session_state:
-    st.session_state["posts"] = [
-        {"author": "Tiffany", "content": "Loved the spicy ramen at Sushi Zen!", "image_url": "https://via.placeholder.com/600x400", "comments": []},
-        {"author": "Billy", "content": "Check out the new vegan place downtown!", "image_url": None, "comments": []},
-        {"author": "Alice", "content": "Had an amazing burger at Burger Barn 🍔", "image_url": "https://via.placeholder.com/600x400", "comments": []},
-    ]
+    st.session_state["posts"] = fetch_posts(st.session_state['user_id'])
+    
 
 for i, post in enumerate(st.session_state["posts"]):
     st.markdown(f"""
@@ -169,6 +216,12 @@ for i, post in enumerate(st.session_state["posts"]):
         {"<img class='post-img' src='" + post['image_url'] + "'/>" if post['image_url'] else ""}
     </div>
     """, unsafe_allow_html=True)
+
+    # like button
+    if st.button("Like", key=f"like_{i}"):
+        if like_post(post["PostId"]):
+            st.session_state["posts"] = fetch_posts(st.session_state['user_id'])
+
 
     # comment box
     comment_text = st.text_area(
