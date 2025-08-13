@@ -296,3 +296,31 @@ def inf_follow():
         201,
     )
 
+
+# %20 represents a space in the URL
+# Get restuarants of particular cuisine
+@casualdiner.route('/discovery_page/<cuisine>', methods=['GET'])
+def get_restaurants(cuisine):
+
+    cursor = db.get_db().cursor()
+
+    the_query = '''select
+   r.RestId,
+   r.RestName,
+   r.Location,
+   r.Cuisine,
+   r.Rating
+from Restaurant r
+where r.Cuisine = %s
+order by r.Rating desc;
+;'''
+    cursor.execute(the_query, cuisine,)
+
+    theData = cursor.fetchall()
+
+    if not theData:
+            return jsonify({"Error": "No Restaurants with that cuisine"}), 200
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
