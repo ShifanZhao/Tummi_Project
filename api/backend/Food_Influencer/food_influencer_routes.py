@@ -214,3 +214,50 @@ def update_sponsored(post_id, username):
     db.get_db().commit()
     cursor.close()
     return jsonify({"message": "Post marked as sponsored successfully"}), 200
+
+@foodinfluencer.route('/influ_posts/<int:postid>', methods=['PUT'])
+def like_post(postid):
+    current_app.logger.info('PUT /influ_posts/<postid> route')
+
+    the_query = 'UPDATE InfPost SET likes = (likes + 1) WHERE PostId = %s'
+    data = (postid,)
+    cursor = db.get_db().cursor()
+    r = cursor.execute(the_query, data)
+    db.get_db().commit()
+    return 'Likes updated!'
+
+
+## Create a comment on a cdpost
+@foodinfluencer.route("/createcomment", methods=["POST"])
+def create_comment():
+    cursor = db.get_db().cursor()
+    data = request.get_json()
+
+    # Validate required fields
+    required_fields = ["Comment"]
+    for field in required_fields:
+        if field not in data:
+            return jsonify({"error": f"Missing required field: {field}"}), 400
+
+    # Insert new Post
+    query = """
+    INSERT INTO Comment (Comment, CDPostId, InfPostId)
+    VALUES (%s, %s, %s)
+    """
+    cursor.execute(
+        query,
+        (
+            data["Comment"],
+            data.get("CDPostId", None),   
+            data.get("InfPostId", None)
+        ),
+    )
+
+    db.get_db().commit()
+    new_comment_id = cursor.lastrowid
+    cursor.close()
+
+    return (
+        jsonify({"message": "Comment created successfully", "CommentId": new_comment_id}),
+        201,
+    )
