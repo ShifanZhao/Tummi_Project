@@ -192,7 +192,25 @@ def get_restowner_info():
 
     cursor.execute(the_query)
     owners = cursor.fetchall()
-
     return jsonify(owners), 200
 
-   
+# User Story 6: Tiffany wants to be able to be sponsored by restaurants, 
+# see pricing, revenue, profits, and make her post as a sponsored post
+# localhost:4000/fi/<int:post_id>/<username>/sponsored
+@foodinfluencer.route('/<int:post_id>/<username>/sponsored', methods=['PUT'])
+def update_sponsored(post_id, username):
+    cursor = db.get_db().cursor()
+    
+    the_query ='''
+    UPDATE InfPost
+    SET Sponsored = TRUE
+    WHERE PostId = %s
+    AND InfId = (
+    SELECT InfId FROM Influencer WHERE Username = %s
+    )
+'''
+    cursor.execute(the_query, (post_id, username))
+
+    db.get_db().commit()
+    cursor.close()
+    return jsonify({"message": "Post marked as sponsored successfully"}), 200

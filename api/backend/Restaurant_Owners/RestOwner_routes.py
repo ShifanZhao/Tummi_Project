@@ -192,7 +192,7 @@ def customer_ranking(location):
     WHERE Location = %s
     ORDER BY R.NumVisits DESC;
     '''
-    
+
     cursor.execute(the_query, (location,))
     theData = cursor.fetchall()
 
@@ -255,3 +255,5 @@ def rest_performance(owner_id):
         return jsonify({"message": "No performance data found for this owner"}), 200
 
     return jsonify(theData), 200
+
+
