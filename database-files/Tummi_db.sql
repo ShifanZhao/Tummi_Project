@@ -545,19 +545,19 @@ VALUES (1, 1),
 INSERT INTO Sponsorships
 VALUES (2, 1, 500),
       (8, 2, 750);
-<<<<<<< Updated upstream
+-- <<<<<<< Updated upstream
 
 
-UPDATE CDPost
-SET likes = (likes + 1)
-WHERE PostId = 1;
+-- UPDATE CDPost
+-- SET likes = (likes + 1)
+-- WHERE PostId = 1;
 
 
 
-SELECT cdp.PostId, cdp.CDId, cdp.Likes, cdp.rating, cdp.share, cdp.bookmark
-FROM CDPost cdp
-         JOIN CasualDiner cd ON cd.CDId = cdp.CDId
-         JOIN Following f ON f.FollowerId = cd.CDId
-WHERE f.followeeID = 1;
-=======
->>>>>>> Stashed changes
+-- SELECT cdp.PostId, cdp.CDId, cdp.Likes, cdp.rating, cdp.share, cdp.bookmark
+-- FROM CDPost cdp
+--          JOIN CasualDiner cd ON cd.CDId = cdp.CDId
+--          JOIN Following f ON f.FollowerId = cd.CDId
+-- WHERE f.followeeID = 1;
+-- =======
+-- >>>>>>> Stashed changes
