@@ -1,38 +1,3 @@
-# ########################################################
-# # Sample Internal Analyst blueprint of endpoints
-# # Remove this file if you are not using it in your project
-# ########################################################
-
-# from flask import Blueprint
-# from flask import request
-# from flask import jsonify
-# from flask import make_response
-# from flask import current_app
-# from backend.db_connection import db 
-
-# internal = Blueprint('internal', __name__)
-
-# @internal.route('/internal', methods=['GET'])
-# def get_internal():
-    
-#     cursor = db.get_db().cursor()
-#     the_query = '''
-#         SELECT *
-#         FROM CasualDiner
-        
-#     '''
-#     cursor.execute(the_query)
-    
-#     theData = cursor.fetchall()
-    
-#     the_response = make_response(jsonify(theData))
-#     the_response.status_code = 200
-#     the_response.mimetype='application/json'
-#     return the_response
-    
-    
-
-
 from flask import Blueprint
 from flask import request
 from flask import jsonify
@@ -44,7 +9,7 @@ internal = Blueprint('internal', __name__)
 
 
 # ------------------------------------------------------------------
-# 目录页（方便在浏览器里点 /ita/internal 看所有可用端点）
+# Catalog page (convenient for clicking /ita/internal in a browser to see all available endpoints)
 # ------------------------------------------------------------------
 @internal.route('/internal', methods=['GET'])
 def internal_home():
@@ -59,7 +24,9 @@ def internal_home():
             "/ita/moderation/owners/flagged",
             "/ita/moderation/diners/flagged",
             "/ita/moderation/influencers/flagged",
-            "/ita/dau"
+            "/ita/dau",
+            "/ita/requests/approve/1",
+            "/ita/moderation/cdpost/1"
         ]
     }))
     the_response.status_code = 200
@@ -303,3 +270,63 @@ def get_daily_active_users():
     the_response.status_code = 200
     the_response.mimetype = 'application/json'
     return the_response
+
+
+# ------------------------------------------------------------
+# 3.7 Approve "Restaurant Addition" Request (UPDATE)
+# PUT /ita/requests/approve/<restid>
+# - Restaurant.`Add` = FALSE
+# - RestaurantOwner.Verify = TRUE (The boss with the same RestId)
+# ------------------------------------------------------------
+@internal.route('/requests/approve/<int:restid>', methods=['PUT'])
+def approve_restaurant_request(restid):
+    cnx = db.get_db()
+    cursor = cnx.cursor()
+
+    q1 = "UPDATE Restaurant SET `Add` = FALSE WHERE RestId = %s"
+    cursor.execute(q1, (restid,))
+    r1 = cursor.rowcount
+
+    q2 = "UPDATE RestaurantOwner SET Verify = TRUE WHERE RestId = %s"
+    cursor.execute(q2, (restid,))
+    r2 = cursor.rowcount
+
+    cnx.commit()
+
+    the_response = make_response(jsonify({
+        "approved_restaurant": restid,
+        "restaurant_rows_updated": r1,
+        "owner_rows_updated": r2
+    }))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+
+# ------------------------------------------------------------
+# 3.8 Delete inappropriate diner posts（DELETE）
+# DELETE /ita/moderation/cdpost/<postid>
+# Note: Delete CDPost(PostId).According to DDL, related Comment/Photo(s) Has associated deletion (note that data will be lost).
+# ------------------------------------------------------------
+@internal.route('/moderation/cdpost/<int:postid>', methods=['DELETE'])
+def delete_cdpost(postid):
+    cnx = db.get_db()
+    cursor = cnx.cursor()
+
+    q = "DELETE FROM CDPost WHERE PostId = %s"
+    cursor.execute(q, (postid,))
+    affected = cursor.rowcount
+
+    cnx.commit()
+
+    if affected == 0:
+        # In order to be consistent with your interface habits, we still return 200 + prompt information here.
+        return make_response(jsonify({
+            "deleted_postid": postid,
+            "message": "No record deleted (PostId not found)."
+        }), 200)
+
+    return make_response(jsonify({
+        "deleted_postid": postid,
+        "affected": affected
+    }), 200)
