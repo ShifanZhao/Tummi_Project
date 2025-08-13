@@ -4,6 +4,8 @@ logger = logging.getLogger(__name__)
 import streamlit as st
 from modules.nav import SideBarLinks
 
+# why do we need pd and rng?
+
 st.set_page_config(layout = 'wide')
 
 # Show appropriate sidebar links for the role of the currently logged in user
@@ -85,8 +87,6 @@ st.markdown("---")
 # post feed
 st.write("### Posts Feed (w/ sample data, need API)")
 
-st.write("### Add a Comment")
-
 # comment box for users
 comment = st.text_area(
     "",
@@ -124,8 +124,15 @@ st.markdown("""
     margin: 10px 0;
     border: 2px solid #ddd;
     display: flex;
+    flex-direction: row; /* row layout */
+    gap: 20px;
+    align-items: flex-start;
+}
+.post-text {
+    flex: 1; /* take remaining space */
+    display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
 }
 .post-author {
     font-weight: bold;
@@ -135,13 +142,14 @@ st.markdown("""
     font-size: 14px;
 }
 .post-img {
-    width: 100%;
-    max-width: 500px;
+    width: 150px;  /* smaller image */
+    height: 100px; /* fixed height */
+    object-fit: cover;
     border-radius: 10px;
-    margin-bottom: 10px;
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 # sample posts data in session state
 if "posts" not in st.session_state:
@@ -154,9 +162,11 @@ if "posts" not in st.session_state:
 for i, post in enumerate(st.session_state["posts"]):
     st.markdown(f"""
     <div class="rounded-rect">
+        <div class="post-text">
+            <div class="post-author">{post['author']}</div>
+            <div class="post-content">{post['content']}</div>
+        </div>
         {"<img class='post-img' src='" + post['image_url'] + "'/>" if post['image_url'] else ""}
-        <div class="post-author">{post['author']}</div>
-        <div class="post-content">{post['content']}</div>
     </div>
     """, unsafe_allow_html=True)
 
