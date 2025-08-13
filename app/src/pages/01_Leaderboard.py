@@ -56,8 +56,8 @@ if friends_only:
 
 else:
     filtered_df1 = full_df1
-    filtered_df2 = full_df1.copy()
-    filtered_df3 = full_df1.copy()
+    filtered_df2 = full_df2.copy()
+    filtered_df3 = full_df3.copy()
 
 col1, col2, col3 = st.columns(3)
 

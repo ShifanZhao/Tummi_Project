@@ -14,18 +14,25 @@ st.write('')
 st.write('')
 st.write('### What would you like to do today?')
 
-if st.button('View Profile', 
-             type='primary',
-             use_container_width=True):
-  st.switch_page('pages/11_Profile.py')
-
 if st.button('View Leaderboards', 
              type='primary',
              use_container_width=True):
   st.switch_page('pages/01_Leaderboard.py')
 
-if st.button("View Classification Demo",
+if st.button("Explore",
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/13_Classification.py')
+  st.switch_page('pages/02_Explore.py')
   
+if st.button("Bookmarked",
+             type='primary',
+             use_container_width=True):
+  st.switch_page('pages/03_Bookmarked.py')
+
+if st.button('View Profile', 
+             type='primary',
+             use_container_width=True):
+  st.switch_page('pages/11_Profile.py')
+
+
+#if st.button("Profile")
