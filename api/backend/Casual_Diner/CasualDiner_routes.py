@@ -41,7 +41,7 @@ def get_cdposts(followeeid):
 
     cursor = db.get_db().cursor()
 
-    the_query = '''SELECT cdp.PostId, cdp.CDId, cdp.Likes, cdp.rating, cdp.share, cdp.bookmark
+    the_query = '''SELECT cdp.PostId, cdp.CDId, cdp.Likes, cdp.Caption, cdp.rating, cdp.share, cdp.bookmark
 FROM CDPost cdp
          JOIN CasualDiner cd ON cd.CDId = cdp.CDId
          JOIN Following f ON f.FollowerId = cd.CDId
@@ -65,21 +65,9 @@ def get_cdbookmarks(userid):
 
     cursor = db.get_db().cursor()
 
-    the_query = '''select
-   cdp.PostId,
-   cdp.Likes,
-   cdp.Rating,
-   cd.Location as RestaurantName,
-   cd.LastVisited,
-   u.FirstName + ' ' + u.LastName as PostAuthor,
-   u.Username as AuthorUsername
-from Users u1
-        join Bookmark b on u1.UserId = b.CDId
-        join CDPost cdp on b.CDId = cdp.CDId
-        join CasualDiner cd on cdp.CDId = cd.CDId
-        join Users u on cd.CDId = u.UserId
-where u1.UserId = %s
-order by cd.LastVisited desc, cdp.Rating desc;'''
+    the_query = '''SELECT b.Restaurant
+FROM Bookmark b
+WHERE b.CDId = %s;'''
     cursor.execute(the_query, (userid,))
 
     theData = cursor.fetchall()
@@ -90,8 +78,6 @@ order by cd.LastVisited desc, cdp.Rating desc;'''
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
-
-
 
 
 @casualdiner.route('/CDPost', methods=['PUT'])
@@ -110,8 +96,6 @@ def like_post():
 # http://localhost:4000/cd/1/createpost
 # {"Rating": 8.9, "Caption":"tasty asl",  "RestId": 1}
 # Create a new Post
-# Required fields: Name, Country, Founding_Year, Focus_Area, Website
-# Example: POST /ngo/ngos with JSON body
 @casualdiner.route("/<int:userid>/createpost", methods=["POST"])
 def create_cdpost(userid):
     cursor = db.get_db().cursor()
@@ -122,7 +106,6 @@ def create_cdpost(userid):
     for field in required_fields:
         if field not in data:
             return jsonify({"error": f"Missing required field: {field}"}), 400
-
 
 
     # Insert new Post
@@ -145,7 +128,74 @@ def create_cdpost(userid):
     cursor.close()
 
     return (
-        jsonify({"message": "NGO created successfully", "cdpostid": new_cdpost_id}),
+        jsonify({"message": "Post created successfully", "cdpostid": new_cdpost_id}),
+        201,
+    )
+
+@casualdiner.route("/createcomment", methods=["POST"])
+def create_comment():
+    cursor = db.get_db().cursor()
+    data = request.get_json()
+
+    # Validate required fields
+    required_fields = ["Comment"]
+    for field in required_fields:
+        if field not in data:
+            return jsonify({"error": f"Missing required field: {field}"}), 400
+
+    # Insert new Post
+    query = """
+    INSERT INTO Comment (Comment, CDPostId, InfPostId)
+    VALUES (%s, %s, %s)
+    """
+    cursor.execute(
+        query,
+        (
+            data["Comment"],
+            data.get("CDPostId", None),   
+            data.get("InfPostId", None)
+        ),
+    )
+
+    db.get_db().commit()
+    new_comment_id = cursor.lastrowid
+    cursor.close()
+
+    return (
+        jsonify({"message": "Comment created successfully", "CommentId": new_comment_id}),
+        201,
+    )
+
+@casualdiner.route("/createbm/<int:cdid>", methods=["POST"])
+def create_bookmark(cdid):
+    cursor = db.get_db().cursor()
+    data = request.get_json()
+
+    # Validate required fields
+    required_fields = ["rest"]
+    for field in required_fields:
+        if field not in data:
+            return jsonify({"error": f"Missing required field: {field}"}), 400
+
+    # Insert new Post
+    query = """
+    INSERT INTO Bookmark (CDId, Restaurant)
+    VALUES (%s, %s)
+    """
+    cursor.execute(
+        query,
+        (
+            cdid,
+            data["rest"]
+        ),
+    )
+
+    db.get_db().commit()
+    new_comment_id = cursor.lastrowid
+    cursor.close()
+
+    return (
+        jsonify({"message": "Bookmark created successfully", "Bookmark": new_comment_id}),
         201,
     )
 
