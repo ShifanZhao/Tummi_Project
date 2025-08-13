@@ -77,6 +77,7 @@ def add_menuitem(owner_id):
     cursor.execute(check_owner_query, (owner_id,))
     owner_exists = cursor.fetchone()
 
+
     data = request.get_json()
     required_fields = ['DishId', 'RestId', 'DishName', 'Price']
     for field in required_fields:
