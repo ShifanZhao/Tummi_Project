@@ -22,6 +22,8 @@ if st.button('Manage Permissions',
              use_container_width=True):
   st.switch_page('pages/32_Manage_Permissions.py')
 
+st.write('')
+st.write('')
 
 
 # sample data - need to connect to API
