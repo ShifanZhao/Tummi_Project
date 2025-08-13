@@ -74,7 +74,7 @@ drop table if exists MenuItem;
 create table MenuItem
 (
    RestId   int,
-   DishId   int,
+   DishId   int AUTO_INCREMENT,
    DishName Varchar(20),
    Price    Decimal(5, 2),
    primary key (DishId),

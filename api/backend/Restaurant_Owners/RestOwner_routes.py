@@ -78,7 +78,7 @@ def add_menuitem(owner_id):
     owner_exists = cursor.fetchone()
     
     data = request.get_json()
-    required_fields = ['DishId', 'RestId', 'DishName', 'Price']
+    required_fields = ['RestId', 'DishName', 'Price']
     for field in required_fields:
             if field not in data:
                 return jsonify({"error": f"Missing required field: {field}"}), 400
@@ -86,13 +86,12 @@ def add_menuitem(owner_id):
 
     query = '''
     INSERT INTO MenuItem
-    (DishId, RestId, DishName, Price)
-    VALUES (%s, %s, %s, %s)
+    (RestId, DishName, Price)
+    VALUES (%s, %s, %s)
     '''
     cursor.execute(
         query,
         (
-            data["DishId"],
             data["RestId"],
             data["DishName"],
             data["Price"],
