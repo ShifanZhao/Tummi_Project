@@ -10,6 +10,12 @@ import requests
 st.set_page_config(layout = 'wide')
 API_BASE = "http://localhost:4000"
 
+if "user_id" not in st.session_state:
+    st.session_state["user_id"] = 1
+if "first_name" not in st.session_state:
+    st.session_state["first_name"] = "Casual Diner"
+
+
 # Show appropriate sidebar links for the role of the currently logged in user
 SideBarLinks()
 
@@ -90,43 +96,50 @@ st.markdown("---")
 # adding API
 def fetch_posts(user_id):
     try:
-        response = requests.get(f"{API_BASE}/CDPost/{user_id}")
-        if response.status_code == 200:
-            posts = response.json()
-            formatted_posts = []
-            for p in posts:
-                formatted_posts.append({
-                    "PostId": p.get("PostId"),
-                    "author": p.get("PostAuthor", "Anonymous"),
-                    "content": p.get("Caption", ""),
-                    "image_url": None,
-                    "comments": []
-                })
-            return formatted_posts
-        else:
-            st.warning("No posts found.")
+        response = requests.get(f"{API_BASE}/cd/CDPost/{user_id}")
+        response.raise_for_status()
+        posts = response.json()
+        
+        # check if the API returned the "Sadly" msg
+        if isinstance(posts, dict) and "Sadly" in posts:
             return []
+
+        formatted_posts = []
+        for p in posts:
+            formatted_posts.append({
+                "PostId": p.get("PostId"),
+                "author": f"CD {p.get('CDId')}",
+                "content": f"Rating: {p.get('rating')}, Likes: {p.get('Likes')}",
+                "image_url": None,
+                "comments": []
+            })
+        return formatted_posts
     except Exception as e:
         st.error(f"Error fetching posts: {e}")
         return []
 
-def post_review(user_id, caption, rating=5, rest_id=1):
-    data = {"Rating": rating, "Caption": caption, "RestId": rest_id}
-    try:
-        response = requests.post(f"{API_BASE}/{user_id}/createpost", json=data)
-        if response.status_code == 201:
-            return True
-        else:
-            st.error(f"Failed to post: {response.json()}")
-            return False
-    except Exception as e:
-        st.error(f"Error posting review: {e}")
-        return False
+# def post_review(user_id, caption, rating=5, rest_id=1):
+#     data = {"Rating": rating, "Caption": caption, "RestId": rest_id}
+#     try:
+#         response = requests.post(f"{API_BASE}/cd/{user_id}/createpost", json=data)
+#         if response.status_code == 201:
+#             return True
+#         else:
+#             st.error(f"Failed to post: {response.json()}")
+#             return False
+#     except Exception as e:
+#         st.error(f"Error posting review: {e}")
+#         return False
 
 def like_post(post_id):
     try:
-        response = requests.put(f"{API_BASE}/CDPost", json={"PostId": post_id})
-        return response.status_code == 200
+        response = requests.put(f"{API_BASE}/cd/CDPost", json={"PostId": post_id})
+        if response.status_code == 200:
+            st.success("Post liked!")
+            return True
+        else:
+            st.error("Failed to like post")
+            return False
     except Exception as e:
         st.error(f"Error liking post: {e}")
         return False
@@ -203,8 +216,12 @@ st.markdown("""
 
 # get posts
 if "posts" not in st.session_state:
-    st.session_state["posts"] = fetch_posts(st.session_state['user_id'])
-    
+    if st.session_state["user_id"]:
+        st.session_state["posts"] = fetch_posts(st.session_state["user_id"])
+    else:
+        st.session_state["posts"] = []
+
+
 
 for i, post in enumerate(st.session_state["posts"]):
     st.markdown(f"""
