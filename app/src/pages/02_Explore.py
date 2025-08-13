@@ -130,3 +130,58 @@ with col4:
         <p>Location</p>
     </div>
     """, unsafe_allow_html=True)
+
+
+    # recommended by friends and influencers section
+st.write("#### Recommended By Friends and Following")
+
+st.markdown("""
+<style>
+.rounded-rect {
+    background-color: #f0f2f6;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 1px 0;
+    border: 2px solid #ddd;
+    height: 350px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+</style>
+""", unsafe_allow_html=True)
+
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    st.markdown("""
+    <div class="rounded-rect">
+        <h4>Restaurant Name 1</h4>
+        <p>Location</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.markdown("""
+    <div class="rounded-rect">
+        <h4>Restaurant Name 2</h4>
+        <p>Location</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col3:
+    st.markdown("""
+    <div class="rounded-rect">
+        <h4>Restaurant Name 3</h4>
+        <p>Location</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col4:
+    st.markdown("""
+    <div class="rounded-rect">
+        <h4>Restaurant Name 4</h4>
+        <p>Location</p>
+    </div>
+    """, unsafe_allow_html=True)
