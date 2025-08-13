@@ -80,14 +80,12 @@ WHERE b.CDId = %s;'''
     return the_response
 
 
-@casualdiner.route('/CDPost', methods=['PUT'])
-def like_post():
-    current_app.logger.info('PUT /CDPost route')
-    cdpost_info = request.json
-    PostId = cdpost_info['PostId']
+@casualdiner.route('/CDPost/<int:postid>', methods=['PUT'])
+def like_post(postid):
+    current_app.logger.info('PUT /CDPost/<postid> route')
 
     the_query = 'UPDATE CDPost SET likes = (likes + 1) WHERE PostId = %s'
-    data = (PostId)
+    data = (postid,)
     cursor = db.get_db().cursor()
     r = cursor.execute(the_query, data)
     db.get_db().commit()
