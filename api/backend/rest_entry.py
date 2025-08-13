@@ -74,7 +74,7 @@ def create_app():
     app.register_blueprint(ngos, url_prefix="/ngo")
     app.register_blueprint(restowners, url_prefix="/ro")
     app.register_blueprint(casualdiner, url_prefix="/cd")
-    app.register_blueprint(internal, url_prefix = "/ita")
+    app.register_blueprint(internal, url_prefix="/ita")
     app.register_blueprint(foodinfluencer, url_prefix="/fi")
 
     # Don't forget to return the app object

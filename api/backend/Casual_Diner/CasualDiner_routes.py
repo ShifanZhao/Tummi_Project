@@ -132,6 +132,8 @@ def create_cdpost(userid):
         201,
     )
 
+
+## Create a comment on a cdpost
 @casualdiner.route("/createcomment", methods=["POST"])
 def create_comment():
     cursor = db.get_db().cursor()
@@ -166,6 +168,8 @@ def create_comment():
         201,
     )
 
+
+## Create Bookmark for a user
 @casualdiner.route("/createbm/<int:cdid>", methods=["POST"])
 def create_bookmark(cdid):
     cursor = db.get_db().cursor()
@@ -199,4 +203,96 @@ def create_bookmark(cdid):
         201,
     )
 
+
+
+## Create a following instance between 2 user
+@casualdiner.route("/createfollow", methods=["POST"])
+def create_follow():
+    cursor = db.get_db().cursor()
+    data = request.get_json()
+
+    # Validate required fields
+    required_fields = ["followerid", "followeeid"]
+    for field in required_fields:
+        if field not in data:
+            return jsonify({"error": f"Missing required field: {field}"}), 400
+
+    # If the folloewing already exists, say already exists
+    check_follow_query = '''
+        SELECT * FROM Following f WHERE (FollowerId = %s AND FolloweeId = %s);
+    '''
+    cursor.execute(check_follow_query, (data["followerid"], data["followeeid"]),)
+    follow_exists = cursor.fetchone()
+    
+    if follow_exists:
+        return jsonify({"error": "Already follow"}), 200
+
+
+    # Insert new Post
+    query = """
+    INSERT INTO Following (FollowerId, FolloweeId)
+    VALUES (%s, %s)
+    """
+    cursor.execute(
+        query,
+        (
+            data["followerid"],
+            data["followeeid"]
+        ),
+    )
+
+    db.get_db().commit()
+    new_comment_id = cursor.lastrowid
+    cursor.close()
+
+    return (
+        jsonify({"message": "Following created successfully", "Follow": new_comment_id}),
+        201,
+    )
+
+
+## Create a following instance between user and influencer
+@casualdiner.route("/inf_follow", methods=["POST"])
+def inf_follow():
+    cursor = db.get_db().cursor()
+    data = request.get_json()
+
+    # Validate required fields
+    required_fields = ["CDId", "InfId"]
+    for field in required_fields:
+        if field not in data:
+            return jsonify({"error": f"Missing required field: {field}"}), 400
+
+    # If the folloewing already exists, say already exists
+    check_follow_query = '''
+        SELECT * FROM Follow f WHERE (CDId = %s AND InfId = %s);
+    '''
+    cursor.execute(check_follow_query, (data["CDId"], data["InfId"]),)
+    follow_exists = cursor.fetchone()
+    
+    if follow_exists:
+        return jsonify({"error": "Already follow"}), 200
+
+
+    # Insert new Post
+    query = """
+    INSERT INTO Follow (CDId, InfId)
+    VALUES (%s, %s)
+    """
+    cursor.execute(
+        query,
+        (
+            data["CDId"],
+            data["InfId"]
+        ),
+    )
+
+    db.get_db().commit()
+    new_comment_id = cursor.lastrowid
+    cursor.close()
+
+    return (
+        jsonify({"message": "Following created successfully", "Follow": new_comment_id}),
+        201,
+    )
 
