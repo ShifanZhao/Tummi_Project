@@ -76,8 +76,7 @@ def add_menuitem(owner_id):
     '''
     cursor.execute(check_owner_query, (owner_id,))
     owner_exists = cursor.fetchone()
-
-
+    
     data = request.get_json()
     required_fields = ['DishId', 'RestId', 'DishName', 'Price']
     for field in required_fields:
@@ -164,7 +163,6 @@ def customer_ranking(location):
     FROM Restaurant R
     WHERE Location = %s
     ORDER BY R.NumVisits DESC;
-
     '''
     
     cursor.execute(the_query, (location,))
@@ -172,5 +170,27 @@ def customer_ranking(location):
 
     if not theData:
         return jsonify({"message": "No customer data found for this location"}), 200
+
+    return jsonify(theData), 200
+
+# RestOwner User Story 5: Shifan needs to  filter the food influencers by location 
+# he wants to corporate with so that he can advertise his restaurant in a more efficient way
+# %20 repersents a space in the URL
+# localhost:4000/ro/influencers/<location>
+@restowners.route('/influencers/<location>', methods=['GET'])
+def get_influencers_by_location(location):
+    cursor = db.get_db().cursor()
+
+    the_query = '''
+    SELECT Influencer.InfId, Influencer.UserName, Influencer.FirstName, Influencer.LastName
+    FROM Influencer
+    WHERE Influencer.Location = %s
+    '''
+    
+    cursor.execute(the_query, (location,))
+    theData = cursor.fetchall()
+
+    if not theData:
+        return jsonify({"message": "No influencers found for this location"}), 200
 
     return jsonify(theData), 200
