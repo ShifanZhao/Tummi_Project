@@ -104,7 +104,36 @@ def add_menuitem(owner_id):
     cursor.close()
     return jsonify({"message": "Menu item added successfully", "menuitem_id": new_menuitem_id}), 201
 
-# This route is ti prove the POST route works
+# This route is when restaurant owners want to delete a menu item
+# localhost:4000/ro/<int:owner_id>/delete_menuitem/<int:dish_id>
+@restowners.route('/<int:owner_id>/delete_menuitem/<int:dish_id>', methods=['DELETE'])
+def delete_menuitem(owner_id, dish_id):
+    cursor = db.get_db().cursor()
+    # If the owner_id does not exist, return an error message
+    check_owner_query = '''
+        SELECT 1 FROM RestaurantOwner WHERE OwnerId = %s;
+    '''
+    cursor.execute(check_owner_query, (owner_id,))
+    owner_exists = cursor.fetchone()
+    
+    if not owner_exists:
+        return jsonify({"error": "Owner not found"}), 404
+
+    query = '''
+    DELETE MenuItem
+    FROM MenuItem
+    JOIN Restaurant ON MenuItem.RestId = Restaurant.RestId
+    JOIN RestaurantOwner ON Restaurant.RestId = RestaurantOwner.RestId
+    WHERE RestaurantOwner.OwnerId = %s AND DishId = %s;
+    '''
+    
+    cursor.execute(query, (owner_id, dish_id))
+    db.get_db().commit()
+    
+    return jsonify({"message": "Menu item deleted successfully"}), 200
+
+
+# This route is to prove the POST route works
 # localhost:4000/ro/menuitem
 @restowners.route('/menuitem', methods=['GET'])
 def get_menu_items():
@@ -219,7 +248,7 @@ def rest_performance(owner_id):
     WHERE myOwner.OwnerId = %s
     AND r.RestId <> my.RestId;
     '''
-    
+
     cursor.execute(the_query, (owner_id,))
     theData = cursor.fetchall()
 
