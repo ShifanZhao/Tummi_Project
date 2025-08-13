@@ -87,6 +87,10 @@ def get_influ_posts(influ_username, cuisine):
     if not cursor.fetchone():
         return jsonify({"error": "Influencer not found"}), 404
 
+    cursor.execute("SELECT * FROM Restaurant WHERE Cuisine = %s", (cuisine,))
+    if not cursor.fetchone():
+        return jsonify({"error": "Cuisine not found"}), 404
+    
     the_query = '''
     SELECT IP.PostId, IP.Likes, IP.Bookmark, IP.Share, R.Cuisine, R.RestName
     FROM InfPost IP
