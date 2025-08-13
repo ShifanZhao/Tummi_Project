@@ -40,3 +40,36 @@ def get_followers(username):
         return jsonify({"message": "No follower found for this username"}), 200
 
     return jsonify(theData), 200
+
+# Food Influencer User Story 2:Tiffany wants to see analytics like follower count, saves,
+# shares, and engagement per review, so that she can understand what works and pitch better
+# to sponsors or brands.
+# localhost:4000/fi/<int:influ_id>/analytics
+@foodinfluencer.route('/<int:influ_id>/analytics', methods=['GET'])
+def get_influ_analytics(influ_id):
+    cursor = db.get_db().cursor()
+
+    # Check if influencer exists
+    cursor.execute("SELECT * FROM Influencer WHERE InfId = %s", (influ_id,))
+    if not cursor.fetchone():
+        return jsonify({"error": "Influencer not found"}), 404
+
+    cursor.execute('SELECT COUNT(*) AS FollowerCount FROM Follow WHERE InfId = %s', (influ_id,))
+    follower_count = cursor.fetchone()
+
+    the_query = '''
+    SELECT
+    P.PostId,
+    P.Likes,
+    P.Bookmark AS Saves,
+    P.Share,
+    (P.Likes + P.Bookmark + P.Share) AS TotalEngagement
+    FROM InfPost P
+    WHERE P.InfId = %s
+    '''
+    cursor.execute(the_query, (influ_id,))
+    posts = cursor.fetchall()
+    return jsonify({
+        "FollowerCount": follower_count["FollowerCount"],
+        "Posts": [dict(row) for row in posts]
+    }), 200
