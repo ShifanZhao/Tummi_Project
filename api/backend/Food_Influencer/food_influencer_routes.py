@@ -86,7 +86,8 @@ def get_influ_posts(influ_username, cuisine):
     cursor.execute("SELECT * FROM Influencer WHERE Username = %s", (influ_username,))
     if not cursor.fetchone():
         return jsonify({"error": "Influencer not found"}), 404
-
+    
+    # Check if cuisine exists
     cursor.execute("SELECT * FROM Restaurant WHERE Cuisine = %s", (cuisine,))
     if not cursor.fetchone():
         return jsonify({"error": "Cuisine not found"}), 404
@@ -96,8 +97,9 @@ def get_influ_posts(influ_username, cuisine):
     FROM InfPost IP
     JOIN Influencer I ON IP.InfId = I.InfId
     JOIN RestaurantLists RL ON RL.InfId = I.InfId
-    JOIN Restaurant R ON RL.RestListID = RL.RestListID
-    WHERE I.Username = %s AND R.Cuisine = %s;
+    JOIN ListedRest LR ON RL.RestListID = LR.RestListId
+    JOIN Restaurant R ON R.RestId = LR.RestId
+    WHERE I.Username = %s AND R.Cuisine = %s
     '''
 
     cursor.execute(the_query, (influ_username, cuisine))
@@ -107,3 +109,67 @@ def get_influ_posts(influ_username, cuisine):
         return jsonify({"message": "No posts found for this influencer"}), 200
 
     return jsonify(posts), 200
+
+# User Story 4: Tiffany wants to be able to make and save lists of restaurants 
+# she has been to, so she and her followers can easily find and view certain dishes, 
+# even if she posted them a long time ago
+# localhost:4000/fi/<influ_username>/add_restaurant
+@foodinfluencer.route('/<influ_username>/add_restaurant', methods=['POST'])
+def add_restaurant_to_list(influ_username):
+    cursor = db.get_db().cursor()
+    
+    # Check if influencer exists
+    cursor.execute("SELECT * FROM Influencer WHERE Username = %s", (influ_username,))
+    if not cursor.fetchone():
+        return jsonify({"error": "Influencer not found"}), 404
+
+    data = request.get_json()
+    required_fields = ['RestListId', 'RestId']
+    for field in required_fields:
+            if field not in data:
+                return jsonify({"error": f"Missing required field: {field}"}), 400
+
+
+    the_query = '''
+    INSERT INTO ListedRest (RestListId, RestId)
+    VALUES (%s, %s)
+    '''
+    cursor.execute(
+        the_query,
+        (
+            data['RestListId'],
+            data['RestId'],
+        ),
+    )
+    
+    db.get_db().commit()
+    cursor.close()
+    return jsonify({"message": "Restaurant added to list successfully"}), 201
+
+# localhost:4000/fi/<int:influ_id>/restautant_list
+@foodinfluencer.route('/<int:influ_id>/restautant_list', methods=['GET'])
+def get_restaurant_list(influ_id):
+    cursor = db.get_db().cursor()
+
+    # Check if influencer exists
+    cursor.execute("SELECT * FROM Influencer WHERE InfId = %s", (influ_id,))
+    if not cursor.fetchone():
+        return jsonify({"error": "Influencer not found"}), 404
+
+    the_query = '''
+    SELECT RL.RestListName, R.RestName, R.Cuisine, R.Location
+    FROM RestaurantLists RL
+    JOIN ListedRest LR ON RL.RestListID = LR.RestListId
+    JOIN Restaurant R ON R.RestId = LR.RestId
+    WHERE RL.InfId = %s
+    '''
+
+    cursor.execute(the_query, (influ_id,))
+    restaurants = cursor.fetchall()
+    
+    if not restaurants:
+        return jsonify({"message": "No restaurants found for this influencer"}), 200
+
+    return jsonify(restaurants), 200
+
+   
