@@ -194,3 +194,36 @@ def get_influencers_by_location(location):
         return jsonify({"message": "No influencers found for this location"}), 200
 
     return jsonify(theData), 200
+
+# RestOwner User Story 6: Shifan needs to compare the performance of his restaurant 
+# to the ones in the same location, so that he can spot opportunities for improvement and stay competitive
+# localhost:4000/ro/<int:owner_id>/rest_performance
+@restowners.route('/<int:owner_id>/rest_performance', methods=['GET'])
+def rest_performance(owner_id):
+    cursor = db.get_db().cursor()
+    
+    # If the owner_id does not exist, return an error message
+    check_owner_query = '''
+        SELECT 1 FROM RestaurantOwner WHERE OwnerId = %s;
+    '''
+    cursor.execute(check_owner_query, (owner_id,))
+    owner_exists = cursor.fetchone()
+    if not owner_exists:
+        return jsonify({"error": "Owner not found"}), 404
+
+    the_query = '''
+    SELECT my.Rating AS MyRating, AVG(r.Rating) AS AvgOther
+    FROM RestaurantOwner myOwner
+    JOIN Restaurant my ON my.RestId = myOwner.RestId
+    JOIN Restaurant r ON r.Location = my.Location
+    WHERE myOwner.OwnerId = %s
+    AND r.RestId <> my.RestId;
+    '''
+    
+    cursor.execute(the_query, (owner_id,))
+    theData = cursor.fetchall()
+
+    if not theData:
+        return jsonify({"message": "No performance data found for this owner"}), 200
+
+    return jsonify(theData), 200
