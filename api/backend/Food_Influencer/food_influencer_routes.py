@@ -215,7 +215,7 @@ def update_sponsored(post_id, username):
     cursor.close()
     return jsonify({"message": "Post marked as sponsored successfully"}), 200
 
-@foodinfluencer.route('/influ_posts/<int:postid>', methods=['PUT'])
+@foodinfluencer.route('/InfPost/<int:postid>', methods=['PUT'])
 def like_post(postid):
     current_app.logger.info('PUT /influ_posts/<postid> route')
 
@@ -269,7 +269,7 @@ def create_comment():
 # Create a new Post
 # host:4000/cd/<int:userid>/createpost
 @foodinfluencer.route("/<int:userid>/createpost", methods=["POST"])
-def create_cdpost(userid):
+def create_post(userid):
     cursor = db.get_db().cursor()
     data = request.get_json()
 
@@ -305,18 +305,17 @@ def create_cdpost(userid):
     )
 
 
-# Get all posts associated with CD (1 or 5),
+# Get all posts associated with Inf (1 or 5),
 #followeeid is the ID of the user, seeing all posts made by people they follow
-@foodinfluencer.route('/InfPost/<followeeid>', methods=['GET'])
-def get_ibfposts(followeeid):
+@foodinfluencer.route('/InfPost/<int:followeeid>', methods=['GET'])
+def get_infposts(followeeid):
 
     cursor = db.get_db().cursor()
 
     the_query = '''SELECT ip.PostId, ip.InfId, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
     FROM InfPost ip
-            JOIN Influencer i ON i.InfId = ip.InfId
-            JOIN Follow f ON f.InfId = i.InfId
-    WHERE f.CDId = %s;'''
+    JOIN Following f ON f.FollowerId = ip.InfId
+    WHERE f.FolloweeId = %s;'''
     cursor.execute(the_query, (followeeid,))
 
     theData = cursor.fetchall()

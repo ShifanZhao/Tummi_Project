@@ -240,9 +240,9 @@ create table Following
    FollowerId int,
    FolloweeId int,
    primary key (FollowerId, FolloweeId),
-   foreign key (FollowerId) references CasualDiner (CDId)
+   foreign key (FollowerId) references Users (UserId)
    ON DELETE CASCADE,
-       foreign key (FolloweeId) references CasualDiner (CDId)
+       foreign key (FolloweeId) references Users (UserId)
        ON DELETE CASCADE
 );
 
@@ -491,7 +491,11 @@ VALUES (1, 'Roxbury', FALSE, 120, NOW(), 3),
 
 INSERT INTO Following
 VALUES (1, 5),
-      (5, 1);
+      (5, 1),
+      (1, 2),
+      (1, 8),
+      (8,2),
+      (2,8);
 
 
 INSERT INTO Bookmark
@@ -548,3 +552,13 @@ INSERT INTO Sponsorships
 VALUES (2, 1, 500),
       (8, 2, 750);
 
+SELECT ip.PostId, ip.InfId, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
+FROM InfPost ip
+         JOIN Influencer i ON i.InfId = ip.InfId
+         JOIN Following f ON f.FollowerId = i.InfId
+WHERE f.followeeID = 1
+
+SELECT ip.PostId, ip.InfId, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
+FROM InfPost ip
+JOIN Following f ON f.FollowerId = ip.InfId
+WHERE f.FolloweeId = %s;
