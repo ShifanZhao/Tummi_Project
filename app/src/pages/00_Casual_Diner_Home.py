@@ -97,7 +97,7 @@ st.markdown("---")
 
 
 # Get info required to make a new post
-st.write("Create a new post")
+st.write('### Create a new post')
 with st.form("Create a new post"):
     rating = st.number_input("Rate this restaurant 0-10:")
     caption = st.text_input("Review of Restaurant:")
@@ -117,31 +117,8 @@ with st.form("Create a new post"):
         requests.post('http://api:4000/cd/1/createpost', json=data)
         
 
-
-
-# post feed
-st.write("### Posts Feed")
-
-# comment box for users
-comment = st.text_area(
-    "",
-    placeholder="Write a post...",
-    max_chars=300
-)
-
-
-# submit button
-if st.button("Post Review"):
-    if comment.strip() == "":
-        st.warning("Please write a review or add an image before posting.")
-    else:
-        if post_review(st.session_state['user_id'], comment):
-            st.success("Your post has been posted!")
-            st.session_state["posts"] = (st.session_state['user_id'])
-        
-        # Display posted comment
-        st.write(f"**You wrote:** {comment}")
-        
+st.write('')
+st.write('### Look At Your Feed')
 # feed posts
 feed = requests.get('http://api:4000/cd/CDPost/1').json()
 
