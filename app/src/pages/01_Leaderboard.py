@@ -11,21 +11,6 @@ from numpy.random import default_rng as rng
 SideBarLinks()
 
 st.write("# Leaderboards")
-<<<<<<< Updated upstream
-=======
-
-
-friends_only = st.toggle("Friends Only", value=False)
-
-leaderboard = requests.get(f'http://api:4000/cd/leaderboard/{friends_only}').json()
-try:
-    st.dataframe(leaderboard)
-except:
-    st.write('Could not connect to database to get feed')
-
-
-
->>>>>>> Stashed changes
 full_df1 = pd.DataFrame(
     rng(0).standard_normal(size=(10, 2)),
     columns=["Username", "# Restaurants Been To"],
