@@ -148,7 +148,7 @@ create table Reviews
 (
    AnalystId      int,
    UserActivityId int,
-   ReviewDate     Date,
+   ReviewDate     DateTime,
    primary key (AnalystId, UserActivityId),
    foreign key (AnalystId) references InternalAnalyst (AnalystId)
        ON DELETE CASCADE,
@@ -451,7 +451,7 @@ VALUES (1, 500, NOW(), 4, 1, 4),
 
 INSERT INTO UserActivity
 VALUES (1, NOW()),
-      (2, '2024-10-5 10:12:50.000');
+      (2, '2024-10-05 10:12:50.000');
 
 
 INSERT INTO InternalAnalyst
@@ -465,15 +465,15 @@ VALUES (4, 1),
 
 
 INSERT INTO Reviews
-VALUES (4, 1, '2024-10-5'),
-      (7, 2, '2025-1-2');
+VALUES (4, 1, '2024-10-5 10:00:00'),
+      (7, 2, '2025-01-02 11:00:00');
 
 
 INSERT INTO Influencer
 VALUES (2, 'LA', 'FoodManiac', 'Tiffany', 'Nguyen', TRUE,
-       '2025-8-5 7:51:00.000', FALSE, 1),
+       '2025-08-05 7:51:00.000', FALSE, 1),
       (8, 'New York City', 'lilgod', 'Lil', 'God', TRUE,
-       '2025-6-10 8:51:00.000', FALSE, 2);
+       '2025-06-10 8:51:00.000', FALSE, 2);
 
 
 INSERT INTO RestaurantLists
