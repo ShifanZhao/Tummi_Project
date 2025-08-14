@@ -390,7 +390,7 @@ create table ListedRest
    RestListId int,
    RestId     int,
    primary key (RestListId, RestId),
-   foreign key (RestListId) references RestaurantLists (RestListId),
+   foreign key (RestListId) references RestaurantLists (RestListID),
    foreign key (RestId) references Restaurant (RestId)
 );
 
