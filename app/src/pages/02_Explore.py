@@ -77,6 +77,7 @@ if search_query:
     st.write(f"You searched for: {search_query}")
 
 
+
 st.write("#### Recommended for You")
 
 st.markdown("""
@@ -99,38 +100,28 @@ st.markdown("""
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.markdown("""
-    <div class="rounded-rect">
-        <h4>Restaurant Name 1</h4>
-        <p>Location</p>
-    </div>
-    """, unsafe_allow_html=True)
+    with st.container(border=True):
+        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
+        st.write("**Restaurant Name 1**")
+        st.write("Location")
 
 with col2:
-    st.markdown("""
-    <div class="rounded-rect">
-        <h4>Restaurant Name 2</h4>
-        <p>Location</p>
-    </div>
-    """, unsafe_allow_html=True)
+    with st.container(border=True):
+        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
+        st.write("**Restaurant Name 2**")
+        st.write("Location")
 
 with col3:
-    st.markdown("""
-    <div class="rounded-rect">
-        <h4>Restaurant Name 3</h4>
-        <p>Location</p>
-    </div>
-    """, unsafe_allow_html=True)
+    with st.container(border=True):
+        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
+        st.write("**Restaurant Name 3**")
+        st.write("Location")
 
 with col4:
-    st.markdown("""
-    <div class="rounded-rect">
-        <h4>Restaurant Name 4</h4>
-        <p>Location</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-st.write("")
+    with st.container(border=True):
+        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
+        st.write("**Restaurant Name 4**")
+        st.write("Location")
 
     # recommended by friends and influencers section
 st.write("#### Recommended By Friends and Following")
@@ -156,24 +147,24 @@ col1, col2, col3, col4 = st.columns(4)
 
 with col1:
     with st.container(border=True):
-        st.image("https://cdn10.bostonmagazine.com/wp-content/uploads/sites/2/2023/10/beacon_restaurants-2.jpg", use_container_width=True)
+        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
         st.write("**Restaurant Name 1**")
         st.write("Location")
 
 with col2:
     with st.container(border=True):
-        st.image("https://cdn10.bostonmagazine.com/wp-content/uploads/sites/2/2023/10/beacon_restaurants-2.jpg", use_container_width=True)
+        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
         st.write("**Restaurant Name 2**")
         st.write("Location")
 
 with col3:
     with st.container(border=True):
-        st.image("https://cdn10.bostonmagazine.com/wp-content/uploads/sites/2/2023/10/beacon_restaurants-2.jpg", use_container_width=True)
+        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
         st.write("**Restaurant Name 3**")
         st.write("Location")
 
 with col4:
     with st.container(border=True):
-        st.image("https://cdn10.bostonmagazine.com/wp-content/uploads/sites/2/2023/10/beacon_restaurants-2.jpg", use_container_width=True)
+        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
         st.write("**Restaurant Name 4**")
         st.write("Location")
