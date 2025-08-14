@@ -177,21 +177,22 @@ create table Influencer
 
 
 
-
 drop table if exists InfPost;
 create table InfPost
 (
-   PostId    int,
-   Likes     int,
-   Bookmark  int,
-   Share     int,
-   Sponsored Boolean,
-   InfId     int,
-   RestId    int,
-   primary key (PostId),
-   foreign key (InfId) references Influencer (InfId)
-       ON DELETE CASCADE,
-   foreign key (RestId) references Restaurant (RestId)
+    PostId    int AUTO_INCREMENT,
+    Rating    Decimal(2, 1),
+    Likes     int     DEFAULT 0,
+    Bookmark  int     DEFAULT 0,
+    Share     int     DEFAULT 0,
+    Caption   varchar(255),
+    Sponsored Boolean DEFAULT False,
+    InfId     int,
+    RestId    int,
+    primary key (PostId),
+    foreign key (InfId) references Influencer (InfId)
+        ON DELETE CASCADE,
+    foreign key (RestId) references Restaurant (RestId)
 );
 
 
@@ -480,8 +481,8 @@ VALUES (1, 'Mexican Spots', 2),
 
 
 INSERT INTO InfPost
-VALUES (1, 50, 3, 2, FALSE, 8, 1),
-      (2, 100, 5, 4, FALSE, 2, 2);
+VALUES (1, 8.2,50, 3, 2, 'Super tasty', FALSE, 8, 1),
+      (2, 2.1,100, 5, 4, 'Terrible', FALSE, 2, 2);
 
 
 INSERT INTO CasualDiner

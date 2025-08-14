@@ -261,3 +261,70 @@ def create_comment():
         jsonify({"message": "Comment created successfully", "CommentId": new_comment_id}),
         201,
     )
+    
+    
+
+# http://localhost:4000/cd/1/createpost
+# {"Rating": 8.9, "Caption":"tasty asl",  "RestId": 1}
+# Create a new Post
+# host:4000/cd/<int:userid>/createpost
+@foodinfluencer.route("/<int:userid>/createpost", methods=["POST"])
+def create_cdpost(userid):
+    cursor = db.get_db().cursor()
+    data = request.get_json()
+
+    # Validate required fields
+    required_fields = ["Rating", "Caption", "RestId"]
+    for field in required_fields:
+        if field not in data:
+            return jsonify({"error": f"Missing required field: {field}"}), 400
+
+
+    # Insert new Post
+    query = """
+    INSERT INTO InfPost (Rating, Caption, RestId, InfId)
+    VALUES (%s, %s, %s, %s)
+    """
+    cursor.execute(
+        query,
+        (
+            data["Rating"],
+            data["Caption"],
+            data["RestId"],
+            userid
+        ),
+    )
+
+    db.get_db().commit()
+    new_cdpost_id = cursor.lastrowid
+    cursor.close()
+
+    return (
+        jsonify({"message": "Post created successfully", "Infpostid": new_cdpost_id}),
+        201,
+    )
+
+
+# Get all posts associated with CD (1 or 5),
+#followeeid is the ID of the user, seeing all posts made by people they follow
+@foodinfluencer.route('/InfPost/<followeeid>', methods=['GET'])
+def get_ibfposts(followeeid):
+
+    cursor = db.get_db().cursor()
+
+    the_query = '''SELECT ip.PostId, ip.InfId, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
+    FROM InfPost ip
+            JOIN Influencer i ON i.InfId = ip.InfId
+            JOIN Follow f ON f.InfId = i.InfId
+    WHERE f.CDId = %s;'''
+    cursor.execute(the_query, (followeeid,))
+
+    theData = cursor.fetchall()
+
+    if not theData:
+            return jsonify({"Sadly": "No Posts Here"}), 200
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+

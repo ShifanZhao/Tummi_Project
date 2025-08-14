@@ -3,6 +3,7 @@ logger = logging.getLogger(__name__)
 
 import streamlit as st
 from modules.nav import SideBarLinks
+import requests
 
 st.set_page_config(layout = 'wide')
 
@@ -23,6 +24,8 @@ if st.button('View Profile',
              type='primary',
              use_container_width=True):
   st.switch_page('pages/11_Profile.py')
+
+
 
 
 #if st.button("Profile")
@@ -149,3 +152,25 @@ for post in posts:
     """, unsafe_allow_html=True)
 
 
+
+
+# Get info required to make a new post
+st.write('### Create a new post')
+with st.form("Create a new post"):
+    rating = st.number_input("Rate this restaurant 0-10:")
+    caption = st.text_input("Review of Restaurant:")
+    restid = st.number_input("RestaurantID:")
+
+    # Click post button
+    submitted = st.form_submit_button("Post")
+
+    if submitted:
+        data = {}
+        data["Rating"] = rating
+        data["Caption"] = caption
+        data["RestId"] = restid
+        st.write(data)
+
+        # Create new post with provided data
+        requests.post('http://api:4000/fi/2/createpost', json=data)
+        
