@@ -166,7 +166,7 @@ def ad_performance(owner_id):
         return jsonify({"error": "Owner not found"}), 404
 
     the_query = '''
-    SELECT AD.AdCost, AD.Revenue, AD.Profit
+    SELECT AD.CampaignId, AD.AdCost, AD.Revenue, AD.Profit
     FROM AdCampaign AD
     JOIN RestaurantOwner RO ON AD.OwnerId = RO.OwnerId
     WHERE RO.OwnerId = %s
