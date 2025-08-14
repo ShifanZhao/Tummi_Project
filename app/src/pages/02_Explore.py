@@ -7,6 +7,7 @@ import pydeck as pdk
 from urllib.error import URLError
 from modules.nav import SideBarLinks
 from numpy.random import default_rng as rng
+import requests
 
 SideBarLinks()
 
@@ -168,3 +169,46 @@ with col4:
         st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
         st.write("**Restaurant Name 4**")
         st.write("Location")
+
+
+
+
+# for influencer user story, search influencer posts by cuisine
+
+st.title("Discover Influencer Posts by Cuisine")
+
+# inputs
+influ_username = st.text_input("Influencer Username", "")
+cuisine = st.text_input("Cuisine", "")
+
+if st.button("Get Posts"):
+    if not influ_username or not cuisine:
+        st.warning("Please provide both influencer username and cuisine type.")
+    else:
+        
+        # API request
+        feed = requests.get(f"http://localhost:4000/fi/influ_posts/{influ_username}/{cuisine}").json()
+
+        try:
+            if feed and isinstance(feed, list):
+                for post in feed:
+                    st.markdown(f"""
+                    <div style="
+                        border: 1px solid #ddd;
+                        border-radius: 10px;
+                        padding: 15px;
+                        margin-bottom: 20px;
+                        background-color: #fff;
+                        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                    ">
+                        <h4 style="margin: 0; color: #333;">Influencer: {influ_username}</h4>
+                        <p style="font-size: 16px;">Restaurant: {post.get('RestName')} ({post.get('Cuisine')})</p>
+                        <div style="color: gray; font-size: 12px;">
+                            ❤️ Likes: {post.get('Likes', 0)} &nbsp; | &nbsp; 🔖 Bookmarks: {post.get('Bookmark', 0)} &nbsp; | &nbsp; 🔄 Shares: {post.get('Share', 0)}
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+            else:
+                st.write("No posts found for this influencer and cuisine.")
+        except Exception as e:
+            st.error(f"Error displaying posts: {e}")

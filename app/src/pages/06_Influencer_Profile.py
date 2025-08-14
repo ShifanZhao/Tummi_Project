@@ -18,16 +18,6 @@ st.write('### What would you like to do today?')
 st.write('')
 st.write('See your analytics')
 
-analytics = requests.get('http://api:4000/fi/2/analytics').json()
-
-try:
-    st.dataframe(analytics)
-except:
-    st.write('Could not connect to database to get feed')
-
-import streamlit as st
-import requests
-
 
 analytics = requests.get('http://api:4000/fi/2/analytics').json()
 
@@ -56,3 +46,8 @@ if st.button('See Followers Lists',
              type='primary',
              use_container_width=True):
   st.switch_page('pages/33_Influencer_Follow_List.py')
+
+
+  # filter influencer posts by cuisine
+  import streamlit as st
+import requests
