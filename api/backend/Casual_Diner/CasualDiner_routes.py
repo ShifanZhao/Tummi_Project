@@ -66,15 +66,14 @@ def get_cdbookmarks(userid):
     cursor = db.get_db().cursor()
 
     the_query = '''SELECT b.Restaurant
-FROM Bookmark b
-WHERE b.CDId = %s;'''
+    FROM Bookmark b
+    WHERE b.CDId = %s;'''
     cursor.execute(the_query, (userid,))
 
     theData = cursor.fetchall()
 
     if not theData:
             return jsonify({"Sadly": "No Bookmarks Here"}), 200
-    
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
@@ -423,5 +422,7 @@ def trending_users(boo):
         return jsonify({"message": "No trending restaurants found"}), 200
 
     return jsonify(theData), 200
+
+
 
 

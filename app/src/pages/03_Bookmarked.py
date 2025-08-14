@@ -40,6 +40,10 @@ def show_High_Ratings():
 
 
 
+bookmarks = requests.get('http://api:4000/cd/Bookmark/1').json()
+st.dataframe(bookmarks)
+
+
 # custom spacing (gap between buttons)
 col1, col2, col3, col4, col5, col6, col7 = st.columns([0.01, 0.5, 0.1, 0.5, 0.1, 0.5, 2])
 

@@ -328,3 +328,39 @@ def get_ibfposts(followeeid):
     the_response.status_code = 200
     return the_response
 
+
+
+# get trending route for influencers
+@foodinfluencer.route('/leaderboard/<boo>', methods=['GET'])
+def trending_users(boo):
+    cursor = db.get_db().cursor()
+    if boo == "False":
+        the_query = '''
+        SELECT NumLikes, u.username
+        FROM ((SELECT cdp.CDId, SUM(Likes) AS NumLikes
+        FROM CDPost cdp
+        GROUP BY CDId)
+        UNION
+        (SELECT ip.InfId, SUM(Likes) AS NumLikes
+        FROM InfPost ip
+        GROUP BY InfId)) AS tbl
+        JOIN Users u on u.UserId = tbl.CDId
+        ORDER BY NumLikes DESC;
+        '''
+    else:
+        the_query = '''
+        SELECT u.username, SUM(Likes) AS NumLikes
+        FROM CDPost cdp
+                JOIN Users u on u.UserId = cdp.CDId
+        GROUP BY CDId
+        ORDER BY NumLikes DESC;
+        '''
+    
+
+    cursor.execute(the_query)
+    theData = cursor.fetchall()
+
+    if not theData:
+        return jsonify({"message": "No trending restaurants found"}), 200
+
+    return jsonify(theData), 200
