@@ -18,59 +18,6 @@ add_logo("assets/logo.png", height=400)
 st.markdown("# Explore")
 st.sidebar.header("Explore")
 
-# recs nearby pop up
-@st.dialog("Recommendations Nearby")
-def show_recommendations_dialog():
-    
-    df = pd.DataFrame({
-    'Name': ["Test"],
-    'lat': [42.361145],
-    'lon': [-71.057083],
-    })
-
-    st.map(df)
-
-    st.write("Restaurants:")
-    st.dataframe(df, hide_index=True)
-    
-# trending pop up
-@st.dialog("Trending Restaurants")
-def show_trending_dialog():
-    
-    df = pd.DataFrame(
-    rng(0).standard_normal(size=(10, 2)),
-    columns=("Name", "Rating"),
-)
-
-    st.dataframe(df, hide_index=True)
-
-# friend recs pop up
-@st.dialog("Friend Recommendations")
-def show_friendrecs_diaglog():
-
-    df = pd.DataFrame(
-        rng(0).standard_normal(size=(10,3)),
-        columns=("Friend", "Restaurant", "Rating")
-    )
-
-    st.dataframe(df, hide_index=True)
-
-# custom spacing (gap between buttons)
-col1, col2, col3, col4, col5, col6, col7 = st.columns([0.01, 0.5, 0.1, 0.5, 0.1, 0.5, 2])
-
-with col2:
-    if st.button("Recs Nearby", use_container_width=True):
-        show_recommendations_dialog()
-
-with col4:
-    if st.button("Trending", use_container_width=True):
-        show_trending_dialog()
-
-with col6:
-    if st.button("Friend Recs", use_container_width=True):
-        show_friendrecs_diaglog()
-
-
 # search bar
 search_query = st.text_input("Search", placeholder="Search restaurants, cuisines, etc.")
 
