@@ -81,6 +81,19 @@ if search_query:
 
 st.write("#### Recommended for You")
 
+
+
+restaurants = requests.get('http://api:4000/cd/get_restaurants').json()
+
+try:
+    st.dataframe(restaurants)
+except:
+    st.write('Could not connect to database to get feed')
+
+st.set_page_config(layout = 'wide')
+
+
+
 st.markdown("""
 <style>
 .rounded-rect {
@@ -98,28 +111,31 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# calling API
-try:
-    feed = requests.get('http://api:4000/cd/get_restaurants').json()
-except requests.exceptions.RequestException as e:
-    st.error(f"Could not fetch recommendations: {e}")
-    feed = []
+col1, col2, col3, col4 = st.columns(4)
 
-if feed and isinstance(feed, list):
-    # Create 4 columns dynamically (or less if fewer restaurants)
-    cols = st.columns(4)
-    for i, restaurant in enumerate(feed[:4]):
-        with cols[i]:
-            st.markdown(f"""
-            <div class="rounded-rect">
-                <img src="{restaurant.get('image_url', 'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=')}" style="width:100%; height:180px; object-fit:cover; border-radius:10px;">
-                <h4>{restaurant.get('name', 'Restaurant Name')}</h4>
-                <p>{restaurant.get('location', 'Location')}</p>
-            </div>
-            """, unsafe_allow_html=True)
-else:
-    st.write("No recommendations found.")
+with col1:
+    with st.container(border=True):
+        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
+        st.write("**Restaurant Name 1**")
+        st.write("Location")
 
+with col2:
+    with st.container(border=True):
+        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
+        st.write("**Restaurant Name 2**")
+        st.write("Location")
+
+with col3:
+    with st.container(border=True):
+        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
+        st.write("**Restaurant Name 3**")
+        st.write("Location")
+
+with col4:
+    with st.container(border=True):
+        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
+        st.write("**Restaurant Name 4**")
+        st.write("Location")
 
     # recommended by friends and influencers section
 st.write("#### Recommended By Friends and Following")
@@ -170,11 +186,11 @@ with col4:
 
 
 
-# for influencer user story, search influencer posts by cuisine
+# for influencer user story, search influencer posts by cusine
 
 st.title("Discover Influencer Posts by Cuisine")
 
-# inputs
+# Inputs
 influ_username = st.text_input("Influencer Username", "")
 cuisine = st.text_input("Cuisine", "")
 
@@ -182,7 +198,6 @@ if st.button("Get Posts"):
     if not influ_username or not cuisine:
         st.warning("Please provide both influencer username and cuisine type.")
     else:
-
         # API request
         feed = requests.get(f"http://localhost:4000/fi/influ_posts/{influ_username}/{cuisine}").json()
 
