@@ -7,6 +7,7 @@ import pydeck as pdk
 from urllib.error import URLError
 from modules.nav import SideBarLinks
 from numpy.random import default_rng as rng
+import requests
 
 SideBarLinks()
 
