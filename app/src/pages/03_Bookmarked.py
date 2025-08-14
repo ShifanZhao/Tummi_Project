@@ -29,24 +29,6 @@ def show_Mexican_Food():
 )
     st.dataframe(df, hide_index=True)
 
-@st.dialog("New Places")
-def show_New_Places():
-    
-    df = pd.DataFrame(
-    rng(0).standard_normal(size=(10, 2)),
-    columns=("Name", "Location"),
-)
-    st.dataframe(df, hide_index=True)
-
-@st.dialog("Cheap")
-def show_Chaep():
-    
-    df = pd.DataFrame(
-    rng(0).standard_normal(size=(10, 2)),
-    columns=("Name", "Location"),
-)
-    st.dataframe(df, hide_index=True)
-
 @st.dialog("High_Ratings")
 def show_High_Ratings():
     
@@ -56,23 +38,7 @@ def show_High_Ratings():
 )
     st.dataframe(df, hide_index=True)
 
-@st.dialog("Vegetarian")
-def show_Vegetarian():
-    
-    df = pd.DataFrame(
-    rng(0).standard_normal(size=(10, 2)),
-    columns=("Name", "Location"),
-)
-    st.dataframe(df, hide_index=True)
 
-@st.dialog("Open Late")
-def show_Open_Late():
-    
-    df = pd.DataFrame(
-    rng(0).standard_normal(size=(10, 2)),
-    columns=("Name", "Location"),
-)
-    st.dataframe(df, hide_index=True)
 
 # custom spacing (gap between buttons)
 col1, col2, col3, col4, col5, col6, col7 = st.columns([0.01, 0.5, 0.1, 0.5, 0.1, 0.5, 2])
@@ -82,34 +48,10 @@ with col2:
         show_Mexican_Food()
 
 with col4:
-    if st.button("New Places", use_container_width=True):
-        show_New_Places()
-
-with col6:
-    if st.button("Cheap", use_container_width=True):
-        show_Chaep()
-
-col1, col2, col3, col4, col5, col6, col7 = st.columns([0.01, 0.5, 0.1, 0.5, 0.1, 0.5, 2])
-
-with col2:
     if st.button("High Ratings", use_container_width=True):
         show_High_Ratings()
-
-with col4:
-    if st.button("Vegetarian", use_container_width=True):
-        show_Vegetarian()
-
-with col6:
-    if st.button("Open Late", use_container_width=True):
-        show_Open_Late()
-
-# Row 3
-col1, col2, col3, col4, col5, col6, col7 = st.columns([0.01, 0.5, 0.1, 0.5, 0.1, 0.5, 2])
-
-if 'new_list_text' not in st.session_state:
-    st.session_state.new_list_text = False
     
-with col2:
+with col6:
     if st.button("New List", use_container_width=True):
         st.session_state.new_list_text = not st.session_state.new_list_text
     
@@ -117,37 +59,39 @@ with col2:
         st.markdown("Feature coming soon!")
 
 # favorited section
-st.markdown("#### Favorited")
-col1, col2, col3, col4 = st.columns(4)
 
-with col1:
-    with st.container(border=True):
-        st.image("https://cdn10.bostonmagazine.com/wp-content/uploads/sites/2/2023/10/beacon_restaurants-2.jpg", use_container_width=True)
-        st.write("**Restaurant Name 1**")
-        st.write("Location")
-
-with col2:
-    with st.container(border=True):
-        st.image("https://cdn10.bostonmagazine.com/wp-content/uploads/sites/2/2023/10/beacon_restaurants-2.jpg", use_container_width=True)
-        st.write("**Restaurant Name 2**")
-        st.write("Location")
-
-with col3:
-    with st.container(border=True):
-        st.image("https://cdn10.bostonmagazine.com/wp-content/uploads/sites/2/2023/10/beacon_restaurants-2.jpg", use_container_width=True)
-        st.write("**Restaurant Name 3**")
-        st.write("Location")
-
-with col4:
-    with st.container(border=True):
-        st.image("https://cdn10.bostonmagazine.com/wp-content/uploads/sites/2/2023/10/beacon_restaurants-2.jpg", use_container_width=True)
-        st.write("**Restaurant Name 4**")
-        st.write("Location")
-
-
-bookmarks = requests.get('http://api:4000/cd/Bookmark/1').json()
+restaurants = requests.get('http://api:4000/cd/get_restaurants').json()
 
 try:
-    st.dataframe(bookmarks)
-except:
-    st.write('Could not connect to database to get feed')
+    if restaurants and isinstance(restaurants, list):
+        st.write("#### Favorited")
+        
+        # limit to 12 reccomendations on pg
+        restaurants = restaurants[:12]
+        
+        # display in a 3x2 layout
+        for i in range(0, len(restaurants), 3):
+            cols = st.columns(3)
+            for idx, col in enumerate(cols):
+                if i + idx < len(restaurants):
+                    rest = restaurants[i + idx]
+                    with col:
+                        st.markdown(f"""
+                        <div style="
+                            border: 1px solid #ddd;
+                            border-radius: 10px;
+                            padding: 15px;
+                            margin-bottom: 20px;
+                            background-color: #fff;
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                        ">
+                            <h4 style="margin: 0; color: #333;">{rest.get('RestName', 'Unnamed Restaurant')}</h4>
+                            <p style="font-size: 14px; color: gray;">Location: {rest.get('Location', 'Unknown')}</p>
+                            <p style="font-size: 14px; color: gray;">Cuisine: {rest.get('Cuisine', 'N/A')}</p>
+                            <p style="font-size: 14px; color: gray;">Rating: {rest.get('Rating', 0)}</p>
+                        </div>
+                        """, unsafe_allow_html=True)
+    else:
+        st.write("No restaurants found.")
+except Exception as e:
+    st.error(f"Could not connect to database or display restaurants: {e}")

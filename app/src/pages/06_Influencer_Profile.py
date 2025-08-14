@@ -16,7 +16,7 @@ st.write('')
 st.write('### What would you like to do today?')
 
 st.write('')
-st.write('See your analytics')
+st.write('### See your analytics:')
 
 
 analytics = requests.get('http://api:4000/fi/2/analytics').json()
@@ -28,7 +28,7 @@ try:
     #posts analytics (data was in a list)
     posts = analytics.get("Posts", [])
     if posts:
-        st.write("### Posts Analytics")
+        st.write("**Posts Analytics:**")
         for post in posts:
             st.markdown(f"""
             **Post ID:** {post.get('PostId')}  

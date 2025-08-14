@@ -7,13 +7,6 @@ import requests
 
 # why do we need pd and rng?
 
-feed = requests.get('http://api:4000/cd/CDPost/1').json()
-
-try:
-    st.dataframe(feed)
-except:
-    st.write('Could not connect to database to get feed')
-
 st.set_page_config(layout = 'wide')
 
 
@@ -104,7 +97,7 @@ st.markdown("---")
 
 
 # Get info required to make a new post
-st.write("Create a new post")
+st.write('### Create a new post')
 with st.form("Create a new post"):
     rating = st.number_input("Rate this restaurant 0-10:")
     caption = st.text_input("Review of Restaurant:")
@@ -122,34 +115,10 @@ with st.form("Create a new post"):
 
         # Create new post with provided data
         requests.post('http://api:4000/cd/1/createpost', json=data)
-
-
-
-
-# post feed
-st.write("### Posts Feed")
-
-# comment box for users
-comment = st.text_area(
-    "",
-    placeholder="Write a post...",
-    max_chars=300
-)
-
-
-# submit button
-if st.button("Post Review"):
-    if comment.strip() == "":
-        st.warning("Please write a review or add an image before posting.")
-    else:
-        if post_review(st.session_state['user_id'], comment):
-            st.success("Your post has been posted!")
-            st.session_state["posts"] = (st.session_state['user_id'])
-        
-        # Display posted comment
-        st.write(f"**You wrote:** {comment}")
         
 
+st.write('')
+st.write('### Look At Your Feed')
 # feed posts
 feed = requests.get('http://api:4000/cd/CDPost/1').json()
 
@@ -173,7 +142,10 @@ try:
             </div>
             """, unsafe_allow_html=True)
             
-            if st.button("❤️ Like", key=f"like_{post.get('PostId')}"):
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                if st.button("❤️ Like", key=f"like_{post.get('PostId')}"):
                     try:
                         response = requests.put(f'http://api:4000/cd/CDPost/{post.get("PostId")}')
                         if response.status_code == 200:
@@ -183,7 +155,60 @@ try:
                             st.error("Failed to like post")
                     except Exception as e:
                         st.error(f"Error: {e}")
+                        
+            with col2:
+                with st.form(f"Comment_{post.get('PostId')}"):
+                    comment = st.text_input("Create Comment:", key=f"comment_input_{post.get('PostId')}")
+                    submitted = st.form_submit_button("Post Comment")
+                    
+                    if submitted and comment:
+                        try:
+                            data = {}
+                            data["Comment"] = comment
+                            data["CDPostId"] = post.get('PostId')
+                            
+                            st.write("Data being sent:", data)
+                            response = requests.post('http://api:4000/cd/createcomment', json=data)
+                            
+                            st.write(f"Response Status: {response.status_code}")
+                            st.write(f"Response Content: {response.text}")
+                            
+                            if response.status_code == 200:
+                                st.success("Comment made!")
+                                st.rerun()
+                                
+                        except Exception as e:
+                            st.error(f"Error: {e}")
+                    
+                    elif submitted and not comment:
+                        st.warning("Please enter a comment before submitting.")
+            with col3:
+                with st.form(f"Bookmark_{post.get('PostId')}"):
+                    rest = st.text_input("Create bookmark:", key=f"bookmark_input_{post.get('PostId')}")
+                    submitted = st.form_submit_button("Create Bookmark")
+                    
+                    if submitted and rest:
+                        try:
+                            data = {}
+                            data["rest"] = rest
+                            
+                            st.write("Data being sent:", data)
+                            response = requests.post('http://api:4000/cd/createbm/1', json=data)
+                            
+                            st.write(f"Response Status: {response.status_code}")
+                            st.write(f"Response Content: {response.text}")
+                            
+                            if response.status_code == 200:
+                                st.success("Bookmark made!")
+                                st.rerun()
+                                
+                        except Exception as e:
+                            st.error(f"Error: {e}")       
     else:
         st.write("No posts found.")
 except Exception as e:
     st.error(f"Error displaying posts: {e}")
+    
+    
+    
+

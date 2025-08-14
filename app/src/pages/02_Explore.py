@@ -2,11 +2,7 @@ import logging
 logger = logging.getLogger(__name__)
 import streamlit as st
 from streamlit_extras.app_logo import add_logo
-import pandas as pd
-import pydeck as pdk
-from urllib.error import URLError
 from modules.nav import SideBarLinks
-from numpy.random import default_rng as rng
 import requests
 
 SideBarLinks()
@@ -18,44 +14,30 @@ add_logo("assets/logo.png", height=400)
 st.markdown("# Explore")
 st.sidebar.header("Explore")
 
-# recs nearby pop up
-@st.dialog("Recommendations Nearby")
+
+# recs nearby
+@st.dialog("Recs Nearby")
 def show_recommendations_dialog():
-    
-    df = pd.DataFrame({
-    'Name': ["Test"],
-    'lat': [42.361145],
-    'lon': [-71.057083],
-    })
+    try:
+        location = "Roxbury"
+        location_name = location.replace(" ", "%20")
+        restaurant = requests.get(f'http://api:4000/cd/{location_name}/nearby_rest').json()
+        st.dataframe(restaurant, hide_index=True)
+    except:
+        st.write('No nearby recommendations.')
 
-    st.map(df)
 
-    st.write("Restaurants:")
-    st.dataframe(df, hide_index=True)
-    
-# trending pop up
+# trending pop-up
 @st.dialog("Trending Restaurants")
 def show_trending_dialog():
-    
-    df = pd.DataFrame(
-    rng(0).standard_normal(size=(10, 2)),
-    columns=("Name", "Rating"),
-)
+    try:
+        trending = requests.get('http://api:4000/cd/trending').json()
+        st.dataframe(trending, hide_index=True)
+    except:
+        st.write('Could not connect to database.')
 
-    st.dataframe(df, hide_index=True)
 
-# friend recs pop up
-@st.dialog("Friend Recommendations")
-def show_friendrecs_diaglog():
-
-    df = pd.DataFrame(
-        rng(0).standard_normal(size=(10,3)),
-        columns=("Friend", "Restaurant", "Rating")
-    )
-
-    st.dataframe(df, hide_index=True)
-
-# custom spacing (gap between buttons)
+# button spacing
 col1, col2, col3, col4, col5, col6, col7 = st.columns([0.01, 0.5, 0.1, 0.5, 0.1, 0.5, 2])
 
 with col2:
@@ -66,115 +48,69 @@ with col4:
     if st.button("Trending", use_container_width=True):
         show_trending_dialog()
 
-with col6:
-    if st.button("Friend Recs", use_container_width=True):
-        show_friendrecs_diaglog()
-
 
 # search bar
 search_query = st.text_input("Search", placeholder="Search restaurants, cuisines, etc.")
 
 if search_query:
     st.write(f"You searched for: {search_query}")
+    data_req = (f'http://api:4000/cd/discovery_page/{search_query}')
+    filtered_rest = requests.get(data_req).json()
+    try:
+        st.dataframe(filtered_rest)
+    except:
+        st.write('Could not connect to database to get feed')
 
 
 
-st.write("#### Recommended for You")
+# View all Restaurants
 
-st.markdown("""
-<style>
-.rounded-rect {
-    background-color: #f0f2f6;
-    border-radius: 15px;
-    padding: 20px;
-    margin: 1px 0;
-    border: 2px solid #ddd;
-    height: 350px;
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-</style>
-""", unsafe_allow_html=True)
+restaurants = requests.get('http://api:4000/cd/get_restaurants').json()
 
-# calling API
 try:
-    feed = requests.get('http://api:4000/cd/get_restaurants').json()
-except requests.exceptions.RequestException as e:
-    st.error(f"Could not fetch recommendations: {e}")
-    feed = []
-
-if feed and isinstance(feed, list):
-    # Create 4 columns dynamically (or less if fewer restaurants)
-    cols = st.columns(4)
-    for i, restaurant in enumerate(feed[:4]):
-        with cols[i]:
-            st.markdown(f"""
-            <div class="rounded-rect">
-                <img src="{restaurant.get('image_url', 'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=')}" style="width:100%; height:180px; object-fit:cover; border-radius:10px;">
-                <h4>{restaurant.get('name', 'Restaurant Name')}</h4>
-                <p>{restaurant.get('location', 'Location')}</p>
-            </div>
-            """, unsafe_allow_html=True)
-else:
-    st.write("No recommendations found.")
-
-
-    # recommended by friends and influencers section
-st.write("#### Recommended By Friends and Following")
-
-st.markdown("""
-<style>
-.rounded-rect {
-    background-color: #f0f2f6;
-    border-radius: 15px;
-    padding: 20px;
-    margin: 1px 0;
-    border: 2px solid #ddd;
-    height: 350px;
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-</style>
-""", unsafe_allow_html=True)
-
-col1, col2, col3, col4 = st.columns(4)
-
-with col1:
-    with st.container(border=True):
-        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
-        st.write("**Restaurant Name 1**")
-        st.write("Location")
-
-with col2:
-    with st.container(border=True):
-        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
-        st.write("**Restaurant Name 2**")
-        st.write("Location")
-
-with col3:
-    with st.container(border=True):
-        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
-        st.write("**Restaurant Name 3**")
-        st.write("Location")
-
-with col4:
-    with st.container(border=True):
-        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
-        st.write("**Restaurant Name 4**")
-        st.write("Location")
+    if restaurants and isinstance(restaurants, list):
+        st.write("#### View all Restaurants")
+        
+        # limit to 12 reccomendations on pg
+        restaurants = restaurants[:12]
+        
+        # display in a 3x2 layout
+        for i in range(0, len(restaurants), 3):
+            cols = st.columns(3)
+            for idx, col in enumerate(cols):
+                if i + idx < len(restaurants):
+                    rest = restaurants[i + idx]
+                    with col:
+                        st.markdown(f"""
+                        <div style="
+                            border: 1px solid #ddd;
+                            border-radius: 10px;
+                            padding: 15px;
+                            margin-bottom: 20px;
+                            background-color: #fff;
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                        ">
+                            <h4 style="margin: 0; color: #333;">{rest.get('RestName', 'Unnamed Restaurant')}</h4>
+                            <p style="font-size: 14px; color: gray;">Location: {rest.get('Location', 'Unknown')}</p>
+                            <p style="font-size: 14px; color: gray;">Cuisine: {rest.get('Cuisine', 'N/A')}</p>
+                            <p style="font-size: 14px; color: gray;">Rating: {rest.get('Rating', 0)}</p>
+                        </div>
+                        """, unsafe_allow_html=True)
+    else:
+        st.write("No restaurants found.")
+except Exception as e:
+    st.error(f"Could not connect to database or display restaurants: {e}")
 
 
+st.write('')
+st.write('')
 
 
-# for influencer user story, search influencer posts by cuisine
+# for influencer user story, search influencer posts by cusine
 
-st.title("Discover Influencer Posts by Cuisine")
+st.write("Discover Influencer Posts by Cuisine - (currently not working)")
 
-# inputs
+# Inputs
 influ_username = st.text_input("Influencer Username", "")
 cuisine = st.text_input("Cuisine", "")
 
@@ -182,7 +118,6 @@ if st.button("Get Posts"):
     if not influ_username or not cuisine:
         st.warning("Please provide both influencer username and cuisine type.")
     else:
-
         # API request
         feed = requests.get(f"http://localhost:4000/fi/influ_posts/{influ_username}/{cuisine}").json()
 

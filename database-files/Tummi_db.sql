@@ -210,6 +210,7 @@ create table RestaurantLists
 );
 
 
+SELECT 1 FROM Following f WHERE (FollowerId = 1 AND FolloweeId = 5);
 
 # BLUE / GREY
 
@@ -432,8 +433,8 @@ VALUES (3, 'Shifan', 'Zhao', TRUE, FALSE, 1),
 
 
 INSERT INTO AdCampaign
-VALUES (1, 1234, '2025-10-26 10:00:00', 123, 1357, 3),
-      (2, 200, '2024-10-15 10:00:00' , 500, 700, 6);
+VALUES (1, 1234, '2025-10-26', 123, 1357, 3),
+      (2, 200, '2024-10-15', 500, 700, 6);
 
 
 INSERT INTO MenuItem
@@ -547,3 +548,21 @@ INSERT INTO Sponsorships
 VALUES (2, 1, 500),
       (8, 2, 750);
 
+
+
+SELECT u.username, NumLikes
+FROM ((SELECT cdp.CDId, SUM(Likes) AS NumLikes
+FROM CDPost cdp
+GROUP BY CDId)
+UNION
+(SELECT ip.InfId, SUM(Likes) AS NumLikes
+FROM InfPost ip
+GROUP BY InfId)) AS tbl
+JOIN Users u on u.UserId = tbl.CDId
+ORDER BY NumLikes DESC;
+
+SELECT u.username, SUM(Likes) AS NumLikes
+FROM CDPost cdp
+         JOIN Users u on u.UserId = cdp.CDId
+GROUP BY CDId
+ORDER BY NumLikes DESC;

@@ -11,8 +11,6 @@ from numpy.random import default_rng as rng
 SideBarLinks()
 
 st.write("# Leaderboards")
-
-
 full_df1 = pd.DataFrame(
     rng(0).standard_normal(size=(10, 2)),
     columns=["Username", "# Restaurants Been To"],
@@ -39,7 +37,7 @@ full_df3.index.name = "Rank"
 
 friends_list = [1, 3, 5, 7, 10]
 
-friends_only = st.toggle("Friends Only", value=False)
+
 
 if friends_only:
     filtered_df1 = full_df1.loc[friends_list].reset_index(drop=True)
