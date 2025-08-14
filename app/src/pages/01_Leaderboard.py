@@ -76,8 +76,6 @@ with col3:
 
 
 
-
-
 # SideBarLinks()
 
 # st.write("# Accessing a REST API from Within Streamlit")
