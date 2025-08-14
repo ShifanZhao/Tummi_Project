@@ -18,7 +18,7 @@ st.write('### What would you like to do today?')
 st.write('')
 st.write('See your analytics')
 
-analytics = requests.get('http://api:4000/fi/FoodManiac/analytics').json()
+analytics = requests.get('http://api:4000/fi/2/analytics').json()
 
 
 try:
