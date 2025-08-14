@@ -94,6 +94,7 @@ def like_post(postid):
 # http://localhost:4000/cd/1/createpost
 # {"Rating": 8.9, "Caption":"tasty asl",  "RestId": 1}
 # Create a new Post
+# host:4000/cd/<int:userid>/createpost
 @casualdiner.route("/<int:userid>/createpost", methods=["POST"])
 def create_cdpost(userid):
     cursor = db.get_db().cursor()
@@ -322,3 +323,17 @@ order by r.Rating desc;
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
+
+# Get all restaurants
+@casualdiner.route('/get_restaurants', methods=['GET'])
+def get_all_restaurants():
+    
+    cursor = db.get_db().cursor()
+
+    the_query = '''
+    SELECT RestName, Location, Rating
+    FROM Restaurant
+    '''
+    cursor.execute(the_query)
+    theData = cursor.fetchall()
+    return jsonify(theData), 200
