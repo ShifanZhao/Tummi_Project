@@ -165,7 +165,7 @@ try:
             </div>
             """, unsafe_allow_html=True)
             
-            col1, col2 = st.columns(2)
+            col1, col2, col3 = st.columns(3)
             
             with col1:
                 if st.button("❤️ Like", key=f"like_{post.get('PostId')}"):
@@ -205,8 +205,33 @@ try:
                     
                     elif submitted and not comment:
                         st.warning("Please enter a comment before submitting.")
-                        
+            with col3:
+                with st.form(f"Bookmark_{post.get('PostId')}"):
+                    rest = st.text_input("Create bookmark:", key=f"bookmark_input_{post.get('PostId')}")
+                    submitted = st.form_submit_button("Create Bookmark")
+                    
+                    if submitted and rest:
+                        try:
+                            data = {}
+                            data["rest"] = rest
+                            
+                            st.write("Data being sent:", data)
+                            response = requests.post('http://api:4000/cd/createbm/1', json=data)
+                            
+                            st.write(f"Response Status: {response.status_code}")
+                            st.write(f"Response Content: {response.text}")
+                            
+                            if response.status_code == 200:
+                                st.success("Bookmark made!")
+                                st.rerun()
+                                
+                        except Exception as e:
+                            st.error(f"Error: {e}")       
     else:
         st.write("No posts found.")
 except Exception as e:
     st.error(f"Error displaying posts: {e}")
+    
+    
+    
+
