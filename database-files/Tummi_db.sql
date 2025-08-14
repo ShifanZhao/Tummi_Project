@@ -282,25 +282,6 @@ create table CDPost
 
 
 
-
-
-drop table if exists `Photo(s)`;
-create table `Photo(s)`
-(
-   PhotoId   int,
-   Photo     Blob,
-   CDPostId  int,
-   InfPostId int,
-   primary key (PhotoId),
-   foreign key (CDPostId) references CDPost (PostId)
-       ON DELETE CASCADE,
-   foreign key (InfPostId) references Influencer (InfId)
-       ON DELETE CASCADE
-);
-
-
-
-
 drop table if exists Comment;
 create table Comment
 (
@@ -508,11 +489,6 @@ VALUES (1, 'El Jefe''s'),
 INSERT INTO CDPost
 VALUES (1, 500, 6.7, 1, 'good food', 1, 5, 10),
       (2, 90, 8.9, 5, 'bad food', 2, 14, 20);
-
-
-INSERT INTO `Photo(s)`
-VALUES (1, 'https://example.com/images/pic1.jpg', 1, NULL),
-      (2, 'https://example.com/images/pic2.jpg', 2, NULL);
 
 
 INSERT INTO Comment
