@@ -36,7 +36,7 @@ try:
     st.write(f"**Follower Count:** {analytics.get('FollowerCount', 0)}")
 
     #posts analytics (data was in a list)
-    posts = feed.get("Posts", [])
+    posts = analytics.get("Posts", [])
     if posts:
         st.write("### Posts Analytics")
         for post in posts:
