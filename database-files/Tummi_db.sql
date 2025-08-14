@@ -59,7 +59,7 @@ create table AdCampaign
 (
    CampaignId int primary key,
    AdCost     int,
-   StartDate  Date,
+   StartDate  DateTime,
    Profit     int,
    Revenue    int,
    OwnerId    int,
@@ -210,7 +210,6 @@ create table RestaurantLists
 );
 
 
-SELECT 1 FROM Following f WHERE (FollowerId = 1 AND FolloweeId = 5);
 
 # BLUE / GREY
 
@@ -273,7 +272,9 @@ create table CDPost
    Bookmark int DEFAULT 0,
    Share    int DEFAULT 0,
    primary key (PostId),
-   foreign key (CDId) references CasualDiner (CDId));
+   foreign key (CDId) references CasualDiner (CDId),
+   foreign key (RestId) references Restaurant (RestId)
+);
 
 
 
@@ -431,8 +432,8 @@ VALUES (3, 'Shifan', 'Zhao', TRUE, FALSE, 1),
 
 
 INSERT INTO AdCampaign
-VALUES (1, 1234, '2025-10-26', 123, 1357, 3),
-      (2, 200, '2024-10-15', 500, 700, 6);
+VALUES (1, 1234, '2025-10-26 10:00:00', 123, 1357, 3),
+      (2, 200, '2024-10-15 10:00:00' , 500, 700, 6);
 
 
 INSERT INTO MenuItem
