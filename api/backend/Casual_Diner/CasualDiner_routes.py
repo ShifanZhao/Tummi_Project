@@ -368,3 +368,24 @@ def rest_performance(location):
         return jsonify({"message": "No performance data found for this owner"}), 200
 
     return jsonify(theData), 200
+
+# Trending Restaurants
+# localhost:4000/cd/trending
+@casualdiner.route('/trending', methods=['GET'])
+def trending_restaurants():
+    cursor = db.get_db().cursor()
+
+    the_query = '''
+    SELECT RestName, Rating, Location
+    FROM Restaurant
+    ORDER BY Rating DESC
+    LIMIT 10;
+    '''
+
+    cursor.execute(the_query)
+    theData = cursor.fetchall()
+
+    if not theData:
+        return jsonify({"message": "No trending restaurants found"}), 200
+
+    return jsonify(theData), 200
