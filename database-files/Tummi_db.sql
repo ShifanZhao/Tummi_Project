@@ -114,13 +114,15 @@ create table UserActivity
 
 
 
-drop table if exists InteralAnalyst;
+drop table if exists InternalAnalyst;
 create table InternalAnalyst
 (
    AnalystId int,
    FirstName Varchar(20),
    LastName  Varchar(20),
-   primary key (AnalystId)
+   primary key (AnalystId),
+   foreign key (AnalystId) references Users (UserId)
+       ON DELETE CASCADE
 );
 
 
