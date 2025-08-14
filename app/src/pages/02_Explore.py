@@ -74,14 +74,48 @@ with col6:
 # search bar
 search_query = st.text_input("Search", placeholder="Search restaurants, cuisines, etc.")
 
-st.write("#### Recommended for You")
-
 if search_query:
     st.write(f"You searched for: {search_query}")
 
 feed = requests.get('http://api:4000/cd/get_restaurants').json()
 
-<<<<<<< Updated upstream
+
+restaurants = requests.get('http://api:4000/cd/get_restaurants').json()
+
+try:
+    if restaurants and isinstance(restaurants, list):
+        st.write("#### Recommended For You")
+        
+        # limit to 6 reccomendations on pg
+        restaurants = restaurants[:6]
+        
+        # display in a 3x2 layout
+        for i in range(0, len(restaurants), 3):
+            cols = st.columns(3)
+            for idx, col in enumerate(cols):
+                if i + idx < len(restaurants):
+                    rest = restaurants[i + idx]
+                    with col:
+                        st.markdown(f"""
+                        <div style="
+                            border: 1px solid #ddd;
+                            border-radius: 10px;
+                            padding: 15px;
+                            margin-bottom: 20px;
+                            background-color: #fff;
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                        ">
+                            <h4 style="margin: 0; color: #333;">{rest.get('RestName', 'Unnamed Restaurant')}</h4>
+                            <p style="font-size: 14px; color: gray;">Location: {rest.get('Location', 'Unknown')}</p>
+                            <p style="font-size: 14px; color: gray;">Cuisine: {rest.get('Cuisine', 'N/A')}</p>
+                            <p style="font-size: 14px; color: gray;">Rating: {rest.get('Rating', 0)}</p>
+                        </div>
+                        """, unsafe_allow_html=True)
+    else:
+        st.write("No restaurants found.")
+except Exception as e:
+    st.error(f"Could not connect to database or display restaurants: {e}")
+
 
 # View all Restaurants
 
@@ -122,194 +156,38 @@ except Exception as e:
     st.error(f"Could not connect to database or display restaurants: {e}")
 
 
-st.markdown("""
-<style>
-.rounded-rect {
-    background-color: #f0f2f6;
-    border-radius: 15px;
-    padding: 20px;
-    margin: 1px 0;
-    border: 2px solid #ddd;
-    height: 350px;
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-</style>
-""", unsafe_allow_html=True)
-
-col1, col2, col3, col4 = st.columns(4)
-
-with col1:
-    with st.container(border=True):
-        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
-        st.write("**Restaurant Name 1**")
-        st.write("Location")
-=======
-try:
-    if feed and isinstance(feed, list):
-        for post in feed:
-            st.markdown("""
-            <style>
-            .rounded-rect {
-                background-color: #f0f2f6;
-                border-radius: 15px;
-                padding: 20px;
-                margin: 1px 0;
-                border: 2px solid #ddd;
-                height: 150px;
-                width: 300px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-            }
-            </style>
-            """, unsafe_allow_html=True)
-
-            for i in range(0, len(feed), 4):
-                col1, col2, col3, col4 = st.columns(4)
-            
-            row_restaurants = feed[i:i+4]
-            columns = [col1, col2, col3, col4]
-            
-            for j, restaurant in enumerate(row_restaurants):
-                name = restaurant.get("RestName")
-                location = restaurant.get("Location")
-                
-                with columns[j]:
-                    with st.container(border=True):
-                        st.write(name)
-                        st.write(location)
-except:
-    st.write("Exception")
->>>>>>> Stashed changes
-
-with col2:
-    with st.container(border=True):
-        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
-        st.write("**Restaurant Name 2**")
-        st.write("Location")
-
-with col3:
-    with st.container(border=True):
-        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
-        st.write("**Restaurant Name 3**")
-        st.write("Location")
-
-with col4:
-    with st.container(border=True):
-        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
-        st.write("**Restaurant Name 4**")
-        st.write("Location")
-
-# recommended by friends and influencers section
-st.write("")
-st.write("#### Recommended By Friends and Following")
-
-feed = requests.get('http://api:4000/cd/get_restaurants').json()
+restaurants = requests.get('http://api:4000/cd/get_restaurants').json()
 
 try:
-    if feed and isinstance(feed, list):
-        for post in feed:
-            st.markdown("""
-            <style>
-            .rounded-rect {
-                background-color: #f0f2f6;
-                border-radius: 15px;
-                padding: 20px;
-                margin: 1px 0;
-                border: 2px solid #ddd;
-                height: 150px;
-                width: 300px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-            }
-            </style>
-            """, unsafe_allow_html=True)
-
-<<<<<<< Updated upstream
-with col1:
-    with st.container(border=True):
-        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
-        st.write("**Restaurant Name 1**")
-        st.write("Location")
-
-with col2:
-    with st.container(border=True):
-        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
-        st.write("**Restaurant Name 2**")
-        st.write("Location")
-
-with col3:
-    with st.container(border=True):
-        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
-        st.write("**Restaurant Name 3**")
-        st.write("Location")
-
-with col4:
-    with st.container(border=True):
-        st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
-        st.write("**Restaurant Name 4**")
-        st.write("Location")
-
-
-
-
-# for influencer user story, search influencer posts by cusine
-
-st.title("Discover Influencer Posts by Cuisine")
-
-# Inputs
-influ_username = st.text_input("Influencer Username", "")
-cuisine = st.text_input("Cuisine", "")
-
-if st.button("Get Posts"):
-    if not influ_username or not cuisine:
-        st.warning("Please provide both influencer username and cuisine type.")
-    else:
-        # API request
-        feed = requests.get(f"http://localhost:4000/fi/influ_posts/{influ_username}/{cuisine}").json()
-
-        try:
-            if feed and isinstance(feed, list):
-                for post in feed:
-                    st.markdown(f"""
-                    <div style="
-                        border: 1px solid #ddd;
-                        border-radius: 10px;
-                        padding: 15px;
-                        margin-bottom: 20px;
-                        background-color: #fff;
-                        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                    ">
-                        <h4 style="margin: 0; color: #333;">Influencer: {influ_username}</h4>
-                        <p style="font-size: 16px;">Restaurant: {post.get('RestName')} ({post.get('Cuisine')})</p>
-                        <div style="color: gray; font-size: 12px;">
-                            ❤️ Likes: {post.get('Likes', 0)} &nbsp; | &nbsp; 🔖 Bookmarks: {post.get('Bookmark', 0)} &nbsp; | &nbsp; 🔄 Shares: {post.get('Share', 0)}
+    if restaurants and isinstance(restaurants, list):
+        st.write("#### Recommended by Friends and Following")
+        
+        # limit to 6 reccomendations on pg
+        restaurants = restaurants[:6]
+        
+        # display in a 3x2 layout
+        for i in range(0, len(restaurants), 3):
+            cols = st.columns(3)
+            for idx, col in enumerate(cols):
+                if i + idx < len(restaurants):
+                    rest = restaurants[i + idx]
+                    with col:
+                        st.markdown(f"""
+                        <div style="
+                            border: 1px solid #ddd;
+                            border-radius: 10px;
+                            padding: 15px;
+                            margin-bottom: 20px;
+                            background-color: #fff;
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                        ">
+                            <h4 style="margin: 0; color: #333;">{rest.get('RestName', 'Unnamed Restaurant')}</h4>
+                            <p style="font-size: 14px; color: gray;">Location: {rest.get('Location', 'Unknown')}</p>
+                            <p style="font-size: 14px; color: gray;">Cuisine: {rest.get('Cuisine', 'N/A')}</p>
+                            <p style="font-size: 14px; color: gray;">Rating: {rest.get('Rating', 0)}</p>
                         </div>
-                    </div>
-                    """, unsafe_allow_html=True)
-            else:
-                st.write("No posts found for this influencer and cuisine.")
-        except Exception as e:
-            st.error(f"Error displaying posts: {e}")
-=======
-            for i in range(0, len(feed), 4):
-                col1, col2, col3, col4 = st.columns(4)
-            
-            row_restaurants = feed[i:i+4]
-            columns = [col1, col2, col3, col4]
-            
-            for j, restaurant in enumerate(row_restaurants):
-                name = restaurant.get("RestName")
-                location = restaurant.get("Location")
-                
-                with columns[j]:
-                    with st.container(border=True):
-                        st.write(name)
-                        st.write(location)
-except:
-    st.write("Exception")
->>>>>>> Stashed changes
+                        """, unsafe_allow_html=True)
+    else:
+        st.write("No restaurants found.")
+except Exception as e:
+    st.error(f"Could not connect to database or display restaurants: {e}")
