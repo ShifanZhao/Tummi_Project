@@ -11,8 +11,6 @@ from numpy.random import default_rng as rng
 SideBarLinks()
 
 st.write("# Leaderboards")
-
-
 full_df1 = pd.DataFrame(
     rng(0).standard_normal(size=(10, 2)),
     columns=["Username", "# Restaurants Been To"],

@@ -210,8 +210,6 @@ create table RestaurantLists
 );
 
 
-SELECT 1 FROM Following f WHERE (FollowerId = 1 AND FolloweeId = 5);
-
 # BLUE / GREY
 
 

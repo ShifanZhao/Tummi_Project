@@ -167,7 +167,7 @@ def get_request_details():
             U.Username AS requester
         FROM Restaurant AS R
         JOIN Users      AS U
-             ON R.UserId = U.UserId
+            ON R.UserId = U.UserId
         WHERE R.`Add` = TRUE
         ORDER BY R.RestId
     '''

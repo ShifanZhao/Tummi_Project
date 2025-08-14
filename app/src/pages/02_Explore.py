@@ -74,10 +74,14 @@ with col6:
 # search bar
 search_query = st.text_input("Search", placeholder="Search restaurants, cuisines, etc.")
 
+st.write("#### Recommended for You")
+
 if search_query:
     st.write(f"You searched for: {search_query}")
 
+feed = requests.get('http://api:4000/cd/get_restaurants').json()
 
+<<<<<<< Updated upstream
 
 # View all Restaurants
 
@@ -142,6 +146,44 @@ with col1:
         st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
         st.write("**Restaurant Name 1**")
         st.write("Location")
+=======
+try:
+    if feed and isinstance(feed, list):
+        for post in feed:
+            st.markdown("""
+            <style>
+            .rounded-rect {
+                background-color: #f0f2f6;
+                border-radius: 15px;
+                padding: 20px;
+                margin: 1px 0;
+                border: 2px solid #ddd;
+                height: 150px;
+                width: 300px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            </style>
+            """, unsafe_allow_html=True)
+
+            for i in range(0, len(feed), 4):
+                col1, col2, col3, col4 = st.columns(4)
+            
+            row_restaurants = feed[i:i+4]
+            columns = [col1, col2, col3, col4]
+            
+            for j, restaurant in enumerate(row_restaurants):
+                name = restaurant.get("RestName")
+                location = restaurant.get("Location")
+                
+                with columns[j]:
+                    with st.container(border=True):
+                        st.write(name)
+                        st.write(location)
+except:
+    st.write("Exception")
+>>>>>>> Stashed changes
 
 with col2:
     with st.container(border=True):
@@ -161,28 +203,33 @@ with col4:
         st.write("**Restaurant Name 4**")
         st.write("Location")
 
-    # recommended by friends and influencers section
+# recommended by friends and influencers section
+st.write("")
 st.write("#### Recommended By Friends and Following")
 
-st.markdown("""
-<style>
-.rounded-rect {
-    background-color: #f0f2f6;
-    border-radius: 15px;
-    padding: 20px;
-    margin: 1px 0;
-    border: 2px solid #ddd;
-    height: 350px;
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-</style>
-""", unsafe_allow_html=True)
+feed = requests.get('http://api:4000/cd/get_restaurants').json()
 
-col1, col2, col3, col4 = st.columns(4)
+try:
+    if feed and isinstance(feed, list):
+        for post in feed:
+            st.markdown("""
+            <style>
+            .rounded-rect {
+                background-color: #f0f2f6;
+                border-radius: 15px;
+                padding: 20px;
+                margin: 1px 0;
+                border: 2px solid #ddd;
+                height: 150px;
+                width: 300px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            </style>
+            """, unsafe_allow_html=True)
 
+<<<<<<< Updated upstream
 with col1:
     with st.container(border=True):
         st.image("https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=", use_container_width=True)
@@ -248,3 +295,21 @@ if st.button("Get Posts"):
                 st.write("No posts found for this influencer and cuisine.")
         except Exception as e:
             st.error(f"Error displaying posts: {e}")
+=======
+            for i in range(0, len(feed), 4):
+                col1, col2, col3, col4 = st.columns(4)
+            
+            row_restaurants = feed[i:i+4]
+            columns = [col1, col2, col3, col4]
+            
+            for j, restaurant in enumerate(row_restaurants):
+                name = restaurant.get("RestName")
+                location = restaurant.get("Location")
+                
+                with columns[j]:
+                    with st.container(border=True):
+                        st.write(name)
+                        st.write(location)
+except:
+    st.write("Exception")
+>>>>>>> Stashed changes
