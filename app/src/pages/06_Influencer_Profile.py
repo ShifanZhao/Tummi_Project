@@ -3,6 +3,7 @@ logger = logging.getLogger(__name__)
 
 import streamlit as st
 from modules.nav import SideBarLinks
+import requests
 
 st.set_page_config(layout = 'wide')
 
@@ -13,6 +14,18 @@ st.title(f"Welcome Influencer, {st.session_state['first_name']}.")
 st.write('')
 st.write('')
 st.write('### What would you like to do today?')
+
+st.write('')
+st.write('See your analytics')
+
+analytics = requests.get('http://api:4000/fi/FoodManiac/analytics').json()
+
+
+try:
+    st.dataframe(analytics)
+except:
+    st.write('Could not connect to database to get feed')
+
 
 if st.button('See Followers Lists', 
              type='primary',
