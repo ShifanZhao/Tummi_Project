@@ -7,13 +7,6 @@ import requests
 
 # why do we need pd and rng?
 
-feed = requests.get('http://api:4000/cd/CDPost/1').json()
-
-try:
-    st.dataframe(feed)
-except:
-    st.write('Could not connect to database to get feed')
-
 st.set_page_config(layout = 'wide')
 
 
@@ -122,7 +115,7 @@ with st.form("Create a new post"):
 
         # Create new post with provided data
         requests.post('http://api:4000/cd/1/createpost', json=data)
-
+        
 
 
 
@@ -149,7 +142,6 @@ if st.button("Post Review"):
         # Display posted comment
         st.write(f"**You wrote:** {comment}")
         
-
 # feed posts
 feed = requests.get('http://api:4000/cd/CDPost/1').json()
 
@@ -173,7 +165,10 @@ try:
             </div>
             """, unsafe_allow_html=True)
             
-            if st.button("❤️ Like", key=f"like_{post.get('PostId')}"):
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                if st.button("❤️ Like", key=f"like_{post.get('PostId')}"):
                     try:
                         response = requests.put(f'http://api:4000/cd/CDPost/{post.get("PostId")}')
                         if response.status_code == 200:
@@ -183,6 +178,34 @@ try:
                             st.error("Failed to like post")
                     except Exception as e:
                         st.error(f"Error: {e}")
+                        
+            with col2:
+                with st.form(f"Comment_{post.get('PostId')}"):
+                    comment = st.text_input("Create Comment:", key=f"comment_input_{post.get('PostId')}")
+                    submitted = st.form_submit_button("Post Comment")
+                    
+                    if submitted and comment:
+                        try:
+                            data = {}
+                            data["Comment"] = comment
+                            data["CDPostId"] = post.get('PostId')
+                            
+                            st.write("Data being sent:", data)
+                            response = requests.post('http://api:4000/cd/createcomment', json=data)
+                            
+                            st.write(f"Response Status: {response.status_code}")
+                            st.write(f"Response Content: {response.text}")
+                            
+                            if response.status_code == 200:
+                                st.success("Comment made!")
+                                st.rerun()
+                                
+                        except Exception as e:
+                            st.error(f"Error: {e}")
+                    
+                    elif submitted and not comment:
+                        st.warning("Please enter a comment before submitting.")
+                        
     else:
         st.write("No posts found.")
 except Exception as e:
