@@ -102,6 +102,28 @@ st.markdown("---")
 
 
 
+
+# Get info required to make a new post
+st.write("Create a new post")
+with st.form("Create a new post"):
+    rating = st.number_input("Rate this restaurant 0-10:")
+    caption = st.text_input("Review of Restaurant:")
+    restid = st.number_input("RestaurantID:")
+
+    submitted = st.form_submit_button("Post")
+
+    if submitted:
+        data = {}
+        data["Rating"] = rating
+        data["Caption"] = caption
+        data["RestId"] = restid
+        st.write(data)
+
+        requests.post('http://api:4000/cd/1/createpost', json=data)
+
+
+
+
 # post feed
 st.write("### Posts Feed")
 
