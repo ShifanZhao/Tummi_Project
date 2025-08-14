@@ -86,12 +86,29 @@ st.write("#### Recommended for You")
 restaurants = requests.get('http://api:4000/cd/get_restaurants').json()
 
 try:
-    st.dataframe(restaurants)
-except:
-    st.write('Could not connect to database to get feed')
-
-st.set_page_config(layout = 'wide')
-
+    if restaurants and isinstance(restaurants, list):
+        st.write("#### Restaurants Owned")
+        for rest in restaurants:
+            st.markdown(f"""
+            <div style="
+                border: 1px solid #ddd;
+                border-radius: 10px;
+                padding: 15px;
+                margin-bottom: 20px;
+                background-color: #fff;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                width: 300px;
+            ">
+                <h4 style="margin: 0; color: #333;">{rest.get('RestName', 'Unnamed Restaurant')}</h4>
+                <p style="font-size: 14px; color: gray;">Location: {rest.get('Location', 'Unknown')}</p>
+                <p style="font-size: 14px; color: gray;">Cuisine: {rest.get('Cuisine', 'N/A')}</p>
+                <p style="font-size: 14px; color: gray;">Rating: {rest.get('Rating', 0)}</p>
+            </div>
+            """, unsafe_allow_html=True)
+    else:
+        st.write("No restaurants found.")
+except Exception as e:
+    st.error(f"Could not connect to database or display restaurants: {e}")
 
 
 st.markdown("""
