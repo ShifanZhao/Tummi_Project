@@ -142,3 +142,11 @@ with col4:
         st.image("https://cdn10.bostonmagazine.com/wp-content/uploads/sites/2/2023/10/beacon_restaurants-2.jpg", use_container_width=True)
         st.write("**Restaurant Name 4**")
         st.write("Location")
+
+
+bookmarks = requests.get('http://api:4000/cd/Bookmark/1').json()
+
+try:
+    st.dataframe(bookmarks)
+except:
+    st.write('Could not connect to database to get feed')
