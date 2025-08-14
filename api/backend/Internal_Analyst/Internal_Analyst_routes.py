@@ -25,8 +25,17 @@ def internal_home():
             "/ita/moderation/diners/flagged",
             "/ita/moderation/influencers/flagged",
             "/ita/dau",
+            # Review restaurants (PUT)
             "/ita/requests/approve/1",
-            "/ita/moderation/cdpost/1"
+            # Delete inappropriate foodie posts (DELETE)
+            "/ita/moderation/cdpost/1",
+            # New: List of influencers awaiting review + Approved/Rejected
+            "/ita/pending/influencers",
+            "/ita/influencers/verify/8  (PUT=approve, DELETE=decline)",
+            # New: Merged view of flagged users + unflagged users
+            "/ita/moderation/users/flagged",
+            "/ita/moderation/users/2/unflag?role=influencer",
+            "/ita/moderation/users/1/unflag?role=casual_diner"
         ]
     }))
     the_response.status_code = 200
@@ -70,16 +79,16 @@ def get_returning_users():
 def get_feature_usage():
     cursor = db.get_db().cursor()
     the_query = '''
-        SELECT 'bookmark_cd'  AS feature, COALESCE(SUM(Bookmark), 0) AS usage_count
+        SELECT 'bookmark_cd'  AS feature, IFNULL(SUM(Bookmark), 0) AS usage_count
         FROM CDPost
         UNION ALL
-        SELECT 'share_cd',    COALESCE(SUM(Share), 0)
+        SELECT 'share_cd',    IFNULL(SUM(Share), 0)
         FROM CDPost
         UNION ALL
-        SELECT 'bookmark_inf', COALESCE(SUM(Bookmark), 0)
+        SELECT 'bookmark_inf', IFNULL(SUM(Bookmark), 0)
         FROM InfPost
         UNION ALL
-        SELECT 'share_inf',    COALESCE(SUM(Share), 0)
+        SELECT 'share_inf',    IFNULL(SUM(Share), 0)
         FROM InfPost
         UNION ALL
         SELECT 'follow',       COUNT(*)
@@ -94,6 +103,22 @@ def get_feature_usage():
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
+
+# About IFNULL in MySQL
+# -----------------------------------------------------------------------------
+# Syntax: IFNULL(expr1, expr2)
+# Meaning: If expr1 is NULL, return expr2; otherwise return expr1.
+#
+# Why use IFNULL in aggregates?
+# - SUM(col): when no rows match, MySQL returns NULL (not 0).
+# - COUNT(*): when no rows match, MySQL already returns 0.
+# To make charts/tables friendlier, we convert “no data” from NULL to 0:
+#   IFNULL(SUM(Bookmark), 0)  -> returns 0 instead of NULL
+#
+# Example:
+#   -- Suppose the WHERE clause matches zero rows:
+#   SELECT SUM(Bookmark)            -> NULL
+#   SELECT IFNULL(SUM(Bookmark), 0) -> 0
 
 
 # ------------------------------------------------------------------
@@ -158,7 +183,7 @@ def get_request_details():
 
 
 # ------------------------------------------------------------------
-# 3.5 List of inappropriate content (four lists)
+# 3.5 List of flagged restaurant and users (four lists)
 # GET /ita/moderation/restaurants/flagged
 # ------------------------------------------------------------------
 @internal.route('/moderation/restaurants/flagged', methods=['GET'])
@@ -320,7 +345,6 @@ def delete_cdpost(postid):
     cnx.commit()
 
     if affected == 0:
-        # In order to be consistent with your interface habits, we still return 200 + prompt information here.
         return make_response(jsonify({
             "deleted_postid": postid,
             "message": "No record deleted (PostId not found)."
@@ -330,3 +354,175 @@ def delete_cdpost(postid):
         "deleted_postid": postid,
         "affected": affected
     }), 200)
+    
+    
+    
+ # ------------------------------------------------------------------
+# 3.9 Pending Influencer Requests
+# GET /ita/pending/influencers
+# ------------------------------------------------------------------
+@internal.route('/pending/influencers', methods=['GET'])
+def list_pending_influencers():
+    cursor = db.get_db().cursor()
+    the_query = '''
+        SELECT 
+            I.InfId          AS UserId,
+            U.Username       AS Username,
+            I.Location       AS Location,
+            I.RestaurantList AS RestaurantList,
+            I.Verified
+        FROM Influencer I
+        JOIN Users U ON U.UserId = I.InfId
+        WHERE I.Verified = FALSE
+        ORDER BY I.InfId
+    '''
+    cursor.execute(the_query)
+    theData = cursor.fetchall()
+    if not theData:
+        return jsonify({"Sadly": "No Pending Influencer Requests"}), 200
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+
+# ------------------------------------------------------------------
+# 3.10 verify Influencer request
+# accept：  PUT    /ita/influencers/verify/<infid>     -> Verified = TRUE
+# decline：  DELETE /ita/influencers/verify/<infid>     -> Delete "Pending Review" records (do not delete Users)
+# Only affects records where Verified = FALSE 
+# ------------------------------------------------------------------
+@internal.route('/influencers/verify/<int:infid>', methods=['PUT'])
+def approve_influencer(infid):
+    cnx = db.get_db()
+    cur = cnx.cursor()
+    q = 'UPDATE Influencer SET Verified = TRUE WHERE InfId = %s AND Verified = FALSE'
+    cur.execute(q, (infid,))
+    rows = cur.rowcount
+    cnx.commit()
+    the_response = make_response(jsonify({
+        "infid": infid,
+        "approved": rows
+    }))
+    the_response.status_code = 200
+    return the_response
+
+
+@internal.route('/influencers/verify/<int:infid>', methods=['DELETE'])
+def decline_influencer(infid):
+    cnx = db.get_db()
+    cur = cnx.cursor()
+    # Only delete "pending review" influencer records; retain Users table
+    q = 'DELETE FROM Influencer WHERE InfId = %s AND Verified = FALSE'
+    cur.execute(q, (infid,))
+    rows = cur.rowcount
+    cnx.commit()
+    the_response = make_response(jsonify({
+        "infid": infid,
+        "deleted_pending_rows": rows
+    }))
+    the_response.status_code = 200
+    return the_response
+
+# ------------------------------------------------------------------
+# 3.11 Flagged Users（Influencer + CasualDiner + RestaurantOwner）
+# GET /ita/moderation/users/flagged
+# return {UserId, Username, role} where role in {'influencer','casual_diner','restaurant_owner'}
+# ------------------------------------------------------------------
+@internal.route('/moderation/users/flagged', methods=['GET'])
+def list_flagged_users():
+    cursor = db.get_db().cursor()
+    the_query = '''
+        SELECT U.UserId, U.Username, 'influencer' AS role
+        FROM Influencer I
+        JOIN Users U ON U.UserId = I.InfId
+        WHERE I.Flagged = TRUE
+        UNION ALL
+        SELECT U.UserId, U.Username, 'casual_diner' AS role
+        FROM CasualDiner CD
+        JOIN Users U ON U.UserId = CD.CDId
+        WHERE CD.Flagged = TRUE
+        UNION ALL
+        SELECT U.UserId, U.Username, 'restaurant_owner' AS role
+        FROM RestaurantOwner RO
+        JOIN Users U ON U.UserId = RO.OwnerId
+        WHERE RO.Flagged = TRUE
+        ORDER BY role, UserId
+    '''
+    cursor.execute(the_query)
+    theData = cursor.fetchall()
+    if not theData:
+        return jsonify({"Sadly": "No Flagged Users"}), 200
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+# ------------------------------------------------------------------
+# 3.12 Revoke user's Flag（Ignore）
+# PUT /ita/moderation/users/<userid>/unflag?role=influencer|casual_diner|restaurant_owner
+# Support aliases role=owner -> restaurant_owner
+# ------------------------------------------------------------------
+@internal.route('/moderation/users/<int:userid>/unflag', methods=['PUT'])
+def unflag_user(userid):
+    role = (request.args.get('role') or '').lower()
+    # Support owner aliases
+    if role == 'owner':
+        role = 'restaurant_owner'
+
+    if role not in ('influencer', 'casual_diner', 'restaurant_owner'):
+        return jsonify({"error": "role must be influencer|casual_diner|restaurant_owner"}), 400
+
+    cnx = db.get_db()
+    cur = cnx.cursor()
+
+    if role == 'influencer':
+        q = 'UPDATE Influencer SET Flagged = FALSE WHERE InfId = %s AND Flagged = TRUE'
+    elif role == 'casual_diner':
+        q = 'UPDATE CasualDiner SET Flagged = FALSE WHERE CDId = %s AND Flagged = TRUE'
+    else:
+        q = 'UPDATE RestaurantOwner SET Flagged = FALSE WHERE OwnerId = %s AND Flagged = TRUE'
+
+    cur.execute(q, (userid,))
+    rows = cur.rowcount
+    cnx.commit()
+
+    the_response = make_response(jsonify({
+        "user": userid,
+        "role": role,
+        "unflagged": rows
+    }))
+    the_response.status_code = 200
+    return the_response
+
+
+# ======================================================================
+# Frontend Integration Suggestions (Aligned with Your Four Tabs)
+# ======================================================================
+
+# Pending User Verifications (= Users who want to become Influencers):
+#   - List:    GET    /ita/pending/influencers
+#   - Approve: PUT    /ita/influencers/verify/{infid}
+#   - Reject:  DELETE /ita/influencers/verify/{infid}
+
+# Pending Restaurant Verifications (already implemented, keep unchanged):
+#   - List:    GET    /ita/requests/pending
+#   - Details: GET    /ita/requests/details
+#   - Approve: PUT    /ita/requests/approve/{restid}
+#   - (Optional) Reject:
+#       DELETE /ita/requests/{restid}            # Soft reject (Add=FALSE)
+#       DELETE /ita/requests/{restid}?hard=true  # Hard delete (use with caution)
+
+# Flagged Users (merged view):
+#   - List:   GET    /ita/moderation/users/flagged
+#   - Ignore: PUT    /ita/moderation/users/{userid}/unflag?role=influencer|casual_diner
+
+# Flagged Restaurants (your existing API already supports listing; if needed, add Ignore):
+#   - (Optional) PUT  /ita/moderation/restaurants/{restid}/unflag
+
+# Quick Self-Test (curl):
+#   curl -s http://localhost:4000/ita/pending/influencers | jq .
+#   curl -i -X PUT    http://localhost:4000/ita/influencers/verify/8
+#   curl -i -X DELETE http://localhost:4000/ita/influencers/verify/8
+#   curl -s http://localhost:4000/ita/moderation/users/flagged | jq .
+#   curl -i -X PUT    "http://localhost:4000/ita/moderation/users/2/unflag?role=influencer"
+#   curl -i -X PUT    "http://localhost:4000/ita/moderation/users/1/unflag?role=casual_diner"
+# ======================================================================
