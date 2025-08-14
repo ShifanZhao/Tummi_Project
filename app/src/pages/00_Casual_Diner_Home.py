@@ -110,6 +110,7 @@ with st.form("Create a new post"):
     caption = st.text_input("Review of Restaurant:")
     restid = st.number_input("RestaurantID:")
 
+    # Click post button
     submitted = st.form_submit_button("Post")
 
     if submitted:
@@ -119,6 +120,7 @@ with st.form("Create a new post"):
         data["RestId"] = restid
         st.write(data)
 
+        # Create new post with provided data
         requests.post('http://api:4000/cd/1/createpost', json=data)
 
 
@@ -148,7 +150,6 @@ if st.button("Post Review"):
         st.write(f"**You wrote:** {comment}")
         
 
-
 # feed posts
 feed = requests.get('http://api:4000/cd/CDPost/1').json()
 
@@ -171,6 +172,17 @@ try:
                 </div>
             </div>
             """, unsafe_allow_html=True)
+            
+            if st.button("❤️ Like", key=f"like_{post.get('PostId')}"):
+                    try:
+                        response = requests.put(f'http://api:4000/cd/CDPost/{post.get("PostId")}')
+                        if response.status_code == 200:
+                            st.success("Liked!")
+                            st.rerun()  # Refresh to show updated like count
+                        else:
+                            st.error("Failed to like post")
+                    except Exception as e:
+                        st.error(f"Error: {e}")
     else:
         st.write("No posts found.")
 except Exception as e:
