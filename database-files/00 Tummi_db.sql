@@ -1,4 +1,5 @@
 drop database if exists Tummi_db;
+
 create database Tummi_db;
 use Tummi_db;
 
@@ -392,6 +393,8 @@ create table Sponsorships
        ON DELETE CASCADE
 );
 
+DELETE FROM AdCampaign;
+
 -- INSERT INTO Users
 -- VALUES (1, 'Spencer', 'Grant', 'SpencerTheGuy'),
 --       (2, 'Tiffany', 'Nguyen', 'FoodManiac'),
@@ -542,8 +545,6 @@ create table Sponsorships
 -- JOIN Following f ON f.FollowerId = ip.InfId
 -- WHERE f.FolloweeId = %s;
 
-<<<<<<< Updated upstream:database-files/00 Tummi_db.sql
-=======
 # SELECT ip.PostId, ip.InfId, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
 # FROM InfPost ip
 #          JOIN Influencer i ON i.InfId = ip.InfId
@@ -554,4 +555,7 @@ create table Sponsorships
 # FROM InfPost ip
 # JOIN Following f ON f.FollowerId = ip.InfId
 # WHERE f.FolloweeId = %s;
->>>>>>> Stashed changes:database-files/Tummi_db.sql
+
+
+DELETE FROM Bookmark
+WHERE 1=1;
