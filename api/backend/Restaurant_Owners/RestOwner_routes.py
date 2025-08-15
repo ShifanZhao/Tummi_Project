@@ -325,12 +325,29 @@ def audience_insights():
     cursor = db.get_db().cursor()
 
     the_query = '''
-    SELECT COUNT(CD.CDId), CD.Location
+    SELECT COUNT(CD.CDId) AS NumUsers, CD.Location
     FROM CasualDiner CD
     GROUP BY CD.Location
     ORDER BY COUNT(CD.CDId) DESC
     LIMIT 5
     '''
     cursor.execute(the_query)
+    theData = cursor.fetchall()
+    return jsonify(theData), 200
+
+# Feature Engagement
+# localhost:4000/ro/<int:rest_id>/feature_engagement
+@restowners.route('/<int:rest_id>/feature_engagement', methods=['GET'])
+def feature_engagement(rest_id):
+    cursor = db.get_db().cursor()
+
+    the_query = '''
+    SELECT R.Rating, R.NumSaves, R.NumVisits, COUNT(InfPost.PostId) AS NumInfPost
+    FROM Restaurant R
+    JOIN InfPost ON R.RestId = InfPost.RestId
+    WHERE R.RestId = %s
+    GROUP BY R.RestId
+    '''
+    cursor.execute(the_query, (rest_id,))
     theData = cursor.fetchall()
     return jsonify(theData), 200
