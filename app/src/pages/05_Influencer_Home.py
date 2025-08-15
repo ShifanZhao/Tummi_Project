@@ -103,55 +103,6 @@ st.write("")
 st.write("")
 
 
-#post feed
-st.write("### Posts Feed (w/ sample data, need API)")
-
-
-# rectangle for posts
-st.markdown("""
-<style>
-.rounded-rect {
-    background-color: #f0f2f6;
-    border-radius: 15px;
-    padding: 20px;
-    margin: 10px 0; /* space between posts */
-    border: 2px solid #ddd;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-.post-author {
-    font-weight: bold;
-    font-size: 16px;
-}
-.post-content {
-    font-size: 14px;
-}
-</style>
-""", unsafe_allow_html=True)
-
-# sample posts data
-posts = [
-    {"author": "Tiffany", "content": "Loved the spicy ramen at Sushi Zen!", "image_url": "https://via.placeholder.com/600x400"},
-    {"author": "Billy", "content": "Check out the new vegan place downtown!", "image_url": None},
-    {"author": "Alice", "content": "Had an amazing burger at Burger Barn 🍔", "image_url": "https://via.placeholder.com/600x400"},
-]
-
-# display posts stacked vertically
-for post in posts:
-    st.markdown(f"""
-    <div class="rounded-rect">
-        {"<img class='post-img' src='" + post['image_url'] + "'/>" if post['image_url'] else ""}
-        <div>
-            <div class="post-author">{post['author']}</div>
-            <div class="post-content">{post['content']}</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-
-
-
 # Get info required to make a new post
 st.write('### Create a new post')
 with st.form("Create a new post"):
