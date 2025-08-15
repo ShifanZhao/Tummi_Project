@@ -34,7 +34,13 @@ search_query = st.text_input("Search", placeholder="Search restaurants, cuisines
 
 if search_query:
     st.write(f"You searched for: {search_query}")
-    # TODO: Connect to API or DB to show real search results
+    data_req = (f'http://api:4000/cd/discovery_page/{search_query}')
+    filtered_rest = requests.get(data_req).json()
+    try:
+        st.dataframe(filtered_rest)
+    except:
+        st.write('Could not connect to database to get feed')
+
 
 st.markdown("---")
 
