@@ -425,9 +425,9 @@ create table Sponsorships
 --       (2, 2, 'Burrito', 8.99);
 
 
-INSERT INTO AppAnalytics
-VALUES (1, 500, NOW(), 4, 1, 4),
-      (2, 400, NOW(), 3, 5, 4);
+-- INSERT INTO AppAnalytics
+-- VALUES (1, 500, NOW(), 4, 1, 4),
+--       (2, 400, NOW(), 3, 5, 4);
 
 
 INSERT INTO UserActivity
