@@ -77,15 +77,11 @@ def get_influ_analytics(influ_id):
 # Food Influencer User Story 3: Tiffany needs her posts to be discoverable
 # through filters like cuisine, so that users who share similar tastes on this
 # food-specific platform can find and follow her easily
-# localhost:4000/fi/influ_posts/<influ_username>/<cuisine>
-@foodinfluencer.route('/influ_posts/<influ_username>/<cuisine>', methods=['GET'])
-def get_influ_posts(influ_username, cuisine):
+# localhost:4000/fi/influ_posts/<cuisine>
+@foodinfluencer.route('/influ_posts/<cuisine>', methods=['GET'])
+def get_influ_posts(cuisine):
     cursor = db.get_db().cursor()
 
-    # Check if influencer exists
-    cursor.execute("SELECT * FROM Influencer WHERE Username = %s", (influ_username,))
-    if not cursor.fetchone():
-        return jsonify({"error": "Influencer not found"}), 404
     
     # Check if cuisine exists
     cursor.execute("SELECT * FROM Restaurant WHERE Cuisine = %s", (cuisine,))
@@ -93,20 +89,20 @@ def get_influ_posts(influ_username, cuisine):
         return jsonify({"error": "Cuisine not found"}), 404
     
     the_query = '''
-    SELECT IP.PostId, IP.Likes, IP.Bookmark, IP.Share, R.Cuisine, R.RestName
+    SELECT IP.PostId, IP.Likes, IP.Bookmark, IP.Share, R.Cuisine, R.RestName, I.Username
     FROM InfPost IP
     JOIN Influencer I ON IP.InfId = I.InfId
     JOIN RestaurantLists RL ON RL.InfId = I.InfId
     JOIN ListedRest LR ON RL.RestListID = LR.RestListId
     JOIN Restaurant R ON R.RestId = LR.RestId
-    WHERE I.Username = %s AND R.Cuisine = %s
+    WHERE R.Cuisine = %s
     '''
 
-    cursor.execute(the_query, (influ_username, cuisine))
+    cursor.execute(the_query, (cuisine))
     posts = cursor.fetchall()
     
     if not posts:
-        return jsonify({"message": "No posts found for this influencer"}), 200
+        return jsonify({"message": "No posts found for this cuisine"}), 200
 
     return jsonify(posts), 200
 

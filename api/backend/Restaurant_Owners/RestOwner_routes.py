@@ -261,7 +261,7 @@ def get_all_test():
     cursor = db.get_db().cursor()
     the_query = '''
     SELECT *
-    FROM InfPost
+    FROM Comment
     '''
 
     cursor.execute(the_query)
