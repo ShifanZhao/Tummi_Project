@@ -32,7 +32,31 @@ if search_query:
     except:
         st.write('Could not connect to database to get feed')
 
+
+
+
+# create columns
+col1, col2, col3, col4, col5, col6, col7 = st.columns([0.01, 0.5, 0.1, 0.5, 0.1, 0.5, 2])
+
+with col2:
+    if st.button("Recs Nearby", use_container_width=True):
+        show_recommendations_dialog()
+
+with col4:
+    if st.button("Trending", use_container_width=True):
+        show_trending_dialog()
+
+with col6:
+    if st.button("Friend Recs", use_container_width=True):
+        show_friendrecs_diaglog()
+
+
+
+st.write("")
 st.markdown("---")
+
+
+
 
 # Get info required to make a new post
 st.write('### Create a new post')
@@ -176,7 +200,7 @@ try:
             col1, col2, col3 = st.columns(3)
             
             with col1:
-                if st.button("❤️ Like", key=f"like_{post.get('PostId')*10}"):
+                if st.button("❤️ Like", key=f"like_{post.get('PostId')}"):
                     try:
                         response = requests.put(f'http://api:4000/fi/InfPost/{post.get("PostId")}')
                         if response.status_code == 200:
@@ -188,8 +212,8 @@ try:
                         st.error(f"Error: {e}")
                         
             with col2:
-                with st.form(f"Comment_{post.get('PostId')*10}"):
-                    comment = st.text_input("Create Comment:", key=f"comment_input_{post.get('PostId')*10}")
+                with st.form(f"Comment_{post.get('PostId')}"):
+                    comment = st.text_input("Create Comment:", key=f"comment_input_{post.get('PostId')}")
                     submitted = st.form_submit_button("Post Comment")
                     
                     if submitted and comment:
@@ -214,8 +238,8 @@ try:
                     elif submitted and not comment:
                         st.warning("Please enter a comment before submitting.")
             with col3:
-                with st.form(f"Bookmark_{post.get('PostId')*10}"):
-                    rest = st.text_input("Create bookmark:", key=f"bookmark_input_{post.get('PostId')*10}")
+                with st.form(f"Bookmark_{post.get('PostId')}"):
+                    rest = st.text_input("Create bookmark:", key=f"bookmark_input_{post.get('PostId')}")
                     submitted = st.form_submit_button("Create Bookmark")
                     
                     if submitted and rest:
