@@ -435,14 +435,14 @@ create table Sponsorships
 --       (2, '2024-10-05 10:12:50.000');
 
 
-INSERT INTO InternalAnalyst
-VALUES (4, 'Evelyn', 'Fabel'),
-      (7, 'John', 'Doe');
+-- INSERT INTO InternalAnalyst
+-- VALUES (4, 'Evelyn', 'Fabel'),
+--       (7, 'John', 'Doe');
 
 
-INSERT INTO InternalApp
-VALUES (4, 1),
-      (7, 2);
+-- INSERT INTO InternalApp
+-- VALUES (4, 1),
+--       (7, 2);
 
 
 INSERT INTO Reviews
