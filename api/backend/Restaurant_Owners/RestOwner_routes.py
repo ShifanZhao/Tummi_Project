@@ -152,28 +152,19 @@ def add_menuitem(owner_id):
 
 # This route is when restaurant owners want to delete a menu item
 # localhost:4000/ro/<int:owner_id>/delete_menuitem/<int:dish_id>
-@restowners.route('/<int:owner_id>/delete_menuitem/<int:dish_id>', methods=['DELETE'])
-def delete_menuitem(owner_id, dish_id):
+@restowners.route('/delete_menuitem/<int:dish_id>', methods=['DELETE'])
+def delete_menuitem(dish_id):
     cursor = db.get_db().cursor()
-    # If the owner_id does not exist, return an error message
-    check_owner_query = '''
-        SELECT 1 FROM RestaurantOwner WHERE OwnerId = %s;
-    '''
-    cursor.execute(check_owner_query, (owner_id,))
-    owner_exists = cursor.fetchone()
-    
-    if not owner_exists:
-        return jsonify({"error": "Owner not found"}), 404
 
     query = '''
     DELETE MenuItem
     FROM MenuItem
     JOIN Restaurant ON MenuItem.RestId = Restaurant.RestId
     JOIN RestaurantOwner ON Restaurant.RestId = RestaurantOwner.RestId
-    WHERE RestaurantOwner.OwnerId = %s AND DishId = %s;
+    WHERE DishId = %s
     '''
-    
-    cursor.execute(query, (owner_id, dish_id))
+
+    cursor.execute(query, dish_id)
     db.get_db().commit()
     
     return jsonify({"message": "Menu item deleted successfully"}), 200
