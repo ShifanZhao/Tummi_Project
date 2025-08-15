@@ -9,23 +9,76 @@ st.set_page_config(layout = 'wide')
 
 SideBarLinks()
 
-st.title('Restaurant Name')
+rest_data = requests.get('http://api:4000/ro/restaurant/3').json()
+for inst in rest_data:
+   rating = inst.get('Rating')
+   RestName = inst.get('RestName')
+   cuisine = inst.get('Cuisine')
+   Location = inst.get('Location')
+  
+   col1, col2, col3 = st.columns(3)
+  
+   with col3:
+       if 'see_menu' not in st.session_state:
+           st.session_state.see_menu = False
+      
+       if st.button("See Menu", use_container_width=True):
+           st.session_state.see_menu = not st.session_state.see_menu
+      
+       if st.session_state.see_menu:
+           st.markdown("Feature coming soon!")
+           st.write("")
+           st.write("")
+           try:
+                response = requests.get(f'http://api:4000/ro/menuitem/{inst.get("RestId")}')
+                st.dataframe(response)
+                if response.status_code == 200:
+                    st.success("Liked!")
+                    st.rerun()  # Refresh to show updated like count
+                else:
+                    st.error("Failed to like post")
+           except Exception as e:
+                st.error(f"Error: {e}")
 
-header_left, header_right = st.columns([3, 1])
-with header_left:
-    st.markdown("### 𖡡 Location")
-with header_right:
-    if 'see_menu' not in st.session_state:
-        st.session_state.see_menu = False
-    
-    if st.button("See Menu", use_container_width=True):
-        st.session_state.see_menu = not st.session_state.see_menu
-    
-    if st.session_state.see_menu:
-        st.markdown("Feature coming soon!")
+       st.write("")
+       st.write("")
+       if st.button('### Menu', key=f"menu_{inst.get('RestId')}"):
+           try:
+               response = requests.get(f'http://api:4000/ro/menuitem/{inst.get("RestId")}')
+               st.dataframe(response)
+               if response.status_code == 200:
+                   st.success("Liked!")
+                   st.rerun()  # Refresh to show updated like count
+               else:
+                   st.error("Failed to like post")
+           except Exception as e:
+               st.error(f"Error: {e}")
 
 
-st.markdown("### ★ 4.8")
+    st.title(f'{RestName}')
+    header_left, header_right = st.columns([3, 1])
+    with header_left:
+        st.markdown(f"### 𖡡 Location: {Location}")
+        st.markdown(f"### ★ {rating}")
+        st.write("")
+        st.markdown(f"#### Cuisine: {cuisine}")
+        st.write("")
+        Popular_Dishes, Customer_Posts = st.tabs(["Popular Dishes", "Customer Posts"])
+  
+
+
+  
+  
+st.write("")
+st.write("")
+st.write("")
+st.write("")
+st.write("")
+st.write("")
+st.write("")
+st.write("")
+st.write("")
+st.write("")
 st.markdown("#### Hours: ")
 st.write("")
 st.markdown("#### About")

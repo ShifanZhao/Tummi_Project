@@ -58,6 +58,30 @@ WHERE f.followeeID = %s;'''
     the_response.status_code = 200
     return the_response
 
+
+# Get all posts associated with CD (1 or 5),
+#followeeid is the ID of the user, seeing all posts made by people they follow
+@casualdiner.route('/MyCDPost/<CDId>', methods=['GET'])
+def get_my_cdposts(CDId):
+
+    cursor = db.get_db().cursor()
+
+    the_query = '''SELECT cdp.PostId, u.username, cdp.Likes, cdp.Caption, cdp.rating, cdp.share, cdp.bookmark
+FROM CDPost cdp
+         JOIN CasualDiner cd ON cd.CDId = cdp.CDId
+    JOIN Users u ON cd.CDId = u.UserId
+WHERE u.UserId = %s;'''
+    cursor.execute(the_query, (CDId,))
+
+    theData = cursor.fetchall()
+
+    if not theData:
+            return jsonify({"Sadly": "No Posts Here"}), 200
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
 # Get Influencer posts
 @casualdiner.route('/InfPost/<int:followeeid>', methods=['GET'])
 def get_infposts(followeeid):

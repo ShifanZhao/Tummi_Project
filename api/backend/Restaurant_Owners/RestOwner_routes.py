@@ -27,6 +27,26 @@ def get_all_restowners():
     the_response.mimetype = 'application/json'
     return the_response
 
+# The initial route to test connection.
+# I don't want to delete it personally, it means a lot.
+# localhost:4000/ro/rostowners
+@restowners.route('/restaurant/<int:UserId>', methods=['GET'])
+def get_restaurant(UserId):
+    cursor = db.get_db().cursor()
+    the_query = '''
+    SELECT RestName, Location, Rating, Cuisine, RestId
+    FROM Restaurant
+    WHERE UserId = %s
+    '''
+
+    cursor.execute(the_query, UserId)
+    theData = cursor.fetchall()
+
+    the_response = make_response(theData)
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
 
 # RestOwner User Story 1: Shifan (his Owner ID = 3) needs to  view Casual Dinners’ 
 # comments and ratings, so that  he can identify recurring complaints or compliments 
@@ -132,17 +152,18 @@ def delete_menuitem(owner_id, dish_id):
     return jsonify({"message": "Menu item deleted successfully"}), 200
 
 
-# This route is to prove the POST route works
+
 # localhost:4000/ro/menuitem
-@restowners.route('/menuitem', methods=['GET'])
-def get_menu_items():
+@restowners.route('/menuitem/<int:RestId>', methods=['GET'])
+def get_menu_items(RestId):
     cursor = db.get_db().cursor()
 
     the_query = '''
     SELECT DishId, DishName, Price, RestId
     FROM MenuItem
+    WHERE RestId = %s;
     '''
-    cursor.execute(the_query)
+    cursor.execute(the_query, RestId)
     theData = cursor.fetchall()
 
     the_response = make_response(theData)
