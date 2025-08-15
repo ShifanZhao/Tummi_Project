@@ -25,12 +25,6 @@ with col2:
 with col4:
     st.metric(label="Following", value=following_count)
 
-col1, col2, col3 = st.columns([0.1, 1, 3])
-with col2:
-    if st.button('See Followers Lists', 
-                type='primary',
-                use_container_width=True):
-        st.switch_page('pages/33_Influencer_Follow_List.py')
 
 st.write('')
 

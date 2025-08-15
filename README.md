@@ -1,8 +1,12 @@
 # Summer 2 2025 CS 3200 Project Template
 
-This is a template repo CS 3200 Summer 2 2025 Course Project. 
+Team Members: 
+Tiffany Nguyen
+Evelyn Fabel
+Ray Zhang
+Spencer Grant
+Shifan Zhao
 
-It includes most of the infrastructure setup (containers), sample databases, and example UI pages. Explore it fully and ask questions!
 
 ## Prerequisites
 
