@@ -408,6 +408,7 @@ def approve_influencer(infid):
     return the_response
 
 
+# localhost:4000/ita/influencers/remove/<int:infid>
 @internal.route('/influencers/remove/<int:infid>', methods=['DELETE'])
 def decline_influencer(infid):
     cnx = db.get_db()
