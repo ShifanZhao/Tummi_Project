@@ -17,7 +17,7 @@ INSERT INTO CasualDiner VALUES (935, 'Cataguases', False, '6:26:45', '2025-08-06
 INSERT INTO CasualDiner VALUES (325, 'Sarukhan', True, '3:00:31', '2025-08-04 23:00:52', 7614);
 INSERT INTO CasualDiner VALUES (746, 'Ébolowa', False, '10:53:35', '2025-08-03 04:36:21', 5851);
 INSERT INTO CasualDiner VALUES (358, 'Thawi Watthana', False, '6:25:45', '2025-08-05 15:06:42', 2254);
-INSERT INTO CasualDiner VALUES (1, 'Roxbury', FALSE, 120, NOW(), 3);
+INSERT INTO CasualDiner VALUES (1, 'North End', FALSE, 120, NOW(), 3);
 INSERT INTO CasualDiner VALUES (801, 'Paris La Défense', True, '3:36:05', '2025-08-11 19:02:48', 2486);
 INSERT INTO CasualDiner VALUES (39, 'Mata', True, '17:09:45', '2025-08-03 20:11:46', 9323);
 INSERT INTO CasualDiner VALUES (685, 'Ketapang', True, '20:27:36', '2025-08-03 00:24:34', 8058);

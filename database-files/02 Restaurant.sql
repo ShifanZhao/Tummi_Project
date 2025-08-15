@@ -2,9 +2,9 @@ USE Tummi_db;
 INSERT INTO Restaurant (`RestId`, `RestName`, `Location`, `Cuisine`, `Rating`, `Add`, `Flag`, `UserId`, `NumSaves`, `NumVisits`) VALUES
 (1, 'Table Mercato', 'North End', 'Italian', 8.7, TRUE, FALSE, 3, 100, 5000),
 (2, 'El Jefes', 'North End', 'Mexican', 7.2, TRUE, FALSE, 6, 50, 182),
-(3, 'Golden Spoon Bistro', 'Penha', 'Mediterranean', 6.6, False, True, 12, 2426, 3429),
-(4, 'The Cozy Corner', 'Plyussa', 'Japanese', 5.9, True, True, 73, 5206, 5609),
-(5, 'Flaming Grill House', 'Arlöv', 'Indian', 1.2, False, True, 84, 1105, 2752),
+(3, 'Golden Spoon Bistro', 'LA', 'Mediterranean', 6.6, False, True, 12, 2426, 3429),
+(4, 'The Cozy Corner', 'LA', 'Japanese', 5.9, True, True, 73, 5206, 5609),
+(5, 'Flaming Grill House', 'LA', 'Indian', 1.2, False, True, 84, 1105, 2752),
 (6, 'Ocean View Restaurant', 'Tujing', 'Italian', 8.6, True, False, 45, 955, 4876),
 (7, 'Mountain Top Eatery', 'Siverskiy', 'American', 4.2, False, False, 94, 8244, 6177),
 (8, 'City Lights Diner', 'Dijon', 'French', 9.8, False, True, 87, 3597, 2674),

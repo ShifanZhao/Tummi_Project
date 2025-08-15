@@ -542,43 +542,6 @@ create table Sponsorships
 -- JOIN Following f ON f.FollowerId = ip.InfId
 -- WHERE f.FolloweeId = %s;
 
-# SELECT ip.PostId, ip.InfId, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
-# FROM InfPost ip
-#          JOIN Influencer i ON i.InfId = ip.InfId
-#          JOIN Following f ON f.FollowerId = i.InfId
-# WHERE f.followeeID = 1
-#
-# SELECT ip.PostId, ip.InfId, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
-# FROM InfPost ip
-# JOIN Following f ON f.FollowerId = ip.InfId
-# WHERE f.FolloweeId = %s;
-
-
-DELETE FROM Bookmark;
-DELETE FROM AdCampaign;
-DELETE FROM AppAnalytics;
-DELETE FROM CasualDiner;
-DELETE FROM CDPost;
-DELETE FROM Comment;
-DELETE FROM Follow;
-DELETE FROM Following;
-DELETE FROM FromCD;
-DELETE FROM FromInf;
-DELETE FROM FromRest;
-DELETE FROM FromRestOwner;
-DELETE FROM Influencer;
-DELETE FROM InfPost;
-DELETE FROM InternalAnalyst;
-DELETE FROM InternalApp;
-DELETE FROM ListedRest;
-DELETE FROM MenuItem;
-DELETE FROM Restaurant;
-DELETE FROM RestaurantLists;
-DELETE FROM RestaurantOwner;
-DELETE FROM Reviews;
-DELETE FROM Sponsorships;
-DELETE FROM UserActivity;
-DELETE FROM Users;
 
 
 
