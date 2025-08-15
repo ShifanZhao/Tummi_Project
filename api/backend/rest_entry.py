@@ -71,7 +71,7 @@ def create_app():
     # and give a url prefix to each
     app.logger.info("create_app(): registering blueprints with Flask app object.")
     app.register_blueprint(simple_routes)
-    app.register_blueprint(ngos, url_prefix="/ngo")
+    # app.register_blueprint(ngos, url_prefix="/ngo")
     app.register_blueprint(restowners, url_prefix="/ro")
     app.register_blueprint(casualdiner, url_prefix="/cd")
     app.register_blueprint(internal, url_prefix="/ita")
