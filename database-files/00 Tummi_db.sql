@@ -392,15 +392,15 @@ create table Sponsorships
        ON DELETE CASCADE
 );
 
-INSERT INTO Users
-VALUES (1, 'Spencer', 'Grant', 'SpencerTheGuy'),
-      (2, 'Tiffany', 'Nguyen', 'FoodManiac'),
-      (3, 'Shifan', 'Zhao', 'ShifanZhao'),
-      (4, 'Evelyn', 'Fabel', 'TheBestAnalyst'),
-      (5, 'Billy', 'Bob', 'BobbyEater'),
-      (6, 'Rest', 'Hoffman', 'BigChef'),
-      (7, 'John', 'Doe', '2ndAnalyst'),
-      (8, 'Lil', 'God', 'lilgod');
+-- INSERT INTO Users
+-- VALUES (1, 'Spencer', 'Grant', 'SpencerTheGuy'),
+--       (2, 'Tiffany', 'Nguyen', 'FoodManiac'),
+--       (3, 'Shifan', 'Zhao', 'ShifanZhao'),
+--       (4, 'Evelyn', 'Fabel', 'TheBestAnalyst'),
+--       (5, 'Billy', 'Bob', 'BobbyEater'),
+--       (6, 'Rest', 'Hoffman', 'BigChef'),
+--       (7, 'John', 'Doe', '2ndAnalyst'),
+--       (8, 'Lil', 'God', 'lilgod');
 
 
 INSERT INTO Restaurant

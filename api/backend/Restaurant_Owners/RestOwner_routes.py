@@ -255,3 +255,20 @@ def rest_performance(owner_id):
         return jsonify({"message": "No performance data found for this owner"}), 200
 
     return jsonify(theData), 200
+
+@restowners.route('/test', methods=['GET'])
+def get_all_test():
+    cursor = db.get_db().cursor()
+    the_query = '''
+    SELECT *
+    FROM Users
+    WHERE UserId = 100
+    '''
+
+    cursor.execute(the_query)
+    theData = cursor.fetchall()
+
+    the_response = make_response(theData)
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
