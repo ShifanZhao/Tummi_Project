@@ -107,39 +107,53 @@ st.write('')
 
 # for influencer user story, search influencer posts by cusine
 
-st.write("Discover Influencer Posts by Cuisine - (currently not working)")
-
-# Inputs
-influ_username = st.text_input("Influencer Username", "")
+st.markdown("### Discover Influencer Posts by Cuisine")
 cuisine = st.text_input("Cuisine", "")
 
 if st.button("Get Posts"):
-    if not influ_username or not cuisine:
-        st.warning("Please provide both influencer username and cuisine type.")
+    if not cuisine:
+        st.warning("Please provide a cuisine type.")
     else:
-        # API request
-        feed = requests.get(f"http://localhost:4000/fi/influ_posts/{influ_username}/{cuisine}").json()
-
         try:
-            if feed and isinstance(feed, list):
-                for post in feed:
-                    st.markdown(f"""
-                    <div style="
-                        border: 1px solid #ddd;
-                        border-radius: 10px;
-                        padding: 15px;
-                        margin-bottom: 20px;
-                        background-color: #fff;
-                        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                    ">
-                        <h4 style="margin: 0; color: #333;">Influencer: {influ_username}</h4>
-                        <p style="font-size: 16px;">Restaurant: {post.get('RestName')} ({post.get('Cuisine')})</p>
-                        <div style="color: gray; font-size: 12px;">
-                            ❤️ Likes: {post.get('Likes', 0)} &nbsp; | &nbsp; 🔖 Bookmarks: {post.get('Bookmark', 0)} &nbsp; | &nbsp; 🔄 Shares: {post.get('Share', 0)}
+            response = requests.get(f"http://api:4000/fi/influ_posts/{cuisine}")
+            
+            if response.status_code == 200:
+                feed = response.json()
+                
+                if isinstance(feed, dict) and "error" in feed:
+                    st.error(feed["error"])
+                elif isinstance(feed, dict) and "message" in feed:
+                    st.info(feed["message"])
+                elif feed and isinstance(feed, list):
+                    st.success(f"Found {len(feed)} posts!")
+                    for post in feed:
+                        st.markdown(f"""
+                        <div style="
+                            border: 1px solid #ddd;
+                            border-radius: 10px;
+                            padding: 15px;
+                            margin-bottom: 20px;
+                            background-color: #fff;
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                        ">
+                            <h4 style="margin: 0; color: #333;">Influencer: {post.get('Username', 'Unknown')}</h4>
+                            <p style="font-size: 16px;">Restaurant: {post.get('RestName')} ({post.get('Cuisine')})</p>
+                            <div style="color: gray; font-size: 12px;">
+                                ❤️ Likes: {post.get('Likes', 0)} &nbsp; | &nbsp; 🔖 Bookmarks: {post.get('Bookmark', 0)} &nbsp; | &nbsp; 🔄 Shares: {post.get('Share', 0)}
+                            </div>
                         </div>
-                    </div>
-                    """, unsafe_allow_html=True)
+                        """, unsafe_allow_html=True)
+                else:
+                    st.write("No posts found for this cuisine.")
+                    
+            elif response.status_code == 404:
+                st.error("Cuisine not found in database.")
             else:
-                st.write("No posts found for this influencer and cuisine.")
+                st.error(f"API returned status {response.status_code}")
+                
+        except requests.exceptions.ConnectionError:
+            st.error("🚫 Cannot connect to Flask server! Make sure it's running on port 4000.")
+        except requests.exceptions.JSONDecodeError:
+            st.error("Invalid response from API")
         except Exception as e:
-            st.error(f"Error displaying posts: {e}")
+            st.error(f"Error: {e}")

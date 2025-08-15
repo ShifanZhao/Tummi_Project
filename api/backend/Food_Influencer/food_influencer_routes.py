@@ -106,6 +106,30 @@ def get_influ_posts(cuisine):
 
     return jsonify(posts), 200
 
+# Get all posts associated with CD (1 or 5),
+#followeeid is the ID of the user, seeing all posts made by people they follow
+@foodinfluencer.route('/MyInfPost/<InfId>', methods=['GET'])
+def get_my_infposts(InfId):
+
+    cursor = db.get_db().cursor()
+
+    the_query = '''SELECT ip.PostId, u.username, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
+FROM InfPost ip
+         JOIN Influencer i ON i.InfId = ip.InfId
+    JOIN Users u ON i.InfId = u.UserId
+WHERE u.UserId = %s;'''
+    cursor.execute(the_query, (InfId,))
+
+    theData = cursor.fetchall()
+
+    if not theData:
+            return jsonify({"Sadly": "No Posts Here"}), 200
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+
 # User Story 4: Tiffany wants to be able to make and save lists of restaurants 
 # she has been to, so she and her followers can easily find and view certain dishes, 
 # even if she posted them a long time ago

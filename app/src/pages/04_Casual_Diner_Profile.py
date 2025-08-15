@@ -34,7 +34,7 @@ try:
         st.write("#### Recent Posts")
         
         # limit to 6 posts on page
-        restaurants = restaurants[:6]
+        restaurants = restaurants[:12]
         
         # display in a 3x2 layout
         for i in range(0, len(restaurants), 3):
