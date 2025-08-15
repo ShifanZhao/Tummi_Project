@@ -47,6 +47,33 @@ def get_restaurant(UserId):
     the_response.mimetype = 'application/json'
     return the_response
 
+# Get posts about certain restaurant
+@restowners.route('/restaurant_posts/<int:RestId>', methods=['GET'])
+def get_restaurant_posts(RestId):
+    cursor = db.get_db().cursor()
+    the_query = '''
+    (SELECT CDP.Rating, CDP.Caption, U.username, CDP.Likes
+         FROM Restaurant R
+         JOIN CDPost CDP ON R.RestId = CDP.RestId
+         JOIN Comment C ON CDP.PostId = C.CDPostId
+         JOIN Users U ON CDP.CDId = U.UserId
+WHERE R.RestId = %s)
+UNION
+(SELECT IP.Rating, IP.Caption, U.username, IP.Likes
+FROM Restaurant R
+         JOIN InfPost IP ON R.RestId = IP.RestId
+         JOIN Comment C ON IP.PostId = C.CDPostId
+         JOIN Users U ON IP.InfId = U.UserId
+WHERE R.RestId = %s);
+    '''
+
+    cursor.execute(the_query, (RestId, RestId))
+    theData = cursor.fetchall()
+
+    the_response = make_response(theData)
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
 
 # RestOwner User Story 1: Shifan (his Owner ID = 3) needs to  view Casual Dinners’ 
 # comments and ratings, so that  he can identify recurring complaints or compliments 
