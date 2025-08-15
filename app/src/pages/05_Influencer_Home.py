@@ -23,7 +23,7 @@ if st.button('View Leaderboards',
 if st.button('View Profile', 
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/11_Profile.py')
+  st.switch_page('pages/06_Influencer_Profile.py')
 
 
 # rest of home page

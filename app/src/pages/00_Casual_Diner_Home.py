@@ -34,24 +34,6 @@ if search_query:
 
 
 
-
-# create columns
-col1, col2, col3, col4, col5, col6, col7 = st.columns([0.01, 0.5, 0.1, 0.5, 0.1, 0.5, 2])
-
-with col2:
-    if st.button("Recs Nearby", use_container_width=True):
-        show_recommendations_dialog()
-
-with col4:
-    if st.button("Trending", use_container_width=True):
-        show_trending_dialog()
-
-with col6:
-    if st.button("Friend Recs", use_container_width=True):
-        show_friendrecs_diaglog()
-
-
-
 st.write("")
 st.markdown("---")
 
