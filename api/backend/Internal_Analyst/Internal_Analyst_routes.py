@@ -59,6 +59,7 @@ def get_returning_users():
         FROM AppAnalytics AA
         GROUP BY AA.UserId
         ORDER BY last_visit DESC
+        LIMIT 15;
     '''
     cursor.execute(the_query)
     theData = cursor.fetchall()
@@ -91,8 +92,8 @@ def get_feature_usage():
         SELECT 'share_inf',    IFNULL(SUM(Share), 0)
         FROM InfPost
         UNION ALL
-        SELECT 'follow',       COUNT(*)
-        FROM `Follow`
+        SELECT DISTINCT 'follow',       COUNT(*)
+        FROM `Following`
     '''
     cursor.execute(the_query)
     theData = cursor.fetchall()
