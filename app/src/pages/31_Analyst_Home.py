@@ -94,9 +94,3 @@ with col3:
     st.altair_chart(chart3, use_container_width=True)
 
 
-# # summary stats
-# st.markdown("---")
-# st.write("**AVERAGE USER ENGAGEMENT TIME:** 15 min")
-# st.write("**TOTAL USERS:** 12,345")
-# st.write("**TOTAL RESTAURANTS:** 2,345")
-# st.write("**TOTAL INFLUENCERS:** 234")
