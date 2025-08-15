@@ -430,9 +430,9 @@ create table Sponsorships
 --       (2, 400, NOW(), 3, 5, 4);
 
 
-INSERT INTO UserActivity
-VALUES (1, NOW()),
-      (2, '2024-10-05 10:12:50.000');
+-- INSERT INTO UserActivity
+-- VALUES (1, NOW()),
+--       (2, '2024-10-05 10:12:50.000');
 
 
 INSERT INTO InternalAnalyst
