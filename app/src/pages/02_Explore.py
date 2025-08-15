@@ -19,7 +19,7 @@ st.sidebar.header("Explore")
 @st.dialog("Recs Nearby")
 def show_recommendations_dialog():
     try:
-        location = "Roxbury"
+        location = "North End"
         location_name = location.replace(" ", "%20")
         restaurant = requests.get(f'http://api:4000/cd/{location_name}/nearby_rest').json()
         st.dataframe(restaurant, hide_index=True)
