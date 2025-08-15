@@ -410,14 +410,14 @@ create table Sponsorships
 --        TRUE, FALSE, 6, 50, 182);
 
 
-INSERT INTO RestaurantOwner
-VALUES (3, 'Shifan', 'Zhao', TRUE, FALSE, 1),
-      (6, 'Rest', 'Hoffman', TRUE, FALSE, 2);
+-- INSERT INTO RestaurantOwner
+-- VALUES (3, 'Shifan', 'Zhao', TRUE, FALSE, 1),
+--       (6, 'Rest', 'Hoffman', TRUE, FALSE, 2);
 
 
-INSERT INTO AdCampaign
-VALUES (1, 1234, '2025-10-26', 123, 1357, 3),
-      (2, 200, '2024-10-15', 500, 700, 6);
+-- INSERT INTO AdCampaign
+-- VALUES (1, 1234, '2025-10-26', 123, 1357, 3),
+--       (2, 200, '2024-10-15', 500, 700, 6);
 
 
 INSERT INTO MenuItem
