@@ -74,6 +74,6 @@ INSERT INTO FromRest VALUES (2, 61);
 INSERT INTO FromRest VALUES (33, 42);
 INSERT INTO FromRest VALUES (36, 30);
 INSERT INTO FromRest VALUES (31, 22);
-INSERT INTO FromRestOwner
-VALUES (1, 3),
-      (2, 6);
+INSERT INTO FromRest
+VALUES (1, 1),
+      (2, 2);
