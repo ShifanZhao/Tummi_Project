@@ -420,9 +420,9 @@ create table Sponsorships
 --       (2, 200, '2024-10-15', 500, 700, 6);
 
 
-INSERT INTO MenuItem
-VALUES (1, 1, 'Vodka Parm Sandwich', 20.99),
-      (2, 2, 'Burrito', 8.99);
+-- INSERT INTO MenuItem
+-- VALUES (1, 1, 'Vodka Parm Sandwich', 20.99),
+--       (2, 2, 'Burrito', 8.99);
 
 
 INSERT INTO AppAnalytics
