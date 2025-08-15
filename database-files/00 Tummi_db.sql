@@ -473,17 +473,17 @@ create table Sponsorships
 --       (5, 'Roxbury', FALSE, 500, NOW(), 5);
 
 
-INSERT INTO Following
-VALUES (1, 5),
-      (5, 1),
-      (1, 2),
-      (1, 8),
-      (8,2),
-      (2,8);
+-- INSERT INTO Following
+-- VALUES (1, 5),
+--       (5, 1),
+--       (1, 2),
+--       (1, 8),
+--       (8,2),
+--       (2,8);
 
 
 INSERT INTO Bookmark
-VALUES (1, 'El Jefe''s'),
+VALUES (1, 'El Jefes'),
       (5, 'Table Mercato');
 
 
