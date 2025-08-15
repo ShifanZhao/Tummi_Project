@@ -54,7 +54,7 @@ try:
                         ">
                             <h4 style="margin: 0; color: #333;">@{post.get('username', 'Unknown User')}</h4>
                             <p style="font-size: 14px; color: gray;">Caption: {post.get('Caption', 'No caption')}</p>
-                            <p style="font-size: 14px; color: gray;">Rating: {post.get('rating', 0)}/5</p>
+                            <p style="font-size: 14px; color: gray;">Rating: {post.get('rating', 0)}/10</p>
                             <p style="font-size: 14px; color: gray;">❤️ {post.get('Likes', 0)} likes</p>
                         </div>
                         """, unsafe_allow_html=True)
