@@ -482,14 +482,14 @@ create table Sponsorships
 --       (2,8);
 
 
-INSERT INTO Bookmark
-VALUES (1, 'El Jefes'),
-      (5, 'Table Mercato');
+-- INSERT INTO Bookmark
+-- VALUES (1, 'El Jefes'),
+--       (5, 'Table Mercato');
 
 
-INSERT INTO CDPost
-VALUES (1, 500, 6.7, 1, 'good food', 1, 5, 10),
-      (2, 90, 8.9, 5, 'bad food', 2, 14, 20);
+-- INSERT INTO CDPost
+-- VALUES (1, 500, 6.7, 1, 'good food', 1, 5, 10),
+--       (2, 90, 8.9, 5, 'bad food', 2, 14, 20);
 
 
 INSERT INTO Comment
