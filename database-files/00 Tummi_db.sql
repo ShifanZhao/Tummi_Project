@@ -392,6 +392,7 @@ create table Sponsorships
        ON DELETE CASCADE
 );
 
+
 -- INSERT INTO Users
 -- VALUES (1, 'Spencer', 'Grant', 'SpencerTheGuy'),
 --       (2, 'Tiffany', 'Nguyen', 'FoodManiac'),
