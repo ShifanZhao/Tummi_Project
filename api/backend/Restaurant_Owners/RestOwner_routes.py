@@ -290,3 +290,20 @@ def get_all_test():
 
 
     return jsonify(theData), 200
+
+# Audience Inisghts
+# localhost:4000/ro/audience_insights
+@restowners.route('/audience_insights', methods=['GET'])
+def audience_insights():
+    cursor = db.get_db().cursor()
+
+    the_query = '''
+    SELECT COUNT(CD.CDId), CD.Location
+    FROM CasualDiner CD
+    GROUP BY CD.Location
+    ORDER BY COUNT(CD.CDId) DESC
+    LIMIT 5
+    '''
+    cursor.execute(the_query)
+    theData = cursor.fetchall()
+    return jsonify(theData), 200
