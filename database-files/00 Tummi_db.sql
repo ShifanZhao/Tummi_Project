@@ -492,53 +492,53 @@ create table Sponsorships
 --       (2, 90, 8.9, 5, 'bad food', 2, 14, 20);
 
 
-INSERT INTO Comment
-VALUES (1, 'That looks soooo gooood', 1, NULL),
-      (2, 'Tasty', NULL, 1);
+-- INSERT INTO Comment
+-- VALUES (1, 'That looks soooo gooood', 1, NULL),
+--       (2, 'Tasty', NULL, 1);
 
 
-INSERT INTO Follow
-VALUES (1, 2),
-      (5, 8);
+-- INSERT INTO Follow
+-- VALUES (1, 2),
+--       (5, 8);
 
 
-INSERT INTO FromInf
-VALUES (1, 2),
-      (2, 8);
+-- INSERT INTO FromInf
+-- VALUES (1, 2),
+--       (2, 8);
 
 
-INSERT INTO FromRestOwner
-VALUES (1, 3),
-      (2, 6);
+-- INSERT INTO FromRestOwner
+-- VALUES (1, 3),
+--       (2, 6);
 
 
-INSERT INTO FromRest
-VALUES (1, 1),
-      (2, 2);
+-- INSERT INTO FromRest
+-- VALUES (1, 1),
+--       (2, 2);
 
 
-INSERT INTO FromCD
-VALUES (1, 1),
-      (2, 5);
+-- INSERT INTO FromCD
+-- VALUES (1, 1),
+--       (2, 5);
 
 
-INSERT INTO ListedRest
-VALUES (1, 1),
-      (1, 2);
+-- INSERT INTO ListedRest
+-- VALUES (1, 1),
+--       (1, 2);
 
 
-INSERT INTO Sponsorships
-VALUES (2, 1, 500),
-      (8, 2, 750);
+-- INSERT INTO Sponsorships
+-- VALUES (2, 1, 500),
+--       (8, 2, 750);
 
-SELECT ip.PostId, ip.InfId, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
-FROM InfPost ip
-         JOIN Influencer i ON i.InfId = ip.InfId
-         JOIN Following f ON f.FollowerId = i.InfId
-WHERE f.followeeID = 1
+-- SELECT ip.PostId, ip.InfId, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
+-- FROM InfPost ip
+--          JOIN Influencer i ON i.InfId = ip.InfId
+--          JOIN Following f ON f.FollowerId = i.InfId
+-- WHERE f.followeeID = 1
 
-SELECT ip.PostId, ip.InfId, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
-FROM InfPost ip
-JOIN Following f ON f.FollowerId = ip.InfId
-WHERE f.FolloweeId = %s;
+-- SELECT ip.PostId, ip.InfId, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
+-- FROM InfPost ip
+-- JOIN Following f ON f.FollowerId = ip.InfId
+-- WHERE f.FolloweeId = %s;
 
