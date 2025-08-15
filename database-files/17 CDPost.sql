@@ -1,11 +1,12 @@
 USE Tummi_db;
+DELETE FROM CDPost;
 INSERT INTO CDPost VALUES (1, 500, 6.7, 1, 'good food', 1, 5, 10);
 INSERT INTO CDPost VALUES (2, 90, 8.9, 5, 'bad food', 2, 14, 20);
-INSERT INTO CDPost VALUES (3, 306, 7.0, 39, 'Not Recommended', 68, 501, 619);
-INSERT INTO CDPost VALUES (4, 131, 2.4, 564, 'Worth A Try', 57, 486, 892);
-INSERT INTO CDPost VALUES (5, 631, 4.1, 121, 'Recommended', 12, 826, 331);
-INSERT INTO CDPost VALUES (6, 170, 1.8, 460, 'Not Recommended', 53, 484, 830);
-INSERT INTO CDPost VALUES (7, 232, 5.4, 746, 'Recommended', 34, 230, 435);
+INSERT INTO CDPost VALUES (3, 306, 7.0, 17, 'Not Recommended', 68, 501, 619);
+INSERT INTO CDPost VALUES (4, 131, 2.4, 198, 'Worth A Try', 57, 486, 892);
+INSERT INTO CDPost VALUES (5, 631, 4.1, 675, 'Recommended', 12, 826, 331);
+INSERT INTO CDPost VALUES (6, 170, 1.8, 535, 'Not Recommended', 53, 484, 830);
+INSERT INTO CDPost VALUES (7, 232, 5.4, 418, 'Recommended', 34, 230, 435);
 INSERT INTO CDPost VALUES (8, 263, 3.2, 1, 'Not Recommended', 29, 504, 405);
 INSERT INTO CDPost VALUES (9, 357, 5.7, 333, 'Worth A Try', 70, 191, 613);
 INSERT INTO CDPost VALUES (10, 327, 4.9, 546, 'Not Worth A Try', 1, 924, 498);

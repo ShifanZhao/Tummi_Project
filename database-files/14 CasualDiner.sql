@@ -39,5 +39,6 @@ INSERT INTO CasualDiner VALUES (594, 'Zhongcun', False, '16:00:50', '2025-08-05 
 INSERT INTO CasualDiner VALUES (561, 'Darpas', False, '1:56:01', '2025-08-06 13:16:48', 5236);
 INSERT INTO CasualDiner VALUES (393, 'Sausa', False, '0:12:32', '2025-08-03 13:06:04', 7315);
 INSERT INTO CasualDiner VALUES (838, 'Obršani', False, '10:40:49', '2025-08-04 12:39:42', 7073);
+INSERT INTO CasualDiner VALUES (198, 'Obršani', False, '10:40:49', '2025-08-04 12:39:42', 7073);
 INSERT INTO CasualDiner
 VALUES (5, 'Roxbury', FALSE, 500, NOW(), 5);

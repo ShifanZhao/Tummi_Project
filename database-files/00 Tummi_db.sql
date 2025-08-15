@@ -557,5 +557,28 @@ DELETE FROM AdCampaign;
 # WHERE f.FolloweeId = %s;
 
 
-DELETE FROM Bookmark
-WHERE 1=1;
+DELETE FROM Bookmark;
+DELETE FROM AdCampaign;
+DELETE FROM AppAnalytics;
+DELETE FROM CasualDiner;
+DELETE FROM CDPost;
+DELETE FROM Comment;
+DELETE FROM Follow;
+DELETE FROM Following;
+DELETE FROM FromCD;
+DELETE FROM FromInf;
+DELETE FROM FromRest;
+DELETE FROM FromRestOwner;
+DELETE FROM Influencer;
+DELETE FROM InfPost;
+DELETE FROM InternalAnalyst;
+DELETE FROM InternalApp;
+DELETE FROM ListedRest;
+DELETE FROM MenuItem;
+DELETE FROM Restaurant;
+DELETE FROM RestaurantLists;
+DELETE FROM RestaurantOwner;
+DELETE FROM Reviews;
+DELETE FROM Sponsorships;
+DELETE FROM UserActivity;
+DELETE FROM Users;
