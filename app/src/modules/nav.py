@@ -30,8 +30,8 @@ def Explore():
     st.sidebar.page_link("pages/02_Explore.py", label="Explore", icon="🗺️")
 
 
-def Bookmarked():
-    st.sidebar.page_link("pages/03_Bookmarked.py", label="Bookmarked", icon="🗺️")
+def Bookmarked_CD():
+    st.sidebar.page_link("pages/03_Bookmarked_CD.py", label="Bookmarked", icon="🗺️")
 
 
 def CasualDinerProfile():
@@ -54,8 +54,8 @@ def Explore():
     st.sidebar.page_link("pages/02_Explore.py", label="Explore", icon="🗺️")
 
 
-def Bookmarked():
-    st.sidebar.page_link("pages/03_Bookmarked.py", label="Bookmarked", icon="🗺️")
+def Bookmarked_Inf():
+    st.sidebar.page_link("pages/03_Bookmarked_Inf.py", label="Bookmarked", icon="🗺️")
 
 
 def InfluencerProfile():
@@ -107,7 +107,7 @@ def SideBarLinks(show_home=False):
             CasualDinerHomeNav()
             Leaderboard()
             Explore()
-            Bookmarked()
+            Bookmarked_CD()
             CasualDinerProfile()
 
         # influencer
@@ -115,7 +115,7 @@ def SideBarLinks(show_home=False):
             InfluencerHomeNav()
             Leaderboard()
             Explore()
-            Bookmarked()
+            Bookmarked_Inf()
             InfluencerProfile()
 
         # restaurant owner

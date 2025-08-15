@@ -2,7 +2,7 @@ USE Tummi_db;
 INSERT INTO InfPost VALUES (1, 8.2,50, 3, 2, 'Super tasty', FALSE, 8, 1);
 INSERT INTO InfPost VALUES (2, 2.1,100, 5, 4, 'Terrible', FALSE, 2, 2);
 INSERT INTO InfPost VALUES (3, 4.6, 518, 725, 983, 'Not Worth A Try', False, 87, 52);
-INSERT INTO InfPost VALUES (4, 4.6, 529, 154, 465, 'Not Worth A Try', False, 134, 48);
+INSERT INTO InfPost VALUES (4, 4.6, 529, 154, 465, 'Not Worth A Try', False, 555, 48);
 INSERT INTO InfPost VALUES (5, 6.6, 332, 607, 628, 'Not Recommended', True, 982, 22);
 INSERT INTO InfPost VALUES (6, 4.4, 43, 219, 108, 'Worth A Try', True, 19, 45);
 INSERT INTO InfPost VALUES (7, 6.4, 520, 432, 647, 'Worth A Try', False, 832, 1);

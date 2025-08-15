@@ -18,7 +18,6 @@ create table Users
 
 
 
-
 # GREEN
 drop table if exists Restaurant;
 create table Restaurant
@@ -255,10 +254,10 @@ create table Following
 drop table if exists Bookmark;
 create table Bookmark
 (
-   CDId       int,
+   UserId       int,
    Restaurant Varchar(20),
-   primary key (CDId, Restaurant),
-   foreign key (CDId) references CasualDiner (CDId)
+   primary key (UserId, Restaurant),
+   foreign key (UserId) references Users (UserId)
        ON DELETE CASCADE
 );
 
@@ -582,3 +581,6 @@ DELETE FROM Reviews;
 DELETE FROM Sponsorships;
 DELETE FROM UserActivity;
 DELETE FROM Users;
+
+
+

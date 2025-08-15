@@ -63,3 +63,29 @@ INSERT INTO Sponsorships VALUES (818, 14, 32522);
 INSERT INTO Sponsorships
 VALUES (2, 1, 500),
       (8, 2, 750);
+
+SELECT RANK() OVER (ORDER BY NumLikes DESC) AS UserRank, NumLikes, u.username
+FROM ((SELECT cdp.CDId, SUM(Likes) AS NumLikes
+       FROM CDPost cdp
+       GROUP BY CDId)
+      UNION
+      (SELECT ip.InfId, SUM(Likes) AS NumLikes
+       FROM InfPost ip
+       GROUP BY InfId)) AS tbl
+         JOIN Users u on u.UserId = tbl.CDId
+ORDER BY NumLikes DESC;
+
+
+SELECT u.username, SUM(Likes) AS NumLikes
+FROM CDPost cdp
+         JOIN Users u on u.UserId = cdp.CDId
+GROUP BY CDId
+ORDER BY NumLikes DESC;
+
+SELECT RANK() OVER (ORDER BY SUM(Likes) DESC) AS UserRank,
+       u.username,
+       SUM(Likes) AS NumLikes
+FROM CDPost cdp
+         JOIN Users u on u.UserId = cdp.CDId
+GROUP BY cdp.CDId, u.username
+ORDER BY NumLikes DESC;

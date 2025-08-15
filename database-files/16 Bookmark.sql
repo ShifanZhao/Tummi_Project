@@ -1,6 +1,7 @@
 USE Tummi_db;
 INSERT INTO Bookmark VALUES (333, 'Taste of Italy');
 INSERT INTO Bookmark VALUES (1, 'Taste of Italy');
+INSERT INTO Bookmark VALUES (2, 'Taste of Italy');
 INSERT INTO Bookmark VALUES (393, 'Sizzling Steaks');
 INSERT INTO Bookmark VALUES (746, 'Sizzling Steaks');
 INSERT INTO Bookmark VALUES (935, 'Taste of Italy');
