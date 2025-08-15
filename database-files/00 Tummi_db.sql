@@ -445,21 +445,21 @@ create table Sponsorships
 --       (7, 2);
 
 
-INSERT INTO Reviews
-VALUES (4, 1, '2024-10-5 10:00:00'),
-      (7, 2, '2025-01-02 11:00:00');
+-- INSERT INTO Reviews
+-- VALUES (4, 1, '2024-10-5 10:00:00'),
+--       (7, 2, '2025-01-02 11:00:00');
 
 
-INSERT INTO Influencer
-VALUES (2, 'LA', 'FoodManiac', 'Tiffany', 'Nguyen', TRUE,
-       '2025-08-05 7:51:00.000', FALSE, 1),
-      (8, 'New York City', 'lilgod', 'Lil', 'God', TRUE,
-       '2025-06-10 8:51:00.000', FALSE, 2);
+-- INSERT INTO Influencer
+-- VALUES (2, 'LA', 'FoodManiac', 'Tiffany', 'Nguyen', TRUE,
+--        '2025-08-05 7:51:00.000', FALSE, 1),
+--       (8, 'New York City', 'lilgod', 'Lil', 'God', TRUE,
+--        '2025-06-10 8:51:00.000', FALSE, 2);
 
 
-INSERT INTO RestaurantLists
-VALUES (1, 'Mexican Spots', 2),
-      (2, 'Scrumptious Italian', 8);
+-- INSERT INTO RestaurantLists
+-- VALUES (1, 'Mexican Spots', 2),
+--       (2, 'Scrumptious Italian', 8);
 
 
 INSERT INTO InfPost
