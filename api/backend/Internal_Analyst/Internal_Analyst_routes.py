@@ -408,13 +408,15 @@ def approve_influencer(infid):
     return the_response
 
 
-@internal.route('/influencers/verify/<int:infid>', methods=['DELETE'])
+@internal.route('/influencers/remove/<int:infid>', methods=['DELETE'])
 def decline_influencer(infid):
     cnx = db.get_db()
     cur = cnx.cursor()
     # Only delete "pending review" influencer records; retain Users table
-    q = 'DELETE FROM Influencer WHERE InfId = %s AND Verified = FALSE'
-    cur.execute(q, (infid,))
+    q = '''DELETE u
+    FROM Users u
+    WHERE UserId = %s'''
+    cur.execute(q, infid)
     rows = cur.rowcount
     cnx.commit()
     the_response = make_response(jsonify({

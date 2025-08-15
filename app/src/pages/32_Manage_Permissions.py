@@ -68,16 +68,19 @@ def data_with_modal(tab, data, key_name, modal_type):
                 show_flagged_user_info(row)
             elif modal_type == 'flagged_restaurant':
                 show_flagged_restaurant_info(row)
-
-
-        
+                
         if cols[1].button("✅ Accept", key=f"{modal_type}_{i}_accept"):
             st.success(f"Accepted {row[key_name]}")
+            infid = row.get("UserId")
+            st.write(infid)
+            requests.put(f'http://api:4000/ita/influencers/verify/{row["UserId"]}')
             # TODO: update database
         
         if cols[2].button("❌ Decline", key=f"{modal_type}_{i}_decline"):
             st.warning(f"Declined {row[key_name]}")
+            requests.delete(f'http://api:4000/ita/influencers/remove/{row["UserId"]}')
             # TODO: update database
+
 
 
 # API call
