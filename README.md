@@ -26,6 +26,16 @@ It includes most of the infrastructure setup (containers), sample databases, and
 
 - The repo also contains a `docker-compose.yaml` file that is used to set up the Docker containers for the front end app, the REST API, and MySQL database. 
 
+## Overview Of Our Project
+
+1. REST API Blueprints
+   - In our project, we have four different REST API Blueprints, each one of Blueprint represents a persona in 
+      - Casual_Diner
+      - Food_Influencer
+      - Internal_Analyst
+      - Restaurant_Owners
+
+
 ## Suggestion for Learning the Project Code Base
 
 If you are not familiar with web app development, this code base might be confusing. But don't worry, we'll get through it together. Here are some suggestions for learning the code base:

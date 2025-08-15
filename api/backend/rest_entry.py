@@ -9,7 +9,6 @@ from logging.handlers import RotatingFileHandler
 
 from backend.db_connection import db
 from backend.simple.simple_routes import simple_routes
-from backend.ngos.ngo_routes import ngos
 from backend.Restaurant_Owners.RestOwner_routes import restowners
 from backend.Casual_Diner.CasualDiner_routes import casualdiner
 from backend.Internal_Analyst.Internal_Analyst_routes import internal
