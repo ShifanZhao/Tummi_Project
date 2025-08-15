@@ -457,6 +457,7 @@ create table Sponsorships
 --        '2025-06-10 8:51:00.000', FALSE, 2);
 
 
+
 -- INSERT INTO RestaurantLists
 -- VALUES (1, 'Mexican Spots', 2),
 --       (2, 'Scrumptious Italian', 8);
@@ -540,3 +541,4 @@ SELECT ip.PostId, ip.InfId, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookma
 FROM InfPost ip
 JOIN Following f ON f.FollowerId = ip.InfId
 WHERE f.FolloweeId = %s;
+

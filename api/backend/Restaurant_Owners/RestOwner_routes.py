@@ -256,3 +256,16 @@ def rest_performance(owner_id):
 
     return jsonify(theData), 200
 
+@restowners.route('/test', methods=['GET'])
+def get_all_test():
+    cursor = db.get_db().cursor()
+    the_query = '''
+    SELECT *
+    FROM InfPost
+    '''
+
+    cursor.execute(the_query)
+    theData = cursor.fetchall()
+
+
+    return jsonify(theData), 200
