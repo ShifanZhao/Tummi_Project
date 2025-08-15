@@ -41,11 +41,34 @@ def get_cdposts(followeeid):
 
     cursor = db.get_db().cursor()
 
-    the_query = '''SELECT cdp.PostId, cdp.CDId, cdp.Likes, cdp.Caption, cdp.rating, cdp.share, cdp.bookmark
+    the_query = '''SELECT cdp.PostId, u.username, cdp.Likes, cdp.Caption, cdp.rating, cdp.share, cdp.bookmark
 FROM CDPost cdp
          JOIN CasualDiner cd ON cd.CDId = cdp.CDId
+    JOIN Users u ON cd.CDId = u.UserId
          JOIN Following f ON f.FollowerId = cd.CDId
 WHERE f.followeeID = %s;'''
+    cursor.execute(the_query, (followeeid,))
+
+    theData = cursor.fetchall()
+
+    if not theData:
+            return jsonify({"Sadly": "No Posts Here"}), 200
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+# Get Influencer posts
+@casualdiner.route('/InfPost/<int:followeeid>', methods=['GET'])
+def get_infposts(followeeid):
+
+    cursor = db.get_db().cursor()
+
+    the_query = '''SELECT ip.PostId, u.username, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
+FROM InfPost ip
+         JOIN Following f ON f.FollowerId = ip.InfId
+JOIN Users u ON ip.InfId = u.UserId
+WHERE f.FolloweeId = %s;'''
     cursor.execute(the_query, (followeeid,))
 
     theData = cursor.fetchall()
@@ -181,7 +204,7 @@ def create_bookmark(cdid):
 
     # Insert new Post
     query = """
-    INSERT INTO Bookmark (CDId, Restaurant)
+    INSERT INTO Bookmark (UserId, Restaurant)
     VALUES (%s, %s)
     """
     cursor.execute(

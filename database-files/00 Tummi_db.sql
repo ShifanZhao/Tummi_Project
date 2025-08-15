@@ -543,6 +543,19 @@ create table Sponsorships
 -- JOIN Following f ON f.FollowerId = ip.InfId
 -- WHERE f.FolloweeId = %s;
 
+<<<<<<< Updated upstream
 
 
 
+=======
+# SELECT ip.PostId, ip.InfId, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
+# FROM InfPost ip
+#          JOIN Influencer i ON i.InfId = ip.InfId
+#          JOIN Following f ON f.FollowerId = i.InfId
+# WHERE f.followeeID = 1
+#
+# SELECT ip.PostId, ip.InfId, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
+# FROM InfPost ip
+# JOIN Following f ON f.FollowerId = ip.InfId
+# WHERE f.FolloweeId = %s;
+>>>>>>> Stashed changes

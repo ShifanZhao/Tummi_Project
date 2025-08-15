@@ -308,10 +308,11 @@ def get_infposts(followeeid):
 
     cursor = db.get_db().cursor()
 
-    the_query = '''SELECT ip.PostId, ip.InfId, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
-    FROM InfPost ip
-    JOIN Following f ON f.FollowerId = ip.InfId
-    WHERE f.FolloweeId = %s;'''
+    the_query = '''SELECT ip.PostId, u.username, ip.Likes, ip.Caption, ip.rating, ip.share, ip.bookmark
+FROM InfPost ip
+         JOIN Following f ON f.FollowerId = ip.InfId
+JOIN Users u ON ip.InfId = u.UserId
+WHERE f.FolloweeId = %s;'''
     cursor.execute(the_query, (followeeid,))
 
     theData = cursor.fetchall()
@@ -380,3 +381,39 @@ def trending_users(boo):
         return jsonify({"message": "No trending restaurants found"}), 200
 
     return jsonify(theData), 200
+
+
+
+## Create Bookmark for a user
+@foodinfluencer.route("/createbm/<int:InfId>", methods=["POST"])
+def create_bookmark(InfId):
+    cursor = db.get_db().cursor()
+    data = request.get_json()
+
+    # Validate required fields
+    required_fields = ["rest"]
+    for field in required_fields:
+        if field not in data:
+            return jsonify({"error": f"Missing required field: {field}"}), 400
+
+    # Insert new Post
+    query = """
+    INSERT INTO Bookmark (UserId, Restaurant)
+    VALUES (%s, %s)
+    """
+    cursor.execute(
+        query,
+        (
+            InfId,
+            data["rest"]
+        ),
+    )
+
+    db.get_db().commit()
+    new_comment_id = cursor.lastrowid
+    cursor.close()
+
+    return (
+        jsonify({"message": "Bookmark created successfully", "Bookmark": new_comment_id}),
+        201,
+    )

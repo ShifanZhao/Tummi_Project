@@ -192,7 +192,7 @@ try:
                 background-color: #fff;
                 box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             ">
-                <h4 style="margin: 0; color: #333;">influencer #{post.get('InfId')}</h4>
+                <h4 style="margin: 0; color: #333;">influencer: {post.get('username')}</h4>
                 <p style="font-size: 16px;">{post.get('Caption', '')}</p>
                 <div style="color: gray; font-size: 12px;">
                     ❤️ {post.get('Likes', 0)} &nbsp; | &nbsp; ⭐ {post.get('rating', 0)} &nbsp; | &nbsp; 🔖 {post.get('bookmark', 0)} &nbsp; | &nbsp; 🔄 {post.get('share', 0)}
@@ -240,28 +240,28 @@ try:
                     
                     elif submitted and not comment:
                         st.warning("Please enter a comment before submitting.")
-            # with col3:
-            #     with st.form(f"Bookmark_{post.get('PostId')}"):
-            #         rest = st.text_input("Create bookmark:", key=f"bookmark_input_{post.get('PostId')}")
-            #         submitted = st.form_submit_button("Create Bookmark")
+            with col3:
+                with st.form(f"Bookmark_{post.get('PostId')}"):
+                    rest = st.text_input("Create bookmark:", key=f"bookmark_input_{post.get('PostId')}")
+                    submitted = st.form_submit_button("Create Bookmark")
                     
-            #         if submitted and rest:
-            #             try:
-            #                 data = {}
-            #                 data["rest"] = rest
+                    if submitted and rest:
+                        try:
+                            data = {}
+                            data["rest"] = rest
                             
-            #                 st.write("Data being sent:", data)
-            #                 response = requests.post('http://api:4000/fi/createbm/1', json=data)
+                            st.write("Data being sent:", data)
+                            response = requests.post('http://api:4000/fi/createbm/2', json=data)
                             
-            #                 st.write(f"Response Status: {response.status_code}")
-            #                 st.write(f"Response Content: {response.text}")
+                            st.write(f"Response Status: {response.status_code}")
+                            st.write(f"Response Content: {response.text}")
                             
-            #                 if response.status_code == 200:
-            #                     st.success("Bookmark made!")
-            #                     st.rerun()
+                            if response.status_code == 200:
+                                st.success("Bookmark made!")
+                                st.rerun()
                                 
-            #             except Exception as e:
-            #                 st.error(f"Error: {e}")       
+                        except Exception as e:
+                            st.error(f"Error: {e}")          
     else:
         st.write("No posts found.")
 except Exception as e:
