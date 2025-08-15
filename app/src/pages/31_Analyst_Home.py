@@ -26,26 +26,16 @@ st.write('')
 st.write('')
 
 
-# sample data - need to connect to API
-feature_engagement_data = pd.DataFrame({
-    'Feature': ['Search', 'Reviews', 'Likes', 'Bookmarks', 'Shares'],
-    'Engagement': np.random.randint(100, 1000, size=5)
-})
+# feature engagement
+feature_engagement = requests.get('http://api:4000/ita/usage').json()
 
-audience_insights_data = pd.DataFrame({
-    'Location': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Miami'],
-    'Users': np.random.randint(500, 5000, size=5)
-})
+try:
+    feature_engagement = pd.DataFrame(feature_engagement)
+    feature_engagement.columns = ["Feature", "Engagement"]
+except:
+    feature_engagement = pd.DataFrame(columns=["Feature", "Engagement"])
+    st.error("Could not fetch feature usage data")
 
-top_influencers_data = pd.DataFrame({
-    'Influencer': [f'Influencer {i}' for i in range(1, 6)],
-    'Followers': np.random.randint(1000, 5000, size=5)
-})
-
-user_frequency_data = pd.DataFrame({
-    'Day': ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    'ActiveUsers': np.random.randint(200, 1000, size=7)
-})
 
 
 # 2x2 chart layout
@@ -53,7 +43,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("Feature Engagement")
-    chart1 = alt.Chart(feature_engagement_data).mark_bar().encode(
+    chart1 = alt.Chart(feature_engagement).mark_bar().encode(
         x=alt.X('Feature', sort='-y'),
         y='Engagement',
         color='Feature'
