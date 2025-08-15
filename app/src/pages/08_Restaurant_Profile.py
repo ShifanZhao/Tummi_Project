@@ -10,6 +10,20 @@ st.set_page_config(layout = 'wide')
 SideBarLinks()
 
 
+# Get info required to make a new post
+st.write('### Delete a menu item')
+with st.form("Delete a menu item"):
+    dishid = st.number_input("DishId to be removed:")
+
+    # Click remove button to confirm
+    submitted = st.form_submit_button("Remove")
+
+    if submitted:
+        # delete
+        requests.delete(f'http://api:4000/ro/delete_menuitem/{dishid}')
+        
+
+
 rest_data = requests.get('http://api:4000/ro/restaurant/3').json()
 for inst in rest_data:
     rating = inst.get('Rating')
@@ -60,7 +74,7 @@ for inst in rest_data:
                                     ">
                                         <h4 style="margin: 0; color: #333;">@{post.get('username', 'Unknown User')}</h4>
                                         <p style="font-size: 14px; color: gray;">Caption: {post.get('Caption', 'No caption')}</p>
-                                        <p style="font-size: 14px; color: gray;">Rating: {post.get('rating', 0)}/10</p>
+                                        <p style="font-size: 14px; color: gray;">Rating: {post.get('Rating', 0)}/10</p>
                                         <p style="font-size: 14px; color: gray;">❤️ {post.get('Likes', 0)} likes</p>
                                     </div>
                                     """, unsafe_allow_html=True)
