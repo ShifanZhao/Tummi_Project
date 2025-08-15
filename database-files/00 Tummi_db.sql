@@ -195,6 +195,7 @@ create table InfPost
     foreign key (InfId) references Influencer (InfId)
         ON DELETE CASCADE,
     foreign key (RestId) references Restaurant (RestId)
+        ON DELETE CASCADE
 );
 
 
@@ -243,7 +244,7 @@ create table Following
    FolloweeId int,
    primary key (FollowerId, FolloweeId),
    foreign key (FollowerId) references Users (UserId)
-   ON DELETE CASCADE,
+       ON DELETE CASCADE,
        foreign key (FolloweeId) references Users (UserId)
        ON DELETE CASCADE
 );
@@ -275,8 +276,10 @@ create table CDPost
    Bookmark int DEFAULT 0,
    Share    int DEFAULT 0,
    primary key (PostId),
-   foreign key (CDId) references CasualDiner (CDId),
+   foreign key (CDId) references CasualDiner (CDId)
+        ON DELETE CASCADE,
    foreign key (RestId) references Restaurant (RestId)
+        ON DELETE CASCADE
 );
 
 
@@ -306,7 +309,7 @@ create table Follow
    InfId int,
    primary key (CDId, InfId),
    foreign key (CDId) references CasualDiner (CDId)
-   ON DELETE CASCADE,
+       ON DELETE CASCADE,
        foreign key (InfId) references Influencer (InfId)
        ON DELETE CASCADE
 );
@@ -320,8 +323,10 @@ create table FromInf
    UserActivityId int,
    InfId          int,
    primary key (UserActivityId, InfId),
-   foreign key (UserActivityId) references UserActivity (UserActivityId),
+   foreign key (UserActivityId) references UserActivity (UserActivityId)
+        ON DELETE CASCADE,
    foreign key (InfId) references Influencer (InfId)
+        ON DELETE CASCADE
 );
 
 
@@ -333,8 +338,10 @@ create table FromRestOwner
    UserActivityId int,
    OwnerId        int,
    primary key (UserActivityId, OwnerId),
-   foreign key (UserActivityId) references UserActivity (UserActivityId),
+   foreign key (UserActivityId) references UserActivity (UserActivityId)
+       ON DELETE CASCADE,
    foreign key (OwnerId) references RestaurantOwner (OwnerId)
+       ON DELETE CASCADE
 );
 
 
@@ -346,8 +353,10 @@ create table FromRest
    UserActivityId int,
    RestId         int,
    primary key (UserActivityId, RestId),
-   foreign key (UserActivityId) references UserActivity (UserActivityId),
+   foreign key (UserActivityId) references UserActivity (UserActivityId)
+       ON DELETE CASCADE,
    foreign key (RestId) references Restaurant (RestId)
+       ON DELETE CASCADE
 );
 
 
@@ -359,8 +368,10 @@ create table FromCD
    UserActivityId int,
    CDId           int,
    primary key (UserActivityId, CDId),
-   foreign key (UserActivityId) references UserActivity (UserActivityId),
+   foreign key (UserActivityId) references UserActivity (UserActivityId)
+       ON DELETE CASCADE,
    foreign key (CDId) references CasualDiner (CDId)
+       ON DELETE CASCADE
 );
 
 
@@ -372,8 +383,10 @@ create table ListedRest
    RestListId int,
    RestId     int,
    primary key (RestListId, RestId),
-   foreign key (RestListId) references RestaurantLists (RestListID),
+   foreign key (RestListId) references RestaurantLists (RestListID)
+        ON DELETE CASCADE,
    foreign key (RestId) references Restaurant (RestId)
+        ON DELETE CASCADE
 );
 
 
