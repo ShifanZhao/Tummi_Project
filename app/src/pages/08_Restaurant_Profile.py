@@ -13,14 +13,14 @@ SideBarLinks()
 # Get info required to make a new post
 st.write('### Delete a menu item')
 with st.form("Delete a menu item"):
-    dishid = st.number_input("DishId to be removed:")
+    dishid = st.number_input("DishId to be removed:", step=1)
 
     # Click remove button to confirm
     submitted = st.form_submit_button("Remove")
 
     if submitted:
         # delete
-        requests.delete(f'http://api:4000/ro/delete_menuitem/{dishid}')
+        resp = requests.delete(f'http://api:4000/ro/delete_menuitem/{dishid}')
         
 
 
