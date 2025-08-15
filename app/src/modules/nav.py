@@ -26,8 +26,8 @@ def Leaderboard():
         "pages/01_Leaderboard.py", label="Leaderboard", icon="🏦"
     )
 
-def Explore():
-    st.sidebar.page_link("pages/02_Explore.py", label="Explore", icon="🗺️")
+def Explore_CD():
+    st.sidebar.page_link("pages/02_Explore_CD.py", label="Explore", icon="🗺️")
 
 
 def Bookmarked_CD():
@@ -50,8 +50,8 @@ def Leaderboard():
         "pages/01_Leaderboard.py", label="Leaderboard", icon="🏦"
     )
 
-def Explore():
-    st.sidebar.page_link("pages/02_Explore.py", label="Explore", icon="🗺️")
+def Explore_Inf():
+    st.sidebar.page_link("pages/02_Explore_Inf.py", label="Explore", icon="🗺️")
 
 
 def Bookmarked_Inf():
@@ -106,7 +106,7 @@ def SideBarLinks(show_home=False):
         if st.session_state["role"] == "casual_diner":
             CasualDinerHomeNav()
             Leaderboard()
-            Explore()
+            Explore_CD()
             Bookmarked_CD()
             CasualDinerProfile()
 
@@ -114,7 +114,7 @@ def SideBarLinks(show_home=False):
         if st.session_state["role"] == "influencer":
             InfluencerHomeNav()
             Leaderboard()
-            Explore()
+            Explore_Inf()
             Bookmarked_Inf()
             InfluencerProfile()
 

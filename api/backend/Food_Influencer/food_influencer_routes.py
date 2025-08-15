@@ -382,6 +382,35 @@ def trending_users(boo):
 
     return jsonify(theData), 200
 
+# Nearby Restaurants
+ # localhost:4000/cd/<location>/nearby_rest
+ # Space in location should be replaced with %20
+@foodinfluencer.route('/<location>/nearby_rest', methods=['GET'])
+def rest_performance(location):
+    cursor = db.get_db().cursor()
+    
+    # If the location does not exist, return an error message
+    check_owner_query = '''
+        SELECT 1 FROM Restaurant WHERE Location = %s;
+    '''
+    cursor.execute(check_owner_query, (location,))
+    owner_exists = cursor.fetchone()
+    if not owner_exists:
+        return jsonify({"error": "Location not found"}), 404
+
+    the_query = '''
+    SELECT RestName, Rating
+    FROM Restaurant
+    WHERE Location = %s
+    '''
+
+    cursor.execute(the_query, (location,))
+    theData = cursor.fetchall()
+
+    if not theData:
+        return jsonify({"message": "No performance data found for this owner"}), 200
+
+    return jsonify(theData), 200
 
 
 ## Create Bookmark for a user
