@@ -16,7 +16,7 @@ st.title('Restaurant Analytics')
 try:
     ad_performance = requests.get(f"http://api:4000/ro/3/ad_performance").json()
     audience_insights = requests.get("http://api:4000/ro/audience_insights").json()
-    feature_engagement = requests.get(f"http://api:4000/ro/3/feature_engagement").json()
+    feature_engagement = requests.get(f"http://api:4000/ro/2/feature_engagement").json()
     
     Analytics, Ad_Campaigns = st.tabs(["Analytics", "Ad Campaigns"])
 
@@ -76,23 +76,23 @@ try:
 
         col3, col4 = st.columns(2)
 
-    # with Ad_Campaigns:
-    #     st.subheader("Ad Campaign Performance")
+    with Ad_Campaigns:
+        st.subheader("Ad Campaign Performance")
         
-    #     if ad_performance and isinstance(ad_performance, list):
-    #         for post in ad_performance:
-    #             campaignId = post.get('CampaignId')
-    #             AdCost = post.get('AdCost')
-    #             Revenue = post.get('Revenue')
-    #             Profit = post.get('Profit')
+        if ad_performance and isinstance(ad_performance, list):
+            for post in ad_performance:
+                campaignId = post.get('CampaignId')
+                AdCost = post.get('AdCost')
+                Revenue = post.get('Revenue')
+                Profit = post.get('Profit')
                 
-    #             st.write(f"**Campaign ID:** {campaignId}")
-    #             st.write(f"**Ad Cost:** ${AdCost}")
-    #             st.write(f"**Ad Revenue:** ${Revenue}")
-    #             st.write(f"**Ad Profit:** ${Profit}")
-    #             st.divider()
-    #     else:
-    #         st.write("No ad campaign data found.")
+                st.write(f"**Campaign ID:** {campaignId}")
+                st.write(f"**Ad Cost:** ${AdCost}")
+                st.write(f"**Ad Revenue:** ${Revenue}")
+                st.write(f"**Ad Profit:** ${Profit}")
+                st.divider()
+        else:
+            st.write("No ad campaign data found.")
 
 except requests.exceptions.RequestException as e:
     st.error(f"Error fetching data from API: {e}")
