@@ -392,8 +392,6 @@ create table Sponsorships
        ON DELETE CASCADE
 );
 
-DELETE FROM AdCampaign;
-
 -- INSERT INTO Users
 -- VALUES (1, 'Spencer', 'Grant', 'SpencerTheGuy'),
 --       (2, 'Tiffany', 'Nguyen', 'FoodManiac'),
