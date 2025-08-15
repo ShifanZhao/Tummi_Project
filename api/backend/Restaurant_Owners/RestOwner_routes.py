@@ -157,7 +157,7 @@ def delete_menuitem(dish_id):
     cursor = db.get_db().cursor()
 
     query = '''
-    DELETE MenuItem
+    DELETE MenuItem M
     FROM MenuItem
     JOIN Restaurant ON MenuItem.RestId = Restaurant.RestId
     JOIN RestaurantOwner ON Restaurant.RestId = RestaurantOwner.RestId
