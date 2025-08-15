@@ -238,7 +238,7 @@ try:
             col1, col2, col3 = st.columns(3)
             
             with col1:
-                if st.button("❤️ Like", key=f"like_{post.get('PostId')}"):
+                if st.button("❤️ Like", key=f"like_{post.get('PostId')*10}"):
                     try:
                         response = requests.put(f'http://api:4000/fi/InfPost/{post.get("PostId")}')
                         if response.status_code == 200:
@@ -250,8 +250,8 @@ try:
                         st.error(f"Error: {e}")
                         
             with col2:
-                with st.form(f"Comment_{post.get('PostId')}"):
-                    comment = st.text_input("Create Comment:", key=f"comment_input_{post.get('PostId')}")
+                with st.form(f"Comment_{post.get('PostId')*10}"):
+                    comment = st.text_input("Create Comment:", key=f"comment_input_{post.get('PostId')*10}")
                     submitted = st.form_submit_button("Post Comment")
                     
                     if submitted and comment:
@@ -276,8 +276,8 @@ try:
                     elif submitted and not comment:
                         st.warning("Please enter a comment before submitting.")
             with col3:
-                with st.form(f"Bookmark_{post.get('PostId')}"):
-                    rest = st.text_input("Create bookmark:", key=f"bookmark_input_{post.get('PostId')}")
+                with st.form(f"Bookmark_{post.get('PostId')*10}"):
+                    rest = st.text_input("Create bookmark:", key=f"bookmark_input_{post.get('PostId')*10}")
                     submitted = st.form_submit_button("Create Bookmark")
                     
                     if submitted and rest:

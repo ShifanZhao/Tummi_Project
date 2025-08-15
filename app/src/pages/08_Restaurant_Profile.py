@@ -9,52 +9,16 @@ st.set_page_config(layout = 'wide')
 
 SideBarLinks()
 
+
 rest_data = requests.get('http://api:4000/ro/restaurant/3').json()
 for inst in rest_data:
-   rating = inst.get('Rating')
-   RestName = inst.get('RestName')
-   cuisine = inst.get('Cuisine')
-   Location = inst.get('Location')
-  
-   col1, col2, col3 = st.columns(3)
-  
-   with col3:
-       if 'see_menu' not in st.session_state:
-           st.session_state.see_menu = False
-      
-       if st.button("See Menu", use_container_width=True):
-           st.session_state.see_menu = not st.session_state.see_menu
-      
-       if st.session_state.see_menu:
-           st.markdown("Feature coming soon!")
-           st.write("")
-           st.write("")
-           try:
-                response = requests.get(f'http://api:4000/ro/menuitem/{inst.get("RestId")}')
-                st.dataframe(response)
-                if response.status_code == 200:
-                    st.success("Liked!")
-                    st.rerun()  # Refresh to show updated like count
-                else:
-                    st.error("Failed to like post")
-           except Exception as e:
-                st.error(f"Error: {e}")
-
-       st.write("")
-       st.write("")
-       if st.button('### Menu', key=f"menu_{inst.get('RestId')}"):
-           try:
-               response = requests.get(f'http://api:4000/ro/menuitem/{inst.get("RestId")}')
-               st.dataframe(response)
-               if response.status_code == 200:
-                   st.success("Liked!")
-                   st.rerun()  # Refresh to show updated like count
-               else:
-                   st.error("Failed to like post")
-           except Exception as e:
-               st.error(f"Error: {e}")
-
-
+    rating = inst.get('Rating')
+    RestName = inst.get('RestName')
+    cuisine = inst.get('Cuisine')
+    Location = inst.get('Location')
+    
+    col1, col2, col3 = st.columns(3)
+    
     st.title(f'{RestName}')
     header_left, header_right = st.columns([3, 1])
     with header_left:
@@ -64,6 +28,28 @@ for inst in rest_data:
         st.markdown(f"#### Cuisine: {cuisine}")
         st.write("")
         Popular_Dishes, Customer_Posts = st.tabs(["Popular Dishes", "Customer Posts"])
+    
+    with col3:
+        if 'see_menu' not in st.session_state:
+            st.session_state.see_menu = False
+        
+        if st.button("See Menu", use_container_width=True, key=f"see_menu_{inst.get('RestId')}"):
+            st.session_state.see_menu = not st.session_state.see_menu
+    
+        if st.session_state.see_menu:
+            try:
+                response = requests.get(f'http://api:4000/ro/menuitem/{inst.get("RestId")}')
+                menu_data = response.json()
+                st.dataframe(menu_data)
+                if response.status_code == 200:
+                    st.rerun()  # Refresh to show updated like count
+                else:
+                    st.error("Failed to retrieve menu")
+            except Exception as e:
+                st.error(f"Error: {e}")
+
+
+       
   
 
 
