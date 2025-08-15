@@ -67,7 +67,7 @@ def get_cdbookmarks(userid):
 
     the_query = '''SELECT b.Restaurant
     FROM Bookmark b
-    WHERE b.CDId = %s;'''
+    WHERE b.UserId = %s;'''
     cursor.execute(the_query, (userid,))
 
     theData = cursor.fetchall()

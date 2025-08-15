@@ -333,7 +333,7 @@ def get_infbookmarks(userid):
 
     the_query = '''SELECT b.Restaurant
     FROM Bookmark b
-    WHERE b.InfId = %s;'''
+    WHERE b.UserId = %s;'''
     cursor.execute(the_query, (userid,))
 
     theData = cursor.fetchall()
