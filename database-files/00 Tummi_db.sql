@@ -23,10 +23,10 @@ drop table if exists Restaurant;
 create table Restaurant
 (
    RestId     int primary key,
-   RestName   Varchar(20),
-   Location   Varchar(20),
-   Cuisine    Varchar(20),
-   Rating     Decimal(2, 1),
+   RestName   Varchar(40),
+   Location   Varchar(40),
+   Cuisine    Varchar(40),
+   Rating     Decimal(3, 1),
    `Add`      Boolean,
    Flag       Boolean,
    UserId     int,
@@ -403,11 +403,11 @@ create table Sponsorships
 --       (8, 'Lil', 'God', 'lilgod');
 
 
-INSERT INTO Restaurant
-VALUES (1, 'Table Mercato', 'North End', 'Italian',
-       8.7, TRUE, FALSE, 3, 100, 5000),
-      (2, 'El Jefe''s', 'North End', 'Mexican', 7.2,
-       TRUE, FALSE, 6, 50, 182);
+-- INSERT INTO Restaurant
+-- VALUES (1, 'Table Mercato', 'North End', 'Italian',
+--        8.7, TRUE, FALSE, 3, 100, 5000),
+--       (2, 'El Jefe''s', 'North End', 'Mexican', 7.2,
+--        TRUE, FALSE, 6, 50, 182);
 
 
 INSERT INTO RestaurantOwner
