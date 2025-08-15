@@ -19,7 +19,7 @@ It includes most of the infrastructure setup (containers), sample databases, and
 ## Structure of the Repo
 
 - The repo is organized into five main directories:
-  - `./app` - the Streamlit app
+  - `./app` - the Streamlit app 
   - `./api` - the Flask REST API
   - `./database-files` - SQL scripts to initialize the MySQL database
   - `./datasets` - folder for storing datasets
