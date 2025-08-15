@@ -463,14 +463,14 @@ create table Sponsorships
 --       (2, 'Scrumptious Italian', 8);
 
 
-INSERT INTO InfPost
-VALUES (1, 8.2,50, 3, 2, 'Super tasty', FALSE, 8, 1),
-      (2, 2.1,100, 5, 4, 'Terrible', FALSE, 2, 2);
+-- INSERT INTO InfPost
+-- VALUES (1, 8.2,50, 3, 2, 'Super tasty', FALSE, 8, 1),
+--       (2, 2.1,100, 5, 4, 'Terrible', FALSE, 2, 2);
 
 
-INSERT INTO CasualDiner
-VALUES (1, 'Roxbury', FALSE, 120, NOW(), 3),
-      (5, 'Roxbury', FALSE, 500, NOW(), 5);
+-- INSERT INTO CasualDiner
+-- VALUES (1, 'Roxbury', FALSE, 120, NOW(), 3),
+--       (5, 'Roxbury', FALSE, 500, NOW(), 5);
 
 
 INSERT INTO Following
