@@ -8,7 +8,7 @@ st.write("# About this App")
 
 st.markdown(
     """
-    We’re building Tummi, a data-driven food discovery app that helps users track their restaurant visits, rate dishes, and receive recommendations. It also allows users to add friends to see which restaurants their friends have visited and recommend. This app is important because it enhances users’ experience with finding new restaurants and foods. Traditional food review platforms often are cluttered, impersonal, and outdated. Users are typically overwhelmed by hundreds/thousands of anonymous reviews and generic star ratings. Tummi solves these pain points.
+    This is a project for CS3200 Introduction to Databases. We’re building Tummi, a data-driven food discovery app that helps users track their restaurant visits, rate dishes, and receive recommendations. It also allows users to add friends to see which restaurants their friends have visited and recommend. This app is important because it enhances users’ experience with finding new restaurants and foods. Traditional food review platforms often are cluttered, impersonal, and outdated. Users are typically overwhelmed by hundreds/thousands of anonymous reviews and generic star ratings. Tummi solves these pain points.
 
     """
 )
