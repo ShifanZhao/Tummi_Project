@@ -378,7 +378,7 @@ def get_all_restaurants():
     cursor = db.get_db().cursor()
 
     the_query = '''
-    SELECT RestName, Location, Rating
+    SELECT RestName, Location, Cuisine, Rating
     FROM Restaurant
     '''
     cursor.execute(the_query)
