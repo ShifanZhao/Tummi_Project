@@ -39,6 +39,10 @@ Shifan Zhao
       - Internal_Analyst
       - Restaurant_Owners
 
+2. Setup Container
+   - `docker compose up -d` to start all the containers in the background
+   - For the Mock Data, run them in DataGrip
+
 
 ## Suggestion for Learning the Project Code Base
 
