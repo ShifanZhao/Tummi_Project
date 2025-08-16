@@ -38,6 +38,7 @@ Shifan Zhao
       - Food_Influencer
       - Internal_Analyst
       - Restaurant_Owners
+   - Video Link: https://drive.google.com/file/d/1sBGetlv5wUz6qUVrIg4J1N304FyeDnWB/view?usp=sharing 
 
 2. Setup Container
    - `docker compose up -d` to start all the containers in the background
