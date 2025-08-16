@@ -41,13 +41,8 @@ def show_flagged_post_info(post_data):
 
 
 
-# tabs
-tab1, tab2, tab3, tab4 = st.tabs([
-    "Pending User Verifications", 
-    "Pending Restaurant Verifications", 
-    "Flagged Users", 
-    "Flagged Restaurants"
-])
+    
+
 
 def data_with_modal(tab, data, key_name, modal_type):
    
@@ -62,12 +57,7 @@ def data_with_modal(tab, data, key_name, modal_type):
         if cols[0].button(row[key_name], key=f"{modal_type}_{i}_name"):
             if modal_type == 'user':
                 show_user_info(row)
-            elif modal_type == 'restaurant':
-                show_restaurant_info(row)
-            elif modal_type == 'flagged_user':
-                show_flagged_user_info(row)
-            elif modal_type == 'flagged_restaurant':
-                show_flagged_restaurant_info(row)
+
                 
         if cols[1].button("✅ Accept", key=f"{modal_type}_{i}_accept"):
             st.success(f"Accepted {row[key_name]}")
@@ -91,36 +81,10 @@ except:
     pending_users = []
     st.error("Could not fetch pending users.")
 
-try:
-    pending_restaurants = requests.get("http://api:4000/ita/requests/pending").json()
-except:
-    pending_restaurants = []
-    st.error("Could not fetch pending restaurants.")
 
-
-try:
-    all_flagged_users = requests.get("http://api:4000/ita/moderation/users/flagged").json()
-except:
-    all_flagged_users = []
-    st.error("Could not fetch flagged users.")
-
-
-try:
-    flagged_restaurants = requests.get("http://api:4000/ita/moderation/restaurants/flagged").json()
-except:
-    flagged_restaurants = []
-    st.error("Could not fetch flagged restaurants.")
 
 
 # filling in each tab
+(tab1,) = st.tabs(["Pending User Verifications"])
 with tab1:
     data_with_modal(tab1, pending_users, "Username", "user")
-
-with tab2:
-    data_with_modal(tab2, pending_restaurants, "RestName", "restaurant")
-
-with tab3:
-    data_with_modal(tab3, all_flagged_users, "Username", "flagged_user")
-
-with tab4:
-    data_with_modal(tab4, flagged_restaurants, "RestName", "flagged_restaurant")
